@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,8 +15,12 @@ return new class extends Migration
         Schema::create('item_templates', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('gender', [""]);
-            $table->text('required_measurements');
+            $table->enum('gender', ["m", "f", "o"]);
+            $table->json('required_measurements');
+            $table->boolean("custom_template")->default(false);
+            $table->foreignId("user_id")->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();

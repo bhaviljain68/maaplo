@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('customer_photos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreignId('customer_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('image_url');
             $table->string('label');
-            $table->timestamp('created_at');
+            $table->timestamps();
         });
        
     }
