@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -54,4 +54,149 @@ const footerNavItems: NavItem[] = [
         </SidebarFooter>
     </Sidebar>
     <slot />
+</template> -->
+
+<script setup>
+import { ref } from "vue";
+import { Icon } from "@iconify/vue";
+import { Link } from "@inertiajs/vue3";
+
+const visible = ref(false);
+</script>
+
+
+<template>
+    <!-- Toggle Button -->
+    <div class="flex justify-between mt-3 lg:mx-10 mx-5">
+        <div>
+            <button v-if="!visible" @click="visible = true"
+                class="top-4 left-4 z-50 p-2 rounded-md text-white bg-[#167893] focus:outline-none"
+                :aria-controls="visible ? 'sbar' : null" :aria-expanded="visible">
+                <Icon icon="ci:menu-alt-03" width="24" height="24" />
+            </button>
+        </div>
+        
+    </div>
+    <!-- Sidebar -->
+    <transition name="slide">
+        <aside v-if="visible" id="sbar" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 flex flex-col"
+            role="region">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-7 py-5 border-b">
+                <div class="flex items-center gap-2">
+                    <span class="font-inter font-medium text-[30px] leading-[16px] tracking-[0]">Logo</span>
+                </div>
+                <button @click="visible = false" class="p-1 rounded-md hover:bg-gray-200">
+                    <Icon icon="material-symbols:close" width="24" height="24" />
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex-1 overflow-y-auto">
+                <ul class="space-y-1 p-4">
+                    <li>
+                        <a href="/dashboard" @click="visible = false"
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
+                            <Icon icon="ic:round-dashboard" width="20" height="20" />
+                            <span
+                                class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Dashboard</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/customer" @click="visible = false"
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
+                            <Icon icon="mdi:user" width="22" height="22" />
+                            <span
+                                class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Customer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/order" @click="visible = false"
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
+                            <Icon icon="lets-icons:order-fill" width="24" height="24" />
+                            <span
+                                class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Order</span>
+                        </a>
+                    </li>
+                    <li>
+                        <Link href="/Items" @click="visible = false"
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 ml-1">
+                        <Icon icon="qlementine-icons:items-list-16" width="16" height="16" />
+                        <span class="ml-3 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Items</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/templates" @click="visible = false"
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 ml-1">
+                        <Icon icon="gg:template" width="20" height="20" />
+                        <span
+                            class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Templates</span>
+                        </Link>
+                    </li>
+                </ul>
+                <!-- Bottom "Preference" Link -->
+                <div class="p-4 absolute inset-x-0 bottom-0">
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
+                        <Icon icon="lets-icons:setting-fill" width="20" height="20" />
+                        <span
+                            class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Preference</span>
+                    </a>
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100 text-[#FF0000]">
+                        <Icon icon="lucide:log-out" width="18" height="18" />
+                        <span class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Log Out</span>
+                    </a>
+
+
+                </div>
+            </nav>
+        </aside>
+    </transition>
 </template>
+
+<style>
+.slide-enter-active,
+.slide-leave-active {
+    transition: transform 0.3s ease;
+}
+
+.slide-enter-from {
+    transform: translateX(-100%);
+}
+
+.slide-enter-to {
+    transform: translateX(0%);
+}
+
+.slide-leave-from {
+    transform: translateX(0%);
+}
+
+.slide-leave-to {
+    transform: translateX(-100%);
+}
+</style>
+
+<style>
+/* Optional slide animation */
+.slide-enter-active,
+.slide-leave-active {
+    transition: transform 0.3s ease;
+}
+
+.slide-enter-from {
+    transform: translateX(-100%);
+}
+
+.slide-enter-to {
+    transform: translateX(0%);
+}
+
+.slide-leave-from {
+    transform: translateX(0%);
+}
+
+.slide-leave-to {
+    transform: translateX(-100%);
+}
+</style>

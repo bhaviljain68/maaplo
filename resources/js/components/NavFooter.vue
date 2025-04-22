@@ -25,4 +25,5 @@ defineProps<Props>();
             </SidebarMenu>
         </SidebarGroupContent>
     </SidebarGroup>
+   
 </template>
