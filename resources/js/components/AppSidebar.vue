@@ -60,6 +60,10 @@ const footerNavItems: NavItem[] = [
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { Link } from "@inertiajs/vue3";
+const showDropdown = ref(false);
+function toggleDropdown() {
+    showDropdown.value = !showDropdown.value;
+}
 
 const visible = ref(false);
 </script>
@@ -75,7 +79,7 @@ const visible = ref(false);
                 <Icon icon="ci:menu-alt-03" width="24" height="24" />
             </button>
         </div>
-        
+
     </div>
     <!-- Sidebar -->
     <transition name="slide">
@@ -96,7 +100,7 @@ const visible = ref(false);
                 <ul class="space-y-1 p-4">
                     <li>
                         <a href="/dashboard" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black">
                             <Icon icon="ic:round-dashboard" width="20" height="20" />
                             <span
                                 class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Dashboard</span>
@@ -105,30 +109,55 @@ const visible = ref(false);
                     </li>
                     <li>
                         <a href="/customers" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black">
                             <Icon icon="mdi:user" width="22" height="22" />
                             <span
                                 class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Customer</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/orders" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
-                            <Icon icon="lets-icons:order-fill" width="24" height="24" />
-                            <span
-                                class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Order</span>
-                        </a>
+                        <div @click="toggleDropdown()" class="flex hover:bg-gray-100 text-black">
+                            <a href="/orders" @click="visible = false" class="flex items-center p-2 rounded ">
+                                <Icon icon="lets-icons:order-fill" width="24" height="24" />
+                                <span
+                                    class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Order</span>
+                            </a>
+                            <Icon v-if="showDropdown == false" icon="icon-park-outline:down" width="20" height="20"
+                                class="mt-[12px]" />
+                            <Icon v-if="showDropdown == true" icon="icon-park-outline:up" width="20" height="20"
+                                class="mt-[5px]" />
+                        </div>
+                        <!-- Dropdown -->
+                        <div v-show="showDropdown" class="mt-2 z-10 ml-5">
+                            <ul class="ml-8 list-disc list-insid font-inter font-medium text-[16px] leading-[16px] tracking-[0]"
+                                aria-labelledby="dropdownTrigger">
+
+                                <li>
+                                    <div class="flex flex-row">
+                                        <a href="#" class="text-black">
+                                            Order</a>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="flex flex-row py-2 mt-2">
+                                        <a href="#" class="block text-black">View</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
                     </li>
                     <li>
                         <Link href="/Items" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 ml-1">
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black ml-1">
                         <Icon icon="qlementine-icons:items-list-16" width="16" height="16" />
                         <span class="ml-3 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Items</span>
                         </Link>
                     </li>
                     <li>
                         <Link href="/templates" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700 ml-1">
+                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black ml-1">
                         <Icon icon="gg:template" width="20" height="20" />
                         <span
                             class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Templates</span>
@@ -137,7 +166,7 @@ const visible = ref(false);
                 </ul>
                 <!-- Bottom "Preference" Link -->
                 <div class="p-4 absolute inset-x-0 bottom-0">
-                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
+                    <a href="#" class="flex items-center p-2 rounded hover:bg-gray-100 text-black">
                         <Icon icon="lets-icons:setting-fill" width="20" height="20" />
                         <span
                             class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Preference</span>
