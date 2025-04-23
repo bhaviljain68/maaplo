@@ -59,58 +59,72 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
     <Head title="Costomer" />
     <AppLayout>
-        <div class="p-8 max-w-6xl mx-auto">
-            <h1 class="text-2xl font-bold mb-6">Enter Details</h1>
+        <div class="px-4 py-8 max-w-6xl mx-auto">
+            <div>
+                <h1 class="text-[24px] leading-[16px] font-bold tracking-[0] text-gray-800 font-[Convergence]">
+                    New Customer
+                </h1>
+            </div>
+            <h1 class="text-xl font-bold mb-6 mt-6">Enter Details</h1>
 
             <form class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Customer Name -->
                 <div>
-                    <label class="block font-semibold mb-1">Customer Name <span class="text-red-500">*</span></label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
+                        Customer Name <span class="text-red-500">*</span>
+                    </label>
+
                     <input type="text" v-model="form.name" placeholder="Enter Customer Name"
-                        class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
                     <div v-if="errors.name" class="text-red-600 text-sm mt-1">{{ errors.name }}</div>
                 </div>
 
-
                 <!-- Contact Number -->
                 <div>
-                    <label class="block font-semibold mb-1">Contact Number <span class="text-red-500">*</span></label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Contact Number <span
+                            class="text-red-500">*</span></label>
                     <input type="number" v-model="form.phone"
-                        class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1"
+                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
                         placeholder="Enter Phone Number" />
                     <div v-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.phone }}</div>
                 </div>
 
                 <!-- Email -->
                 <div>
-                    <label class="block font-semibold mb-1">Email (Optional)</label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email
+                        (Optional)</label>
                     <input type="email" v-model="form.email"
-                        class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1"
+                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
                         placeholder="example@mail.com" />
                     <div v-if="errors.email" class="text-red-600 text-sm mt-1">{{ errors.email }}</div>
                 </div>
 
                 <!-- Date of Birth -->
                 <div>
-                    <label class="block font-semibold">Date of Birth (Optional)</label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Date of Birth
+                        (Optional)</label>
                     <input type="date" v-model="form.dob"
-                        class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
                     <div v-if="errors.dob" class="text-red-600 text-sm mt-1">{{ errors.dob }}</div>
                 </div>
 
                 <!-- Address -->
                 <div class="md:col-span-2">
-                    <label class="block font-semibold">Address <span class="text-red-500">*</span></label>
+                    <label class="bblock font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Address <span
+                            class="text-red-500">*</span></label>
                     <textarea v-model="form.address"
-                        class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1"
+                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
                         rows="2" placeholder="Enter address here..."></textarea>
                     <div v-if="errors.address" class="text-red-600 text-sm mt-1">{{ errors.address }}</div>
                 </div>
 
                 <!-- Gender -->
-                <div>
-                    <label class="block font-semibold mb-2">Gender <span class="text-red-500">*</span></label>
-                    <div class="flex items-center space-x-6">
+                <div class="flex">
+                    <div class="mr-3">
+                        <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Gender <span
+                                class="text-red-500">*</span></label>
+                    </div>
+                    <div class="flex items-center space-x-6 text-black">
                         <label class="flex items-center space-x-2">
                             <input type="radio" v-model="form.gender" name="gender" value="Male"
                                 class="form-radio accent-black" />
@@ -128,14 +142,15 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
                 <!-- Active Orders -->
                 <div>
-                    <label class="block font-semibold">Active Orders</label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-5">Active Orders</label>
                     <input type="number" v-model.number="form.active_orders" class="input" min="0" placeholder="0" />
 
                 </div>
 
                 <!-- Payment Due -->
                 <div>
-                    <label class="block font-semibold">Payment Due (₹)</label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Payment Due
+                        (₹)</label>
                     <input type="number" v-model.number="form.payment_due"
                         class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1"
                         min="0" step="0.01" placeholder="0.00" />
@@ -143,17 +158,18 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                 </div>
 
                 <!-- Upload Section -->
-                <div class="md:col-span-3 bg-white p-6 rounded-lg shadow-md border">
-                    <h2 class="text-lg mb-4 font-bold">Photo <span class="text-red-500">*</span></h2>
+                <div>
+                    <h2 class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-5">Photos <span
+                            class="text-red-500">*</span></h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-row justify-center item-center gap-6">
 
                         <!-- Half Image Upload -->
-                        <div>
+                        <div class="md:col-span-3 bg-white rounded-lg shadow-md border">
                             <label class="block font-semibold mb-2">Half Image</label>
                             <label class="upload-box">
-                                <img src="/images/half-coustomer.jpeg" alt="Half" class="w-6 h-6 mr-2" />
-                                <span>Select Half Image</span>
+                                <img src="/images/half-coustomer.jpeg" alt="Half" class="w-24 h-24 mr-2" />
+
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'half_image')" />
                             </label>
@@ -165,11 +181,11 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
 
                         <!-- Full Image Upload -->
-                        <div>
+                        <div class="md:col-span-3 bg-white rounded-lg shadow-md border">
                             <label class="block font-semibold mb-2">Full Image</label>
                             <label class="upload-box">
-                                <img src="/images/full-coustomer.jpeg" alt="Full" class="w-6 h-6 mr-2" />
-                                <span>Select Full Image</span>
+                                <img src="/images/full-coustomer.jpeg" alt="Full" class="w-24 h-24 mr-2" />
+
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'full_image')" />
                             </label>
@@ -179,7 +195,7 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                             </div>
                         </div>
                     </div>
-                    <div v-if="errors.phone" class="text-red-600 text-sm mt-1">{{errors.full_image}}</div>
+                    <div v-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div>
                 </div>
 
 
