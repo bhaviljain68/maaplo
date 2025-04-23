@@ -104,7 +104,7 @@ const visible = ref(false);
                         </a>
                     </li>
                     <li>
-                        <a href="/customer" @click="visible = false"
+                        <a href="/customers" @click="visible = false"
                             class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
                             <Icon icon="mdi:user" width="22" height="22" />
                             <span

@@ -1,10 +1,10 @@
-<?php 
+<?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -12,15 +12,15 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unique(); // Unique user_id
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Foreign key constraint
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
-            $table->enum('gender', ["Male", "Female", "Other"]); // Define possible values for gender
+            $table->enum('gender', ["m", "f", "o"]); // Define possible values for gender
             $table->string('phone');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->json('address');
             $table->json('notes');
             $table->timestamps(); // Automatically creates created_at and updated_at
+            $table->softDeletes();
         });
     }
 

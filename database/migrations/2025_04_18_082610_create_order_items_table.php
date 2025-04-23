@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,21 +14,18 @@ return new class extends Migration
 
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders');
-            $table->bigInteger('template_id');
-            $table->foreign('template_id')->references('id')->on('item_templates');
+            $table->foreignId('order_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('item_template_id')->constrained()->cascadeOnUpdate();
             $table->string('name');
             $table->json('measurements');
             $table->json('design_details');
             $table->string('colors');
             $table->string('material');
-            $table->text('reference_photos');
-            $table->timestamp('trial_dates');
-            $table->decimal('price');
-            $table->string('status');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->date('trial_dates');
+            $table->decimal('price', 10);
+            $table->enum('status', ["created", "in process", "processed", "delivered", "completed", "cancelled"])->default("created");
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();
