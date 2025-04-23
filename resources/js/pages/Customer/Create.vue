@@ -8,7 +8,7 @@ const props = defineProps<{
     errors: Record<string, string>
 }>();
 const form = reactive({
-    user_id: 1, // Replace with actual user ID
+    user_id: '', // Replace with actual user ID
     name: '',
     gender: '',
     phone: '',
@@ -20,6 +20,8 @@ const form = reactive({
     payment_due: 0.00,
     half_image: null,
     full_image: null,
+     half_image_preview: '',
+    full_image_preview: ''
 });
 
 const submitForm = () => {
@@ -44,12 +46,16 @@ const submitForm = () => {
 const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => {
     const file = (event.target as HTMLInputElement).files?.[0];
 
-    if (file && file.size > 2 * 1024 * 1024) { // 2 MB
+    if (file && file.size > 2 * 1024 * 1024) {
         alert('Image must be less than 2MB.');
         return;
     }
 
     form[field] = file;
+
+    // Set preview
+    const previewField = field + '_preview' as 'half_image_preview' | 'full_image_preview';
+    form[previewField] = file ? URL.createObjectURL(file) : '';
 };
 
 
@@ -165,15 +171,15 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                     <div class="flex flex-row justify-center item-center gap-6">
 
                         <!-- Half Image Upload -->
-                        <div class="md:col-span-3 bg-white rounded-lg shadow-md border">
+                        <div>
                             <label class="block font-semibold mb-2">Half Image</label>
-                            <label class="upload-box">
-                                <img src="/images/half-coustomer.jpeg" alt="Half" class="w-24 h-24 mr-2" />
-
+                            <label class="upload-box cursor-pointer">
+                                <img :src="form.half_image_preview || '/images/half-coustomer.jpeg'"
+                                    alt="Half Image Preview" class="w-24 h-24 object-cover mb-2" />
+                                <span>Select Half Image</span>
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'half_image')" />
                             </label>
-                            <!-- 🚨 Error message -->
                             <div v-if="props.errors.half_image" class="text-red-600 text-sm mt-1">
                                 {{ props.errors.half_image }}
                             </div>
@@ -181,15 +187,15 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
 
                         <!-- Full Image Upload -->
-                        <div class="md:col-span-3 bg-white rounded-lg shadow-md border">
+                        <div>
                             <label class="block font-semibold mb-2">Full Image</label>
-                            <label class="upload-box">
-                                <img src="/images/full-coustomer.jpeg" alt="Full" class="w-24 h-24 mr-2" />
-
+                            <label class="upload-box cursor-pointer">
+                                <img :src="form.full_image_preview || '/images/full-coustomer.jpeg'"
+                                    alt="Full Image Preview" class="w-24 h-24 object-cover mb-2" />
+                                <span>Select Full Image</span>
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'full_image')" />
                             </label>
-                            <!-- 🚨 Error message -->
                             <div v-if="props.errors.full_image" class="text-red-600 text-sm mt-1">
                                 {{ props.errors.full_image }}
                             </div>
