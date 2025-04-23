@@ -112,7 +112,7 @@ const visible = ref(false);
                         </a>
                     </li>
                     <li>
-                        <a href="/order" @click="visible = false"
+                        <a href="/orders" @click="visible = false"
                             class="flex items-center p-2 rounded hover:bg-gray-100 text-gray-700">
                             <Icon icon="lets-icons:order-fill" width="24" height="24" />
                             <span
