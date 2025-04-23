@@ -4,20 +4,30 @@ import { ref } from 'vue';
 const showFilter = ref(false);
 const showDropdown = ref(false);
 const showDropdownDelivery = ref(false);
+
+const props = defineProps({
+    showable: {
+        type: Object,
+        default: () => ({ showSearch: false, showFilter: false })
+    }
+});
+const emit = defineEmits(['hideOrShow']);
+
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
 function toggleDropdownDelivery() {
     showDropdownDelivery.value = !showDropdownDelivery.value;
 }
+
 </script>
 <template>
     <div class="mx-auto max-w-7xl w-full">
         <div>
-            <Icon icon="rivet-icons:filter" width="20" height="20" class="mt-2" @click="showFilter = !showFilter" />
+            <Icon icon="rivet-icons:filter" width="20" height="20" class="mt-2" @click="emit('hideOrShow', 'filter')" />
         </div>
 
-        <div v-if="showFilter" class="transition-all mt-10" :style="{
+        <div v-if="showable.showFilter" class="transition-all mt-10" :style="{
             marginBottom: showDropdown && showDropdownDelivery
                 ? '24rem'
                 : showDropdown || showDropdownDelivery
