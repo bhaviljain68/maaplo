@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
-
+import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
     errors: Record<string, string>
@@ -20,7 +20,7 @@ const form = reactive({
     payment_due: 0.00,
     half_image: null,
     full_image: null,
-     half_image_preview: '',
+    half_image_preview: '',
     full_image_preview: ''
 });
 
@@ -57,8 +57,6 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
     const previewField = field + '_preview' as 'half_image_preview' | 'full_image_preview';
     form[previewField] = file ? URL.createObjectURL(file) : '';
 };
-
-
 </script>
 
 <template>
@@ -71,9 +69,8 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                     New Customer
                 </h1>
             </div>
-            <h1 class="text-xl font-bold mb-6 mt-6">Enter Details</h1>
-
-            <form class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <form class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg:border-[#167893] p-0 lg:p-4">
+                <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Enter Details</h1>
                 <!-- Customer Name -->
                 <div>
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
@@ -177,12 +174,15 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                     <div class="flex flex-row justify-center item-center gap-6">
 
                         <!-- Half Image Upload -->
-                        <div>
-                            <label class="block font-semibold mb-2">Half Image</label>
+                        <div class="w-32 h-full gap-[10px] p-2 shadow-[0px_0px_6.1px_0px_#00000040]">
+                            <div class="flex">
+                                <label class="block font-semibold mb-2 item-center">Face Image</label>
+                                <Icon icon="gridicons:image" width="24" height="24" />
+                            </div>
                             <label class="upload-box cursor-pointer">
                                 <img :src="form.half_image_preview || '/images/half-coustomer.jpeg'"
                                     alt="Half Image Preview" class="w-24 h-24 object-cover mb-2" />
-                                <span>Select Half Image</span>
+
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'half_image')" />
                             </label>
@@ -193,12 +193,15 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
 
                         <!-- Full Image Upload -->
-                        <div>
-                            <label class="block font-semibold mb-2">Full Image</label>
+                        <div class="w-32 h-full gap-[10px]  p-2 shadow-[0px_0px_6.1px_0px_#00000040]">
+                            <div class="flex">
+                                <label class="block font-semibold mb-2 item-center">Full Image</label>
+                                <Icon icon="gridicons:image" width="24" height="24" />
+                            </div>
                             <label class="upload-box cursor-pointer">
                                 <img :src="form.full_image_preview || '/images/full-coustomer.jpeg'"
                                     alt="Full Image Preview" class="w-24 h-24 object-cover mb-2" />
-                                <span>Select Full Image</span>
+
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'full_image')" />
                             </label>
@@ -213,7 +216,7 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
                 <!-- Submit Button (Full Width Below) -->
                 <div class="md:col-span-3">
-                    <button @click="submitForm" type="button" class="btn w-full bg-[#167893] mt-4">Save &
+                    <button @click="submitForm" type="button" class="rounded-full p-3 text-white w-full bg-[#167893] mt-4">Save &
                         Continue</button>
 
                 </div>
