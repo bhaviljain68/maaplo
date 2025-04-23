@@ -14,7 +14,7 @@ import Chart from '@/components/Chart.vue';
 
     <AppLayout>
 
-        <div class="mx-auto max-w-7xl px-4 py-6 w-full">
+        <div class="mx-auto max-w-7xl px-4 py-8 w-full">
             <h1 class="text-[24px] leading-[16px] font-bold tracking-[0] text-gray-800 font-[Convergence]">Total Orders
             </h1>
             <div class="flex flex-row justify-between mt-8">
