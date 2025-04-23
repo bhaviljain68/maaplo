@@ -27,17 +27,19 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request);
         // Validate the incoming request data
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id|unique:customers,user_id',
             'name' => 'required|string|max:255',
             'gender' => 'required|in:Male,Female,Other',
-            'phone' => 'required|string|max:15',
-            'email' => 'required|email|unique:customers,email',
-            'address' => 'nullable|array',
+            'phone' => 'required|regex:/^[0-9]{10}$/',
+            'email' => 'required|email|unique:customers',
+            'address' => 'required|string|max:255',
             'notes' => 'nullable|array',
+            'half_image' => 'required|image|max:2048',
+            'full_image' => 'required|image|max:2048',
         ]);
-        dd($validated);
 
         // Create the customer using the validated data
         $customer = Customer::create([
