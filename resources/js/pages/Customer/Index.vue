@@ -1,9 +1,22 @@
-<script setup>
-import CreateOrEditCustomer from '@/components/CreateOrEditCustomer.vue';
+<script setup lang="ts">
+
 import CustomerList from '@/components/CustomerList.vue';
 import SearchList from '@/components/SearchList.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-
+import { Icon } from '@iconify/vue';
+import { Link } from '@inertiajs/vue3';
+const props = defineProps<{
+    customers: Array<{
+        id: number,
+        name: string,
+        email: string,
+        phone: string,
+        address: string,
+        gender: string,
+        active_orders?: number,
+        payment_due?: number
+    }>
+}>();
 </script>
 <template>
     <AppLayout>
@@ -15,12 +28,21 @@ import AppLayout from '@/layouts/AppLayout.vue';
                     </h1>
                 </div>
                 <div class="flex gap-4 text-gray-600">
-                    <SearchList />
-                    <CreateOrEditCustomer />
+                    <div>
+                        <SearchList />
+                    </div>
+                    <div class="mx-auto max-w-7xl w-full">
+                        <!-- add customer details -->
+                        <div class="mt-1">
+                            <Link :href="route('customers.create')">
+                            <Icon icon="material-symbols:add-rounded" width="30" height="30" />
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
-                <CustomerList v-for="i in 5"/>
+                <CustomerList v-for="customer in props.customers" :key="customer.id" :customer="customer" />
             </div>
         </div>
     </AppLayout>
