@@ -1,10 +1,41 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import { Icon } from '@iconify/vue';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
-import Chart from '@/components/Chart.vue';
+import { Head, router } from '@inertiajs/vue3';
+import { reactive } from 'vue';
+
+const form = reactive({
+    user_id: 1, // Replace with actual user ID
+    name: '',
+    gender: '',
+    phone: '',
+    email: '',
+    address: '',
+    notes: '', // Optional: Can be expanded
+    dob: '',
+    active_orders: 0,
+    payment_due: 0.00,
+    half_image: null,
+    full_image: null,
+});
+
+const submitForm = () => {
+    const payload = new FormData();
+
+    payload.append('user_id', form.user_id.toString());
+    payload.append('name', form.name);
+    payload.append('phone', form.phone);
+    payload.append('email', form.email);
+    payload.append('gender', form.gender);
+    payload.append('address', form.address);
+    payload.append('dob', form.dob);
+    payload.append('active_orders', form.active_orders.toString());
+    payload.append('payment_due', form.payment_due.toString());
+
+    if (form.half_image) payload.append('half_image', form.half_image);
+    if (form.full_image) payload.append('full_image', form.full_image);
+
+    router.post('/customers', payload);
+};
 
 </script>
 
@@ -19,7 +50,7 @@ import Chart from '@/components/Chart.vue';
                 <!-- Customer Name -->
                 <div>
                     <label class="block font-semibold mb-1">Customer Name <span class="text-red-500">*</span></label>
-                    <input type="text" placeholder="Enter Customer Name"
+                    <input type="text" v-model="form.name" placeholder="Enter Customer Name"
                         class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" />
                 </div>
 
@@ -27,25 +58,25 @@ import Chart from '@/components/Chart.vue';
                 <!-- Contact Number -->
                 <div>
                     <label class="block font-semibold mb-1">Contact Number <span class="text-red-500">*</span></label>
-                    <input type="text" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" placeholder="Enter Phone Number" />
+                    <input type="text" v-model="form.phone" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" placeholder="Enter Phone Number" />
                 </div>
 
                 <!-- Email -->
                 <div>
                     <label class="block font-semibold mb-1">Email (optional)</label>
-                    <input type="email" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" placeholder="example@mail.com" />
+                    <input type="email" v-model="form.email" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" placeholder="example@mail.com" />
                 </div>
 
                 <!-- Date of Birth -->
                 <div>
                     <label class="block font-semibold">Date of Birth (optional)</label>
-                    <input type="date" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                    <input type="date" v-model="form.dob" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" />
                 </div>
 
                 <!-- Address -->
                 <div class="md:col-span-2">
                     <label class="block font-semibold">Address <span class="text-red-500">*</span></label>
-                    <textarea class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" rows="3" placeholder="Enter address here..."></textarea>
+                    <textarea v-model="form.address" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" rows="2" placeholder="Enter address here..."></textarea>
                 </div>
 
                 <!-- Gender -->
@@ -53,11 +84,11 @@ import Chart from '@/components/Chart.vue';
                     <label class="block font-semibold mb-2">Gender <span class="text-red-500">*</span></label>
                     <div class="flex items-center space-x-6">
                         <label class="flex items-center space-x-2">
-                            <input type="radio" name="gender" value="Male" class="form-radio accent-black" />
+                            <input type="radio" v-model="form.gender" name="gender" value="Male" class="form-radio accent-black" />
                             <span>Male</span>
                         </label>
                         <label class="flex items-center space-x-2">
-                            <input type="radio" name="gender" value="Female" class="form-radio accent-black" />
+                            <input type="radio" v-model="form.gender" name="gender" value="Female" class="form-radio accent-black" />
                             <span>Female</span>
                         </label>
                     </div>
@@ -66,13 +97,13 @@ import Chart from '@/components/Chart.vue';
                 <!-- Active Orders -->
                 <div>
                     <label class="block font-semibold">Active Orders</label>
-                    <input type="number" class="input" min="0" placeholder="0" />
+                    <input type="number" v-model.number="form.active_orders" class="input" min="0" placeholder="0" />
                 </div>
 
                 <!-- Payment Due -->
                 <div>
                     <label class="block font-semibold">Payment Due (₹)</label>
-                    <input type="number" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" min="0" step="0.01" placeholder="0.00" />
+                    <input type="number" v-model.number="form.payment_due" class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1" min="0" step="0.01" placeholder="0.00" />
                 </div>
 
                 <!-- Upload Section -->
@@ -106,7 +137,8 @@ import Chart from '@/components/Chart.vue';
 
                 <!-- Submit Button (Full Width Below) -->
                 <div class="md:col-span-3">
-                    <button type="button" class="btn  w-full bg-[#167893] mt-4">Save & Continue</button>
+                    <button @click="submitForm" type="button" class="btn w-full bg-[#167893] mt-4">Save & Continue</button>
+
                 </div>
             </form>
         </div>
