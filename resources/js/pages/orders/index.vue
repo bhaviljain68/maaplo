@@ -3,7 +3,20 @@ import FilterList from '@/components/FilterList.vue';
 import OrderList from '@/components/OrderList.vue';
 import SearchList from '@/components/SearchList.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { reactive } from 'vue';
 
+let showable = reactive({ showSearch: false, showFilter: false })
+
+// make a emitable function to show and hide the search and filter list
+const hideOrShow = (whichShow) => {
+    if (whichShow == 'search') {
+        showable.showSearch = !showable.showSearch
+        showable.showFilter = false
+    } else if (whichShow == 'filter') {
+        showable.showFilter = !showable.showFilter
+        showable.showSearch = false
+    }
+}
 </script>
 <template>
     <AppLayout>
@@ -15,8 +28,8 @@ import AppLayout from '@/layouts/AppLayout.vue';
                     </h1>
                 </div>
                 <div class="flex gap-4 text-gray-600">
-                    <SearchList />
-                    <FilterList />
+                    <SearchList :showable="showable" @hideOrShow="hideOrShow('search')" />
+                    <FilterList :showable="showable" @hideOrShow="hideOrShow('filter')" />
                 </div>
             </div>
             <div class="px-4 mt-10 py-6 gap-[10px] rounded-[10px] shadow-[0px_0px_8.6px_0px_#005FAF40]">
