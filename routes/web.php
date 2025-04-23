@@ -17,6 +17,8 @@ Route::middleware(["auth", "verified"])->group(function () {
     Route::get('orders',function(){
         return Inertia::render('orders/index');
     });
+
+    Route::resource('customers', CustomerController::class);
     // Route::resource('orders', OrderController::class)->names(["index"]);
 });
 
