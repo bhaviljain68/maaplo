@@ -22,8 +22,8 @@ class CustomerController extends Controller
     public function create()
     {
         // Get the authenticated user's ID
-        $user_id =auth()->id();
-// dd($user_id);
+        $user_id = auth()->id();
+        // dd($user_id);
 
         // Pass the user_id to the Inertia view
         return Inertia::render('customer/create', [
@@ -36,7 +36,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->id();
-// dd($request);
+        // dd($request);
         // Validate the incoming request data
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id|unique:customers,user_id',
@@ -57,12 +57,12 @@ class CustomerController extends Controller
             'gender' => $validated['gender'],
             'phone' => $validated['phone'],
             'email' => $validated['email'],
-            'address' => $validated['address'],
-            'notes' => json_encode($validated['notes'] ?? []),
+            'address' => json_encode($validated['address']?? null),
+            'notes' => json_encode($validated['notes'] ?? null),
         ]);
 
         // After saving the customer, redirect to the customers index
-        return redirect()->route('customer.index');
+        return redirect()->route('customers.index');
     }
 
 

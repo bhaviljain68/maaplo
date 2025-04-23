@@ -5,16 +5,17 @@ import { reactive } from 'vue';
 import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
-    errors: Record<string, string>
+    errors: Record<string, string>,
+    user_id: number
 }>();
 const form = reactive({
-    user_id: '', // Replace with actual user ID
+    user_id: props.user_id, // Replace with actual user ID
     name: '',
     gender: '',
     phone: '',
     email: '',
     address: '',
-    notes: '', // Optional: Can be expanded
+    // notes: '', // Optional: Can be expanded
     dob: '',
     active_orders: 0,
     payment_due: 0.00,
@@ -216,7 +217,8 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
                 <!-- Submit Button (Full Width Below) -->
                 <div class="md:col-span-3">
-                    <button @click="submitForm" type="button" class="rounded-full p-3 text-white w-full bg-[#167893] mt-4">Save &
+                    <button @click="submitForm" type="button"
+                        class="rounded-full p-3 text-white w-full bg-[#167893] mt-4">Save &
                         Continue</button>
 
                 </div>
