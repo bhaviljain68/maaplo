@@ -12,6 +12,13 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-    Route::resource('customers', CustomerController::class);
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+Route::middleware(["auth", "verified"])->group(function () {
+    //-- Make resource Route For Orders Process
+    Route::get('orders',function(){
+        return Inertia::render('orders/index');
+    });
+    // Route::resource('orders', OrderController::class)->names(["index"]);
+});
+
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
