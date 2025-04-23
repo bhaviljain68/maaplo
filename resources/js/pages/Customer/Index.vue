@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import CustomerList from '@/components/CustomerList.vue';
-import SearchList from '@/components/SearchList.vue';
+import SearchList from '@/components/SearchIcon.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
 import { Link } from '@inertiajs/vue3';
