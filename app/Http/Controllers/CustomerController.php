@@ -12,7 +12,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return Inertia::render('Customer/Index', [
+        return Inertia::render('customer/index', [
             'customers' => $customers
         ]);
     }
@@ -20,12 +20,13 @@ class CustomerController extends Controller
     // Show the form for creating a new customer
     public function create()
     {
-        return Inertia::render('Customer/Create');
+        return Inertia::render('customer/create');
     }
 
     // Store a newly created customer in storage
     public function store(Request $request)
     {
+
         // Validate the incoming request data
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id|unique:customers,user_id',
@@ -36,6 +37,7 @@ class CustomerController extends Controller
             'address' => 'nullable|array',
             'notes' => 'nullable|array',
         ]);
+        dd($validated);
 
         // Create the customer using the validated data
         $customer = Customer::create([
@@ -57,7 +59,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
-        return Inertia::render('Customer/Show', [
+        return Inertia::render('customer/show', [
             'customer' => $customer
         ]);
     }
@@ -66,7 +68,7 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
-        return Inertia::render('Customer/Edit', [
+        return Inertia::render('customer/edit', [
             'customer' => $customer
         ]);
     }
