@@ -11,6 +11,7 @@ class CustomerController extends Controller
     // Display a listing of the customers
     public function index()
     {
+
         $customers = Customer::all();
         return Inertia::render('customer/index', [
             'customers' => $customers
@@ -20,15 +21,25 @@ class CustomerController extends Controller
     // Show the form for creating a new customer
     public function create()
     {
-        return Inertia::render('customer/create');
+        // Get the authenticated user's ID
+        $user_id =auth()->id();
+// dd($user_id);
+
+        // Pass the user_id to the Inertia view
+        return Inertia::render('customer/create', [
+            'user_id' => $user_id,
+        ]);
     }
 
 
+    // Store a newly created customer in storage
     public function store(Request $request)
     {
         $user_id = auth()->id();
-
+// dd($request);
+        // Validate the incoming request data
         $validated = $request->validate([
+            'user_id' => 'required|exists:users,id|unique:customers,user_id',
             'name' => 'required|string|max:255',
             'gender' => 'required|in:m,f,o',
             'phone' => 'required|regex:/^[0-9]{10}$/',
@@ -39,41 +50,20 @@ class CustomerController extends Controller
             'full_image' => 'nullable|image|max:2048',
         ]);
 
+        // Create the customer using the validated data
         $customer = Customer::create([
             'user_id' => $user_id,
-            'name' => ucfirst($validated['name']), // Capitalize name
+            'name' => $validated['name'],
             'gender' => $validated['gender'],
             'phone' => $validated['phone'],
             'email' => $validated['email'],
-            'address' => json_encode($validated['address'] ?? null),
-            'notes' => json_encode($validated['notes'] ?? null),
+            'address' => $validated['address'],
+            'notes' => json_encode($validated['notes'] ?? []),
         ]);
 
-        // 📷 Handle Half Image
-        if ($request->hasFile('half_image')) {
-            $path = $request->file('half_image')->store('customers/photos', 'public');
-
-            CustomerPhoto::create([
-                'customer_id' => $customer->id,
-                'image_url' => $path,
-                'label' => 'half',
-            ]);
-        }
-
-        // 📷 Handle Full Image
-        if ($request->hasFile('full_image')) {
-            $path = $request->file('full_image')->store('customers/photos', 'public');
-
-            CustomerPhoto::create([
-                'customer_id' => $customer->id,
-                'image_url' => $path,
-                'label' => 'full',
-            ]);
-        }
-
-        return redirect()->route('customers.index');
+        // After saving the customer, redirect to the customers index
+        return redirect()->route('customer.index');
     }
-
 
 
     // Display the specified customer
