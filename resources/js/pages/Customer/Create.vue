@@ -132,15 +132,21 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                     </div>
                     <div class="flex items-center space-x-6 text-black">
                         <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="Male"
+                            <input type="radio" v-model="form.gender" name="gender" value="m"
                                 class="form-radio accent-black" />
                             <span>Male</span>
                         </label>
                         <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="Female"
+                            <input type="radio" v-model="form.gender" name="gender" value="f"
                                 class="form-radio accent-black" />
                             <span>Female</span>
                         </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" v-model="form.gender" name="gender" value="o"
+                                class="form-radio accent-black" />
+                            <span>Other</span>
+                        </label>
+
                     </div>
                     <div v-if="errors.gender" class="text-red-600 text-sm mt-1">{{ errors.gender }}</div>
 
