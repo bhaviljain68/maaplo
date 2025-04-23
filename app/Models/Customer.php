@@ -13,11 +13,16 @@ class Customer extends Model
 
     // Define the fillable fields for mass assignment
     protected $fillable = [
+        'user_id',
         'name',
         'gender',
         'email',
         'phone',
         'address',
+        'notes',
     ];
-
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst($value);
+    }
 }
