@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,10 +14,18 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(["auth", "verified"])->group(function () {
+   
     //-- Make resource Route For Orders Process
-    Route::get('orders',function(){
-        return Inertia::render('orders/index');
-    });
+    Route::resource('orders', OrderController::class)->only(
+        'index',
+        'create',
+        'store',
+        'show', // Display a specific order
+        'edit',
+        'update',
+        'destroy'
+    );
+
 
     Route::resource('customers', CustomerController::class);
     // Route::resource('orders', OrderController::class)->names(["index"]);
