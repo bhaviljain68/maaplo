@@ -81,7 +81,7 @@ const updateCustomer = () => {
                 <!-- Gender -->
                 <div class="flex flex-col mb-4">
                     <div class="mr-3">
-                        <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
+                        <label class="block mb-4 font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
                             Gender
                         </label>
                     </div>
@@ -105,13 +105,6 @@ const updateCustomer = () => {
                     <div v-if="form.errors.gender" class="text-red-600 text-sm mt-1">
                         {{ form.errors.gender }}
                     </div>
-                </div>
-
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Payment Due</label>
-                    <input v-model="form.payment_due" type="number"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
                 </div>
 
                 <!-- Update Button-->

@@ -24,6 +24,24 @@ class Customer extends Model
         'dob'
     ];
 
+    // Accessor for 'address'
+    protected function address(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value, true)['value'] ?? '',
+            set: fn($value) => json_encode(['value' => $value])
+        );
+    }
+
+    // Accessor for 'notes'
+    protected function notes(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value, true),
+            set: fn($value) => json_encode($value)
+        );
+    }
+
     protected function name(): Attribute
     {
         return Attribute::make(
@@ -45,7 +63,7 @@ class Customer extends Model
         );
     }
 
-//    Relations
+    //    Relations
     public function photos()
     {
         $this->hasMany(CustomerPhoto::class, 'customer_id', 'id');

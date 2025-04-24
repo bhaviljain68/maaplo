@@ -57,6 +57,12 @@ function toggleDropdown() {
                         <a href="#" class="block text-black">{{ props.customer.email }}</a>
                     </div>
                 </li>
+                <li>
+                    <div class="flex flex-row ml-2 py-2">
+                        <Icon icon="ic:outline-location" width="18" height="18" class="mr-1" />
+                        <a href="#" class="block text-black">{{ props.customer.address }}</a>
+                    </div>
+                </li>
 
             </ul>
         </div>

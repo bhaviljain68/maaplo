@@ -205,7 +205,7 @@ const phoneError = computed(() => {
                     <div v-for="(note, index) in notes" :key="index" class="mb-4 flex gap-4 items-start">
                         <div class="w-full">
                             <label class="block text-sm mb-1">Label</label>
-                            <input type="text" v-model="note.label"
+                            <input type="text" placeholder="Write your Label..." v-model="note.label"
                                 class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" />
                             <label class="block text-sm mt-2 mb-1">Note</label>
                             <textarea v-model="note.text"

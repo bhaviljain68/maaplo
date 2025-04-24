@@ -66,31 +66,7 @@ class CustomerController extends Controller
             $username = preg_replace('/\s+/', '_', strtolower($user->name));
             $customerName = preg_replace('/\s+/', '_', strtolower($validated['name']));
 
-            $halfImagePath = null;
-            if ($request->hasFile('half_image')) {
-                $halfImagePath = ImageHelper::imageProccess(
-                    $request->file('half_image'),
-                    null,
-                    $username,
-                    $user_id,
-                    $customerName,
-                    'faceimage'
-                );
-            }
-
-            $fullImagePath = null;
-            if ($request->hasFile('full_image')) {
-                $fullImagePath = ImageHelper::imageProccess(
-                    $request->file('full_image'),
-                    null,
-                    $username,
-                    $user_id,
-                    $customerName,
-                    'fullbody'
-                );
-            }
-
-            // Create customer now that everything has succeeded
+            // First, create the customer to get the customer ID
             $customer = Customer::create([
                 'user_id' => $user_id,
                 'name' => $validated['name'],
@@ -102,7 +78,36 @@ class CustomerController extends Controller
                 'notes' => json_encode($validated['notes']),
             ]);
 
-            // Now we have customer ID, save images if they exist
+            // Now that the customer is created, we have the customer ID
+            $customerId = $customer->id;
+
+            // Handle the half image if it exists
+            $halfImagePath = null;
+            if ($request->hasFile('half_image')) {
+                $halfImagePath = ImageHelper::imageProccess(
+                    $request->file('half_image'),
+                    $customerId,  // Pass customer ID here
+                    $username,
+                    $user_id,
+                    $customerName,
+                    'faceimage'
+                );
+            }
+
+            // Handle the full image if it exists
+            $fullImagePath = null;
+            if ($request->hasFile('full_image')) {
+                $fullImagePath = ImageHelper::imageProccess(
+                    $request->file('full_image'),
+                    $customerId,  // Pass customer ID here
+                    $username,
+                    $user_id,
+                    $customerName,
+                    'fullbody'
+                );
+            }
+
+            // Save images to the database after the customer is created
             if ($halfImagePath) {
                 CustomerPhoto::create([
                     'customer_id' => $customer->id,
@@ -129,10 +134,12 @@ class CustomerController extends Controller
         }
     }
 
+
     // Show the form for editing the specified customer
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
+        $addressData = json_decode($customer->address, true);
         return Inertia::render('customer/edit', [
             'customer' => $customer
         ]);
