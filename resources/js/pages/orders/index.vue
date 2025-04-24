@@ -4,7 +4,10 @@ import OrderList from '@/components/OrderList.vue';
 import SearchList from '@/components/SearchIcon.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
+// import { debounce } from 'vue-debounce'
+const searchTerm = ref('');
+const orders = ref([]);
 
 const showDropdown = ref(false);
 const showDropdownDelivery = ref(false);
@@ -21,8 +24,21 @@ const hideOrShow = (whichShow) => {
         showable.showSearch = false
     }
 }
+// search function
+// debounce the function to avoid too many calls
+function myFn(val) {
+    searchTerm.value = val
+    console.log('Searching:', val)
+}
+const filteredOrders = computed(() => {
+    if (!searchTerm.value) return orders.value
+    return orders.value.filter(order =>
+        order.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+        order.status.toLowerCase().includes(searchTerm.value.toLowerCase())
+    )
+})
 
-
+// dropdown function
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
@@ -49,9 +65,10 @@ function toggleDropdownDelivery() {
             <div>
                 <!-- search input -->
                 <div class="mt-4 mb-10">
-                    <input v-if="showable.showSearch" type="text" placeholder="Search..."
+                    <input v-debounce:400ms="myFn" v-if="showable.showSearch" type="text" placeholder="Search..."
                         class="w-full  lg:max-w-7xl border border-gray-300 rounded-full px-4 py-3 text-sm shadow-[0px_0px_4.3px_0px_#16789333] focus:outline-none focus:ring focus:border-gray-400 transition-all" />
                 </div>
+
                 <!-- filters -->
                 <div v-if="showable.showFilter" class="transition-all mt-10" :style="{
                     marginBottom: showDropdown && showDropdownDelivery
@@ -158,7 +175,8 @@ function toggleDropdownDelivery() {
             <div class="px-4 mt-10 py-6 gap-[10px] rounded-[10px] shadow-[0px_0px_8.6px_0px_#005FAF40]">
                 <!-- Orders list -->
                 <div class="space-y-4">
-                    <OrderList :bgColor="'#FFFCE6'" :borderColor="'#837200'" />
+                    <OrderList v-for="order in filteredOrders" :key="order.id" :bgColor="'#FFFCE6'"
+                        :borderColor="'#837200'" />
                     <OrderList :bgColor="'#EAF5FF'" :borderColor="'#005FAF'" />
                     <OrderList :bgColor="'#FFFFFF'" :borderColor="'#828282'" />
                     <OrderList :bgColor="'#FFEAEA'" :borderColor="'#FF0000'" />

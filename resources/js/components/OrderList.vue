@@ -7,9 +7,13 @@ const props = defineProps({
     borderColor: {
         type: String,
         default: '#837200'
-    }
+    },
+    order: {
+    type: Object,
+    required: true
+  }
 });
-console.log('hello', props.borderColor); 
+
 </script>
 <template>
 
