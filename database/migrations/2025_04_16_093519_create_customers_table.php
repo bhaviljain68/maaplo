@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->enum('gender', ["m", "f", "o"]); // Define possible values for gender
             $table->string('phone');
             $table->string('email')->unique();
+            $table->date('dob')->nullable();
             $table->json('address');
             $table->json('notes');
             $table->timestamps(); // Automatically creates created_at and updated_at

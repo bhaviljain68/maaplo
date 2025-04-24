@@ -21,6 +21,7 @@ class Customer extends Model
         'phone',
         'address',
         'notes',
+        'dob'
     ];
 
     protected function name(): Attribute
