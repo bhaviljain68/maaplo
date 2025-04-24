@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('order_item_photos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('order_item_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('image_url');
             $table->string('label');
             $table->timestamps();

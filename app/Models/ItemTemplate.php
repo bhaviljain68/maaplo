@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
+class ItemTemplate extends Model
+{
+    use SoftDeletes;
+
+    protected $table = 'item_templates';
+
+    protected $fillable = [
+        'name',
+        'gender',
+        'required_measurements',
+        'custom_template',
+        'user_id',
+    ];
+
+    protected $casts = [
+        'required_measurements' => 'array',
+        'custom_template' => 'boolean',
+    ];
+
+    protected function gender(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                return match ($value) {
+                    'm' => 'Male',
+                    'f' => 'Female',
+                    'o' => 'Other',
+                };
+            },
+        );
+    }
+
+    // Relationships
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    protected static function booted()
+    {
+        // When an ItemTemplate is soft-deleted
+        static::deleting(function ($itemTemplate): void {
+            if (!$itemTemplate->isForceDeleting()) {
+                
+            }
+        }); 
+    }
+}
