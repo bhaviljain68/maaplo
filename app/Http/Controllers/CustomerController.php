@@ -36,19 +36,27 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->id();
-        // dd($request);
+
+        if ($request->has('notes') && is_string($request->notes)) {
+            $request->merge([
+                'notes' => json_decode($request->notes, true),
+            ]);
+        }
+        dd($request);
         // Validate the incoming request data
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id|unique:customers,user_id',
+            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'gender' => 'required|in:m,f,o',
             'phone' => 'required|regex:/^[0-9]{10}$/',
             'email' => 'required|email|unique:customers',
             'address' => 'required|string|max:255',
-            'notes' => 'nullable|array',
+            'notes' => 'required|array',
             'half_image' => 'nullable|image|max:2048',
             'full_image' => 'nullable|image|max:2048',
         ]);
+        // dd($validated);
+
 
         // Create the customer using the validated data
         $customer = Customer::create([
@@ -57,8 +65,8 @@ class CustomerController extends Controller
             'gender' => $validated['gender'],
             'phone' => $validated['phone'],
             'email' => $validated['email'],
-            'address' => json_encode($validated['address']?? null),
-            'notes' => json_encode($validated['notes'] ?? null),
+            'address' => json_encode(['value' => $validated['address']]),
+            'notes' => json_encode($validated['notes']),
         ]);
 
         // After saving the customer, redirect to the customers index
