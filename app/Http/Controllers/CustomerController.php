@@ -70,6 +70,7 @@ class CustomerController extends Controller
     public function show($id)
     {
         $customer = Customer::findOrFail($id);
+        $customer->load("photos");
         return Inertia::render('customer/show', [
             'customer' => $customer
         ]);
