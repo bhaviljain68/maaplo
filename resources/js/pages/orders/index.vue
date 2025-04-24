@@ -4,11 +4,12 @@ import OrderList from '@/components/OrderList.vue';
 import SearchList from '@/components/SearchIcon.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 // import { debounce } from 'vue-debounce'
 const searchTerm = ref('');
 const orders = ref([]);
-
+const selectedStatus = ref('');
+const selectedDelivery = ref('');
 const showDropdown = ref(false);
 const showDropdownDelivery = ref(false);
 
@@ -30,15 +31,24 @@ function myFn(val) {
     searchTerm.value = val
     console.log('Searching:', val)
 }
+watch(selectedStatus, (newStatus) => {
+    console.log('Selected Status:', newStatus);
+});
+watch(selectedDelivery, (newDelivery) => {
+    console.log('Selected Delivery:', newDelivery);
+});
 const filteredOrders = computed(() => {
-    if (!searchTerm.value) return orders.value
-    return orders.value.filter(order =>
-        order.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-        order.status.toLowerCase().includes(searchTerm.value.toLowerCase())
-    )
-})
+    return orders.value.filter(order => {
+        const matchesSearch = !searchTerm.value || order.name.toLowerCase().includes(searchTerm.value.toLowerCase()) || order.status.toLowerCase().includes(searchTerm.value.toLowerCase());
+        const matchesStatus = !selectedStatus.value || order.status === selectedStatus.value;
+        const matchesDelivery = !selectedDelivery.value || order.deliveryDateRange === selectedDelivery.value;
+        return matchesSearch && matchesStatus && matchesDelivery;
+    });
+});
+
 
 // dropdown function
+
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
@@ -66,17 +76,11 @@ function toggleDropdownDelivery() {
                 <!-- search input -->
                 <div class="mt-4 mb-10">
                     <input v-debounce:400ms="myFn" v-if="showable.showSearch" type="text" placeholder="Search..."
-                        class="w-full  lg:max-w-7xl border border-gray-300 rounded-full px-4 py-3 text-sm shadow-[0px_0px_4.3px_0px_#16789333] focus:outline-none focus:ring focus:border-gray-400 transition-all" />
+                        class="w-full lg:max-w-7xl border border-gray-300 rounded-full px-4 py-3 text-sm shadow-[0px_0px_4.3px_0px_#16789333] focus:outline-none focus:ring focus:border-gray-400 transition-all" />
                 </div>
 
                 <!-- filters -->
-                <div v-if="showable.showFilter" class="transition-all mt-10" :style="{
-                    marginBottom: showDropdown && showDropdownDelivery
-                        ? '2rem'
-                        : showDropdown || showDropdownDelivery
-                            ? '2rem'
-                            : '2rem'
-                }">
+                <div v-if="showable.showFilter" class="transition-all mt-10">
                     <div
                         class="flex flex-col gap-4 bg-white rounded-md px-4 py-3 text-sm shadow-[0px_0px_8.6px_0px_#005FAF40] focus:outline-none focus:ring focus:border-gray-400 transition-all">
                         <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black">Filter
@@ -95,33 +99,33 @@ function toggleDropdownDelivery() {
                             </div>
                         </div>
                         <!-- Dropdown -->
-                        <div v-show="showDropdown" class="z-10">
+                        <div v-show="showDropdown" class="z-10" v-debounce:400ms="myFn">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
                                     <div class="flex flex-col ml-2 gap-1 text-black ml-2">
                                         <div>
-                                            <input type="radio" id="create" name="status" value="Create">
+                                            <input type="radio" id="create" name="status" value="Create" v-model="selectedStatus">
                                             <label for="create" class="ml-2">Create</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="in-progress" name="status" value="In Progress">
+                                            <input type="radio" id="in-progress" name="status" value="In Progress" v-model="selectedStatus">
                                             <label for="in-progress" class="ml-2 text-black">In Progress</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="trial-done" name="status" value="Trial Done">
+                                            <input type="radio" id="trial-done" name="status" value="Trial Done" v-model="selectedStatus">
                                             <label for="trial-done" class="ml-2">Trial Done</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="in-alteration" name="status" value="In Alteration">
+                                            <input type="radio" id="in-alteration" name="status" value="In Alteration" v-model="selectedStatus">
                                             <label for="in-alteration" class="ml-2">In Alteration</label><br>
                                         </div>
                                         <div>
                                             <input type="radio" id="ready-for-delivery" name="status"
-                                                value="Ready for Delivery">
+                                                value="Ready for Delivery" v-model="selectedStatus">
                                             <label for="ready-for-delivery" class="ml-2">Ready for Delivery</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="delivered" name="status" value="Delivered">
+                                            <input type="radio" id="delivered" name="status" value="Delivered" v-model="selectedStatus">
                                             <label for="delivered" class="ml-2">Delivered</label><br>
                                         </div>
                                     </div>
@@ -147,20 +151,20 @@ function toggleDropdownDelivery() {
                                 <li>
                                     <div class="flex flex-col ml-2 gap-1 text-black ml-2">
                                         <div>
-                                            <input type="radio" id="Within-7-Days" name="status" value="Within 7 Days">
+                                            <input type="radio" id="Within-7-Days" name="status" value="Within 7 Days" v-model="selectedDelivery">
                                             <label for="Within-7-Days" class="ml-2 text-black">Within 7
                                                 Days</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="7-15-Days" name="status" value="7-15 Days">
+                                            <input type="radio" id="7-15-Days" name="status" value="7-15 Days" v-model="selectedDelivery">
                                             <label for="7-15-Days" class="ml-2">7-15 Days</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="Overdue" name="status" value="Overdue">
+                                            <input type="radio" id="Overdue" name="status" value="Overdue" v-model="selectedDelivery">
                                             <label for="Overdue" class="ml-2">Overdue</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="One-Month" name="status" value="One Month">
+                                            <input type="radio" id="One-Month" name="status" value="One Month" v-model="selectedDelivery">
                                             <label for="One-Month" class="ml-2">One Month</label><br>
                                         </div>
                                     </div>
@@ -192,9 +196,10 @@ input[type="radio"]:active+label {
 
 input[type="radio"]:checked+label {
     color: #167893;
- 
+
 }
+
 input[type=radio] {
-  accent-color: #167893;
+    accent-color: #167893;
 }
 </style>
