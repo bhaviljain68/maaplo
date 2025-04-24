@@ -2,6 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { reactive, ref } from 'vue';
+import { computed } from 'vue';
 import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
@@ -80,6 +81,14 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
     const previewField = field + '_preview' as 'half_image_preview' | 'full_image_preview';
     form[previewField] = file ? URL.createObjectURL(file) : '';
 };
+
+const phoneError = computed(() => {
+    if (form.phone && form.phone.toString().length > 10) {
+        return 'Phone number cannot exceed 10 digits.';
+    }
+    return '';
+});
+
 </script>
 
 <template>
@@ -107,13 +116,16 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
                 <!-- Contact Number -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Contact Number <span
-                            class="text-red-500">*</span></label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
+                        Contact Number <span class="text-red-500">*</span>
+                    </label>
                     <input type="number" v-model="form.phone"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
                         placeholder="Enter Phone Number" />
-                    <div v-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.phone }}</div>
+                    <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
+                    <div v-else-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.phone }}</div>
                 </div>
+
 
                 <!-- Email -->
                 <div>
