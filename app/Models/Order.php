@@ -25,5 +25,5 @@ class Order extends Model
         'close_date',
         'notes',
     ];
-    //
+
 }
