@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\CustomerPhoto;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use App\Helpers\ImageHelper;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Laravel\Facades\Image;
 
 class CustomerController extends Controller
 {
@@ -23,64 +29,104 @@ class CustomerController extends Controller
     {
         // Get the authenticated user's ID
         $user_id = auth()->id();
-        // dd($user_id);
-
         // Pass the user_id to the Inertia view
         return Inertia::render('customer/create', [
             'user_id' => $user_id,
         ]);
     }
 
-
     // Store a newly created customer in storage
     public function store(Request $request)
     {
-        $user_id = auth()->id();
+        try {
+            $user_id = auth()->id();
+            $user = User::findOrFail($user_id);
 
-        if ($request->has('notes') && is_string($request->notes)) {
-            $request->merge([
-                'notes' => json_decode($request->notes, true),
+            if ($request->has('notes') && is_string($request->notes)) {
+                $request->merge([
+                    'notes' => json_decode($request->notes, true),
+                ]);
+            }
+
+            $validated = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'name' => 'required|string|max:255',
+                'gender' => 'required|in:m,f,o',
+                'phone' => 'required|regex:/^[0-9]{10}$/',
+                'email' => 'required|email|unique:customers,email',
+                'address' => 'required|string|max:255',
+                'dob' => 'nullable|date',
+                'notes' => 'required|array',
+                'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ]);
+
+            DB::beginTransaction();
+
+            $username = preg_replace('/\s+/', '_', strtolower($user->name));
+            $customerName = preg_replace('/\s+/', '_', strtolower($validated['name']));
+
+            $halfImagePath = null;
+            if ($request->hasFile('half_image')) {
+                $halfImagePath = ImageHelper::imageProccess(
+                    $request->file('half_image'),
+                    null,
+                    $username,
+                    $user_id,
+                    $customerName,
+                    'faceimage'
+                );
+            }
+
+            $fullImagePath = null;
+            if ($request->hasFile('full_image')) {
+                $fullImagePath = ImageHelper::imageProccess(
+                    $request->file('full_image'),
+                    null,
+                    $username,
+                    $user_id,
+                    $customerName,
+                    'fullbody'
+                );
+            }
+
+            // Create customer now that everything has succeeded
+            $customer = Customer::create([
+                'user_id' => $user_id,
+                'name' => $validated['name'],
+                'gender' => $validated['gender'],
+                'phone' => $validated['phone'],
+                'email' => $validated['email'],
+                'dob' => $validated['dob'] ?? null,
+                'address' => json_encode(['value' => $validated['address']]),
+                'notes' => json_encode($validated['notes']),
+            ]);
+
+            // Now we have customer ID, save images if they exist
+            if ($halfImagePath) {
+                CustomerPhoto::create([
+                    'customer_id' => $customer->id,
+                    'image_url' => $halfImagePath,
+                    'label' => 'Faceimage',
+                ]);
+            }
+
+            if ($fullImagePath) {
+                CustomerPhoto::create([
+                    'customer_id' => $customer->id,
+                    'image_url' => $fullImagePath,
+                    'label' => 'Fullbody',
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Customer creation failed: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'There was an error: ' . $e->getMessage());
         }
-        dd($request);
-        // Validate the incoming request data
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string|max:255',
-            'gender' => 'required|in:m,f,o',
-            'phone' => 'required|regex:/^[0-9]{10}$/',
-            'email' => 'required|email|unique:customers',
-            'address' => 'required|string|max:255',
-            'notes' => 'required|array',
-            'half_image' => 'nullable|image|max:2048',
-            'full_image' => 'nullable|image|max:2048',
-        ]);
-        // dd($validated);
-
-
-        // Create the customer using the validated data
-        $customer = Customer::create([
-            'user_id' => $user_id,
-            'name' => $validated['name'],
-            'gender' => $validated['gender'],
-            'phone' => $validated['phone'],
-            'email' => $validated['email'],
-            'address' => json_encode(['value' => $validated['address']]),
-            'notes' => json_encode($validated['notes']),
-        ]);
-
-        // After saving the customer, redirect to the customers index
-        return redirect()->route('customers.index');
-    }
-
-
-    // Display the specified customer
-    public function show($id)
-    {
-        $customer = Customer::findOrFail($id);
-        return Inertia::render('customer/show', [
-            'customer' => $customer
-        ]);
     }
 
     // Show the form for editing the specified customer

@@ -17,8 +17,6 @@ const form = reactive({
     email: '',
     address: '',
     dob: '',
-    active_orders: 0,
-    payment_due: 0.00,
     half_image: null,
     full_image: null,
     half_image_preview: '',
@@ -57,8 +55,6 @@ const submitForm = () => {
     payload.append('gender', form.gender);
     payload.append('address', form.address);
     payload.append('dob', form.dob);
-    payload.append('active_orders', form.active_orders.toString());
-    payload.append('payment_due', form.payment_due.toString());
 
     if (form.half_image) payload.append('half_image', form.half_image);
     if (form.full_image) payload.append('full_image', form.full_image);
@@ -85,8 +81,6 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
     form[previewField] = file ? URL.createObjectURL(file) : '';
 };
 </script>
-
-
 
 <template>
 
@@ -178,16 +172,24 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 
                 </div>
 
-                <!-- Active Orders -->
-                <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-5">Active Orders</label>
-                    <input type="number" v-model.number="form.active_orders" class="input" min="0" placeholder="0" />
-
-                </div>
-
                 <!-- Notes Section -->
                 <div class="notes-section">
-                    <label class="block font-[Lato] text-[18px] mb-2">Notes <span class="text-red-500">*</span></label>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block font-[Lato] text-[18px]">Notes <span class="text-red-500">*</span></label>
+
+                        <div class="flex items-center space-x-3">
+                            <!-- Notes Count -->
+                            <span class="text-sm text-gray-600">Total: {{ notes.length }}</span>
+
+                            <!-- + Button on label line -->
+                            <button type="button" @click="addNote"
+                                class="flex items-center text-green-500 hover:text-green-600 transition">
+                                <Icon icon="mdi:plus-circle-outline" width="20" height="20" class="mr-1" />
+                                <span class="text-sm font-medium">Add Note</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div v-for="(note, index) in notes" :key="index" class="mb-4 flex gap-4 items-start">
                         <div class="w-full">
                             <label class="block text-sm mb-1">Label</label>
@@ -198,27 +200,15 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                                 class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" rows="2"
                                 placeholder="Write your note..."></textarea>
                         </div>
-                        <div class="flex flex-col justify-start pt-6">
-                            <button type="button" @click="removeNote(index)" class="text-red-500">
-                                <Icon icon="mdi:minus-circle-outline" width="24" height="24" />
+
+                        <!-- Show - button if more than one note -->
+                        <div class="flex items-center pt-6" v-if="notes.length > 1">
+                            <button type="button" @click="removeNote(index)"
+                                class="flex items-center text-red-500 hover:text-red-600 transition">
+                                <Icon icon="mdi:minus-circle-outline" width="24" height="24" class="mr-1" />
                             </button>
                         </div>
                     </div>
-                    <button type="button" @click="addNote" class="text-green-500 flex items-center mt-2">
-                        <Icon icon="mdi:plus-circle-outline" width="20" height="20" class="mr-1" />
-                        Add Note
-                    </button>
-                </div>
-
-
-                <!-- Payment Due -->
-                <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Payment Due
-                        (₹)</label>
-                    <input type="number" v-model.number="form.payment_due"
-                        class="border-b border-gray-400 bg-transparent w-full focus:outline-none focus:border-black py-1"
-                        min="0" step="0.01" placeholder="0.00" />
-                    <div v-if="errors.payment_due" class="text-red-600 text-sm mt-1">{{ errors.payment_due }}</div>
                 </div>
 
                 <!-- Upload Section -->
@@ -236,7 +226,7 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                             </div>
                             <label class="upload-box cursor-pointer">
                                 <img :src="form.half_image_preview || '/images/half-coustomer.jpeg'"
-                                    alt="Half Image Preview" class="w-24 h-24 object-cover mb-2" />
+                                    alt="Half Image Preview" class="w-28 h-24 object-cover mb-2" />
 
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'half_image')" />
