@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
     errors: Record<string, string>,
     user_id: number
 }>();
+
 const form = reactive({
-    user_id: props.user_id, // Replace with actual user ID
+    user_id: props.user_id,
     name: '',
     gender: '',
     phone: '',
     email: '',
     address: '',
-    // notes: '', // Optional: Can be expanded
     dob: '',
     active_orders: 0,
     payment_due: 0.00,
@@ -25,7 +25,29 @@ const form = reactive({
     full_image_preview: ''
 });
 
+// Notes
+const notes = ref([{ label: '', text: '' }]);
+const noteErrors = ref<string | null>(null);
+
+const addNote = () => {
+    notes.value.push({ label: '', text: '' });
+};
+
+const removeNote = (index: number) => {
+    notes.value.splice(index, 1);
+};
+
+const validateNotes = () => {
+    const isValid = notes.value.length > 0 && notes.value.every(
+        note => note.label.trim() !== '' && note.text.trim() !== ''
+    );
+    noteErrors.value = isValid ? null : 'All notes must have a label and text.';
+    return isValid;
+};
+
 const submitForm = () => {
+    if (!validateNotes()) return;
+
     const payload = new FormData();
 
     payload.append('user_id', form.user_id.toString());
@@ -41,24 +63,30 @@ const submitForm = () => {
     if (form.half_image) payload.append('half_image', form.half_image);
     if (form.full_image) payload.append('full_image', form.full_image);
 
+    // Serialize notes
+    notes.value.forEach((note, index) => {
+        payload.append(`notes[${index}][label]`, note.label);
+        payload.append(`notes[${index}][text]`, note.text);
+    });
+    payload.append('notes', JSON.stringify(notes.value));
+
     router.post('/customers', payload);
 };
 
 const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => {
     const file = (event.target as HTMLInputElement).files?.[0];
-
     if (file && file.size > 2 * 1024 * 1024) {
         alert('Image must be less than 2MB.');
         return;
     }
 
     form[field] = file;
-
-    // Set preview
     const previewField = field + '_preview' as 'half_image_preview' | 'full_image_preview';
     form[previewField] = file ? URL.createObjectURL(file) : '';
 };
 </script>
+
+
 
 <template>
 
@@ -156,6 +184,32 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                     <input type="number" v-model.number="form.active_orders" class="input" min="0" placeholder="0" />
 
                 </div>
+
+                <!-- Notes Section -->
+                <div class="notes-section">
+                    <label class="block font-[Lato] text-[18px] mb-2">Notes <span class="text-red-500">*</span></label>
+                    <div v-for="(note, index) in notes" :key="index" class="mb-4 flex gap-4 items-start">
+                        <div class="w-full">
+                            <label class="block text-sm mb-1">Label</label>
+                            <input type="text" v-model="note.label"
+                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" />
+                            <label class="block text-sm mt-2 mb-1">Note</label>
+                            <textarea v-model="note.text"
+                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" rows="2"
+                                placeholder="Write your note..."></textarea>
+                        </div>
+                        <div class="flex flex-col justify-start pt-6">
+                            <button type="button" @click="removeNote(index)" class="text-red-500">
+                                <Icon icon="mdi:minus-circle-outline" width="24" height="24" />
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" @click="addNote" class="text-green-500 flex items-center mt-2">
+                        <Icon icon="mdi:plus-circle-outline" width="20" height="20" class="mr-1" />
+                        Add Note
+                    </button>
+                </div>
+
 
                 <!-- Payment Due -->
                 <div>
