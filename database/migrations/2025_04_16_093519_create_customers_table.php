@@ -12,12 +12,12 @@ return new class extends Migration {
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->enum('gender', ["m", "f", "o"]); // Define possible values for gender
             $table->string('phone');
             $table->string('email')->unique();
             $table->json('address');
+            $table->json('base_measurements')->nullable(); // Nullable for optional base measurements
             $table->json('notes');
             $table->timestamps(); // Automatically creates created_at and updated_at
             $table->softDeletes();
