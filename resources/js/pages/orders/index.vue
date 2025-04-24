@@ -104,9 +104,8 @@ function toggleDropdownDelivery() {
                                             <label for="create" class="ml-2">Create</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="in-progress" name="status" value="In Progress"
-                                                checked class="accent-[#167893]">
-                                            <label for="in-progress" class="ml-2 text-[#167893]">In Progress</label><br>
+                                            <input type="radio" id="in-progress" name="status" value="In Progress">
+                                            <label for="in-progress" class="ml-2 text-black">In Progress</label><br>
                                         </div>
                                         <div>
                                             <input type="radio" id="trial-done" name="status" value="Trial Done">
@@ -148,9 +147,8 @@ function toggleDropdownDelivery() {
                                 <li>
                                     <div class="flex flex-col ml-2 gap-1 text-black ml-2">
                                         <div>
-                                            <input type="radio" id="Within-7-Days" name="status" value="Within 7 Days"
-                                                class="accent-[#167893]" checked>
-                                            <label for="Within-7-Days" class="ml-2 text-[#167893]">Within 7
+                                            <input type="radio" id="Within-7-Days" name="status" value="Within 7 Days">
+                                            <label for="Within-7-Days" class="ml-2 text-black">Within 7
                                                 Days</label><br>
                                         </div>
                                         <div>
@@ -185,3 +183,18 @@ function toggleDropdownDelivery() {
         </div>
     </AppLayout>
 </template>
+
+<style scoped>
+input[type="radio"]:active+label {
+    color: #167893;
+
+}
+
+input[type="radio"]:checked+label {
+    color: #167893;
+ 
+}
+input[type=radio] {
+  accent-color: #167893;
+}
+</style>
