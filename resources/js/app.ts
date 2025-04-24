@@ -7,6 +7,7 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import VueApexCharts from "vue3-apexcharts";
+import vueDebounce from 'vue-debounce'
 
 
 // Extend ImportMeta interface for Vite...
@@ -32,6 +33,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(VueApexCharts)
+            .directive('debounce', vueDebounce({ lock: true }))
             .mount(el);
     },
     progress: {
