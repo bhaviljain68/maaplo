@@ -23,7 +23,7 @@ class ImageHelper
         try {
             $timestamp = time();
             $fileName = "{$label}_{$timestamp}.webp";
-            $folderPath = "storage/{$username}_{$userId}/{$customerName}_{$customerId}";
+            $folderPath = "customers/{$username}_{$userId}/{$customerName}_{$customerId}/images";
             $fullPath = "{$folderPath}/{$fileName}";
 
             // Define storage path

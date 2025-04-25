@@ -36,10 +36,11 @@ class CustomerController extends Controller
     // Store a newly created customer in storage
     public function store(Request $request)
     {
+        // dd( $request);
         try {
             $user_id = auth()->id();
             $user = User::findOrFail($user_id);
-
+            // dd($user);
             if ($request->has('notes') && is_string($request->notes)) {
                 $request->merge([
                     'notes' => json_decode($request->notes, true),
@@ -47,7 +48,7 @@ class CustomerController extends Controller
             }
 
             $validated = $request->validate([
-                'user_id' => 'required|exists:users,id',
+                'user_id' => 'nullable|exists:users,id',
                 'name' => 'required|string|max:255',
                 'gender' => 'required|in:m,f,o',
                 'phone' => 'required|regex:/^[0-9]{10}$/',
@@ -73,7 +74,7 @@ class CustomerController extends Controller
 
             // First, create the customer to get the customer ID
             $customer = Customer::create([
-                'user_id' => $user_id,
+                // 'user_id' => $user_id,
                 'name' => $validated['name'],
                 'gender' => $validated['gender'],
                 'phone' => $validated['phone'],
@@ -134,7 +135,7 @@ class CustomerController extends Controller
             return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Customer creation failed: ' . $e->getMessage());
+            dd('Customer creation failed: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'There was an error: ' . $e->getMessage());
         }
     }
@@ -143,15 +144,29 @@ class CustomerController extends Controller
     // Show the form for editing the specified customer
     public function edit($id)
     {
+
         $customer = Customer::findOrFail($id);
         $addressData = json_decode($customer->address, true);
+
+        // Get the customer photos (face image and full-body image)
+        $photos = CustomerPhoto::where('customer_id', $customer->id)->get();
+
+        // Find the specific images
+        $faceImage = $photos->where('label', 'Faceimage')->first();
+        $fullBodyImage = $photos->where('label', 'Fullbody')->first();
+
         return Inertia::render('customer/edit', [
             'customer' => array_merge(
                 $customer->toArray(),
-                ['gender' => $customer->getAttributes()['gender']]
+                ['gender' => $customer->getAttributes()['gender']],
+                [
+                    'face_image' => $faceImage ? $faceImage->image_url : null,
+                    'full_body_image' => $fullBodyImage ? $fullBodyImage->image_url : null
+                ]
             )
         ]);
     }
+
 
     // Update the specified customer in storage
     public function update(Request $request, $id)

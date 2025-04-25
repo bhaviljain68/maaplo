@@ -12,11 +12,11 @@ const props = defineProps<{
         address: string;
         gender: string;
         payment_due?: number;
+        face_image?: string;
+        full_body_image?: string;
     }
 }>();
 
-
-console.log('Gender:', props.customer.gender);
 const form = useForm({
     name: props.customer.name,
     email: props.customer.email,
@@ -24,7 +24,11 @@ const form = useForm({
     address: props.customer.address,
     gender: props.customer.gender,
     payment_due: props.customer.payment_due,
+    half_image: null,
+    full_image: null,
 });
+
+
 
 const updateCustomer = () => {
     form.put(route('customers.update', props.customer.id));
@@ -34,6 +38,7 @@ const updateCustomer = () => {
 </script>
 
 <template>
+
     <Head title="Costomer" />
     <AppLayout>
         <div class="px-4 py-8 max-w-6xl mx-auto">
@@ -74,6 +79,7 @@ const updateCustomer = () => {
                 </div>
 
 
+
                 <!-- Address -->
                 <div class="md:col-span-2">
                     <label class="bblock font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Address</label>
@@ -108,6 +114,22 @@ const updateCustomer = () => {
                     </div>
                     <div v-if="form.errors.gender" class="text-red-600 text-sm mt-1">
                         {{ form.errors.gender }}
+                    </div>
+                </div>
+
+                <!-- Customer Images -->
+                <div class="mb-6">
+                    <div >
+                        <h2>Face Image:</h2>
+                        <img :src="customer.face_image" alt="Face Image"
+                            class="max-w-[300px] max-h-[300px] object-cover" />
+                    </div>
+                    <p>{{ customer.face_image }}</p>
+                    <p>{{ customer.full_body_image }}</p>
+                    <div >
+                        <h2>Full Body Image:</h2>
+                        <img :src="customer.full_body_image" alt="Full Body Image"
+                            class="max-w-[300px] max-h-[300px] object-cover" />
                     </div>
                 </div>
 

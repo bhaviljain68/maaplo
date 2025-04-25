@@ -10,7 +10,6 @@ const props = defineProps({
         required: true
     }
 });
-console.log('customer data', props);
 const showDropdown = ref(false);
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
