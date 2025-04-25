@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->string('organization_logo')->nullable();
             $table->string('subscription_plan')->default("free");
             $table->string('validity')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });
