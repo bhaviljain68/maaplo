@@ -27,9 +27,7 @@ class CustomerController extends Controller
     // Show the form for creating a new customer
     public function create()
     {
-        // Get the authenticated user's ID
         $user_id = auth()->id();
-        // Pass the user_id to the Inertia view
         return Inertia::render('customer/create', [
             'user_id' => $user_id,
         ]);
@@ -66,6 +64,13 @@ class CustomerController extends Controller
             $username = preg_replace('/\s+/', '_', strtolower($user->name));
             $customerName = preg_replace('/\s+/', '_', strtolower($validated['name']));
 
+            // Handle address properly
+            $address = $validated['address'];
+            // Only wrap the address in a JSON object
+            $addressJson = json_encode(['value' => $address]);
+            // dd($addressJson);
+
+
             // First, create the customer to get the customer ID
             $customer = Customer::create([
                 'user_id' => $user_id,
@@ -74,7 +79,7 @@ class CustomerController extends Controller
                 'phone' => $validated['phone'],
                 'email' => $validated['email'],
                 'dob' => $validated['dob'] ?? null,
-                'address' => json_encode(['value' => $validated['address']]),
+                'address' => $addressJson,
                 'notes' => json_encode($validated['notes']),
             ]);
 
@@ -141,7 +146,10 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
         $addressData = json_decode($customer->address, true);
         return Inertia::render('customer/edit', [
-            'customer' => $customer
+            'customer' => array_merge(
+                $customer->toArray(),
+                ['gender' => $customer->getAttributes()['gender']]
+            )
         ]);
     }
 
