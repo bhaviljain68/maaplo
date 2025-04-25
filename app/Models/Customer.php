@@ -44,10 +44,15 @@ class Customer extends Model
         );
     }
 
-//    Relations
+    //    Relations
     public function photos()
     {
         $this->hasMany(CustomerPhoto::class, 'customer_id', 'id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     protected static function booted()
