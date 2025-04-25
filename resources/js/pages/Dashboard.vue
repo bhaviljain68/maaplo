@@ -1,27 +1,22 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 import Chart from '@/components/Chart.vue';
-
 </script>
 
 <template>
 
     <Head title="Dashboard" />
-
     <AppLayout>
-
         <div class="mx-auto max-w-7xl px-4 py-8 w-full">
             <h1 class="text-[24px] leading-[16px] font-bold tracking-[0] text-gray-800 font-[Convergence]">Total Orders
             </h1>
+            <!-- Graph Section Header with Filter Dropdown -->
             <div class="flex flex-row justify-between mt-8">
                 <div>
                     <h1 class="font-normal text-[20px] leading-[16px] tracking-[0] font-[Convergence]">Graph</h1>
                 </div>
-
                 <div class="relative inline-block text-left w-26">
                     <select
                         class="block w-full appearance-none border-none px-4 py-2 pr-8 text-[20px] leading-[16px] font-medium tracking-[0] focus:outline-none focus:ring-1 focus:ring-indigo-500 font-[Inter]">
@@ -37,6 +32,7 @@ import Chart from '@/components/Chart.vue';
                     </div>
                 </div>
             </div>
+            <!-- Column Labels for Chart -->
             <div class="flex flex-row justify-between mt-5">
                 <div>
                     <h1 class="font-[Lato] font-medium text-[16px] leading-[16px] tracking-[0] text-[#167893]">Order
@@ -50,12 +46,12 @@ import Chart from '@/components/Chart.vue';
                 </div>
             </div>
 
-            <!-- call chart component -->
+            <!-- Chart Component Section -->
             <div>
                 <Chart />
             </div>
 
-            <!-- Quick Links -->
+            <!-- Quick Links Section -->
             <div class="mt-10 flex gap-4 flex-col">
                 <div>
                     <h1 class="font-[Convergence] font-normal text-[24px] tracking-[0]">
@@ -75,11 +71,11 @@ import Chart from '@/components/Chart.vue';
                 </div>
             </div>
 
-            <!-- Data  -->
+            <!-- Data Section Links -->
             <div class="mt-10 flex gap-4 flex-col">
                 <div>
                     <h1 class="font-[Convergence] font-normal text-[24px] tracking-[0]">
-                        Data 
+                        Data
                     </h1>
                 </div>
                 <div>
@@ -90,7 +86,7 @@ import Chart from '@/components/Chart.vue';
                 <div>
                     <a class="font-[Lato] font-normal text-[16px] tracking-[0]">Order List</a>
                 </div>
-               
+
             </div>
         </div>
 
