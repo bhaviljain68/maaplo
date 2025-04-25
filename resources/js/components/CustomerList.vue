@@ -57,7 +57,7 @@ function toggleDropdown() {
                     </div>
                 </li>
                 <li>
-                    <div class="flex flex-row ml-">
+                    <div class="flex flex-row ml-1">
                         <Icon icon="mdi:location" width="24" height="24" class="mr-1" />
                         <a href="#" class="block text-black">{{ props.customer.address }}</a>
                     </div>

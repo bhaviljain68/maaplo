@@ -125,7 +125,7 @@ const visible = ref(false);
                             <Icon v-if="showDropdown == false" icon="icon-park-outline:down" width="20" height="20"
                                 class="mt-[12px]" />
                             <Icon v-if="showDropdown == true" icon="icon-park-outline:up" width="20" height="20"
-                                class="mt-[5px]" />
+                                class="mt-[12px]" />
                         </div>
                         <!-- Dropdown -->
                         <div v-show="showDropdown" class="mt-2 z-10 ml-5">
