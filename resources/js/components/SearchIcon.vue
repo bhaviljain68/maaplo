@@ -4,7 +4,8 @@ import { Icon } from '@iconify/vue';
 const props = defineProps({
     showable: {
         type: Object,
-        default: () => ({ showSearch: false, showFilter: false })
+
+        // default: () => ({ showSearch: false, showFilter: false })
     }
 });
 const emit = defineEmits(['hideOrShow']);
@@ -16,7 +17,8 @@ const emit = defineEmits(['hideOrShow']);
         <!-- Search Icon -->
         <div>
             <Icon icon="material-symbols:search" width="32" height="32" class="mt-1 cursor-pointer "
-                @click="emit('hideOrShow', 'search')" />
+                @click="props.showable.showSearch = !props.showable.showSearch" />
         </div>
+        <!-- @click="emit('hideOrShow', 'search')" -->
     </div>
 </template>

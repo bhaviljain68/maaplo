@@ -5,6 +5,10 @@ import SearchList from '@/components/SearchIcon.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
 import { Link } from '@inertiajs/vue3';
+import { reactive } from 'vue';
+const showable = reactive({
+    showSearch: false
+});
 const props = defineProps<{
     customers: Array<{
         id: number,
@@ -29,7 +33,7 @@ const props = defineProps<{
                 </div>
                 <div class="flex gap-4 text-gray-600">
                     <div>
-                        <SearchList />
+                        <SearchList :showable="showable" />
                     </div>
                     <div class="mx-auto max-w-7xl w-full">
                         <!-- add customer details -->
@@ -39,7 +43,14 @@ const props = defineProps<{
                             </Link>
                         </div>
                     </div>
+
                 </div>
+
+            </div>
+            <!-- search input -->
+            <div class="mb-10" v-if="showable.showSearch">
+                <input type="text" placeholder="Search..."
+                    class="w-full lg:max-w-7xl border border-gray-300 rounded-full px-4 py-3 text-sm shadow-[0px_0px_4.3px_0px_#16789333] focus:outline-none focus:ring focus:border-gray-400 transition-all" />
             </div>
             <div>
                 <CustomerList v-for="customer in props.customers" :key="customer.id" :customer="customer" />
