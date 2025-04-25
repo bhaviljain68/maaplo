@@ -17,7 +17,6 @@ class CustomerController extends Controller
     // Display a listing of the customers
     public function index()
     {
-
         $customers = Customer::all();
         return Inertia::render('customer/index', [
             'customers' => $customers
@@ -36,11 +35,9 @@ class CustomerController extends Controller
     // Store a newly created customer in storage
     public function store(Request $request)
     {
-        // dd( $request);
         try {
             $user_id = auth()->id();
             $user = User::findOrFail($user_id);
-            // dd($user);
             if ($request->has('notes') && is_string($request->notes)) {
                 $request->merge([
                     'notes' => json_decode($request->notes, true),
@@ -69,8 +66,6 @@ class CustomerController extends Controller
             $address = $validated['address'];
             // Only wrap the address in a JSON object
             $addressJson = json_encode(['value' => $address]);
-            // dd($addressJson);
-
 
             // First, create the customer to get the customer ID
             $customer = Customer::create([
@@ -92,7 +87,7 @@ class CustomerController extends Controller
             if ($request->hasFile('half_image')) {
                 $halfImagePath = ImageHelper::imageProccess(
                     $request->file('half_image'),
-                    $customerId,  // Pass customer ID here
+                    $customerId,
                     $username,
                     $user_id,
                     $customerName,
@@ -105,7 +100,7 @@ class CustomerController extends Controller
             if ($request->hasFile('full_image')) {
                 $fullImagePath = ImageHelper::imageProccess(
                     $request->file('full_image'),
-                    $customerId,  // Pass customer ID here
+                    $customerId,
                     $username,
                     $user_id,
                     $customerName,
@@ -139,14 +134,10 @@ class CustomerController extends Controller
             return redirect()->back()->withInput()->with('error', 'There was an error: ' . $e->getMessage());
         }
     }
-
-
     // Show the form for editing the specified customer
     public function edit($id)
     {
-
         $customer = Customer::findOrFail($id);
-        $addressData = json_decode($customer->address, true);
 
         // Get the customer photos (face image and full-body image)
         $photos = CustomerPhoto::where('customer_id', $customer->id)->get();
@@ -171,18 +162,73 @@ class CustomerController extends Controller
     // Update the specified customer in storage
     public function update(Request $request, $id)
     {
-        $customer = Customer::findOrFail($id);
+        // dd($request, $id);
+        try {
+            // dd($request);
+            $customer = Customer::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:customers,email,' . $id,
-            'phone' => 'nullable|string|max:15',
-            'address' => 'nullable|string',
-        ]);
+            $validated = $request->validate([
+                'name' => 'string|max:255',
+                'email' => 'email|unique:customers,email,' . $id,
+                'phone' => 'string|max:10',
+                'gender' => 'in:m,f,o',
+                'address' => 'string',
+                'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
 
-        $customer->update($validated);
+            // Update the base customer fields
+            $customer->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'gender' => $validated['gender'],
+                'phone' => $validated['phone'],
+                'address' => json_encode(['value' => $validated['address']]), // keep consistent format
+            ]);
 
-        return redirect()->route('customer.index');
+            // Handle images
+            $user = auth()->user();
+            $username = preg_replace('/\s+/', '_', strtolower($user->name));
+            $customerName = preg_replace('/\s+/', '_', strtolower($validated['name']));
+
+            if ($request->hasFile('half_image')) {
+                $halfImagePath = ImageHelper::imageProccess(
+                    $request->file('half_image'),
+                    $customer->id,
+                    $username,
+                    $user->id,
+                    $customerName,
+                    'faceimage'
+                );
+
+                CustomerPhoto::updateOrCreate(
+                    ['customer_id' => $customer->id, 'label' => 'Faceimage'],
+                    ['image_url' => $halfImagePath]
+                );
+            }
+
+            if ($request->hasFile('full_image')) {
+                $fullImagePath = ImageHelper::imageProccess(
+                    $request->file('full_image'),
+                    $customer->id,
+                    $username,
+                    $user->id,
+                    $customerName,
+                    'fullbody'
+                );
+
+                CustomerPhoto::updateOrCreate(
+                    ['customer_id' => $customer->id, 'label' => 'Fullbody'],
+                    ['image_url' => $fullImagePath]
+                );
+            }
+
+            return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd('Customer update failed: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'There was an error updating the customer: ' . $e->getMessage());
+        }
     }
 
     // Remove the specified customer from storage
