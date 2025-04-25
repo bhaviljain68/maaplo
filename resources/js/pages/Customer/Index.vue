@@ -5,10 +5,12 @@ import SearchList from '@/components/SearchIcon.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
 import { Link } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 const showable = reactive({
     showSearch: false
 });
+const searchTerm = ref('');
+
 const props = defineProps<{
     customers: Array<{
         id: number,
@@ -21,6 +23,12 @@ const props = defineProps<{
         payment_due?: number
     }>
 }>();
+// search function
+// debounce the function to avoid too many calls
+function myFn(val: string) {
+    searchTerm.value = val
+    console.log('Searching  brj:', val)
+}
 </script>
 <template>
     <AppLayout>
@@ -49,7 +57,7 @@ const props = defineProps<{
             </div>
             <!-- search input -->
             <div class="mb-10" v-if="showable.showSearch">
-                <input type="text" placeholder="Search..."
+                <input type="text" v-debounce:400ms="myFn" placeholder="Search..."
                     class="w-full lg:max-w-7xl border border-gray-300 rounded-full px-4 py-3 text-sm shadow-[0px_0px_4.3px_0px_#16789333] focus:outline-none focus:ring focus:border-gray-400 transition-all" />
             </div>
             <div>

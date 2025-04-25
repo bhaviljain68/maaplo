@@ -104,19 +104,23 @@ function toggleDropdownDelivery() {
                                 <li>
                                     <div class="flex flex-col ml-2 gap-1 text-black ml-2">
                                         <div>
-                                            <input type="radio" id="create" name="status" value="Create" v-model="selectedStatus">
+                                            <input type="radio" id="create" name="status" value="Create"
+                                                v-model="selectedStatus">
                                             <label for="create" class="ml-2">Create</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="in-progress" name="status" value="In Progress" v-model="selectedStatus">
+                                            <input type="radio" id="in-progress" name="status" value="In Progress"
+                                                v-model="selectedStatus">
                                             <label for="in-progress" class="ml-2 text-black">In Progress</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="trial-done" name="status" value="Trial Done" v-model="selectedStatus">
+                                            <input type="radio" id="trial-done" name="status" value="Trial Done"
+                                                v-model="selectedStatus">
                                             <label for="trial-done" class="ml-2">Trial Done</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="in-alteration" name="status" value="In Alteration" v-model="selectedStatus">
+                                            <input type="radio" id="in-alteration" name="status" value="In Alteration"
+                                                v-model="selectedStatus">
                                             <label for="in-alteration" class="ml-2">In Alteration</label><br>
                                         </div>
                                         <div>
@@ -125,7 +129,8 @@ function toggleDropdownDelivery() {
                                             <label for="ready-for-delivery" class="ml-2">Ready for Delivery</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="delivered" name="status" value="Delivered" v-model="selectedStatus">
+                                            <input type="radio" id="delivered" name="status" value="Delivered"
+                                                v-model="selectedStatus">
                                             <label for="delivered" class="ml-2">Delivered</label><br>
                                         </div>
                                     </div>
@@ -151,20 +156,24 @@ function toggleDropdownDelivery() {
                                 <li>
                                     <div class="flex flex-col ml-2 gap-1 text-black ml-2">
                                         <div>
-                                            <input type="radio" id="Within-7-Days" name="status" value="Within 7 Days" v-model="selectedDelivery">
+                                            <input type="radio" id="Within-7-Days" name="status" value="Within 7 Days"
+                                                v-model="selectedDelivery">
                                             <label for="Within-7-Days" class="ml-2 text-black">Within 7
                                                 Days</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="7-15-Days" name="status" value="7-15 Days" v-model="selectedDelivery">
+                                            <input type="radio" id="7-15-Days" name="status" value="7-15 Days"
+                                                v-model="selectedDelivery">
                                             <label for="7-15-Days" class="ml-2">7-15 Days</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="Overdue" name="status" value="Overdue" v-model="selectedDelivery">
+                                            <input type="radio" id="Overdue" name="status" value="Overdue"
+                                                v-model="selectedDelivery">
                                             <label for="Overdue" class="ml-2">Overdue</label><br>
                                         </div>
                                         <div>
-                                            <input type="radio" id="One-Month" name="status" value="One Month" v-model="selectedDelivery">
+                                            <input type="radio" id="One-Month" name="status" value="One Month"
+                                                v-model="selectedDelivery">
                                             <label for="One-Month" class="ml-2">One Month</label><br>
                                         </div>
                                     </div>
