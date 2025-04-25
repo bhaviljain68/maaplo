@@ -15,6 +15,8 @@ const props = defineProps<{
     }
 }>();
 
+
+console.log('Gender:', props.customer.gender);
 const form = useForm({
     name: props.customer.name,
     email: props.customer.email,
@@ -27,6 +29,8 @@ const form = useForm({
 const updateCustomer = () => {
     form.put(route('customers.update', props.customer.id));
 };
+
+
 </script>
 
 <template>
