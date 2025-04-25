@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm, Link, Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
@@ -12,8 +13,8 @@ const props = defineProps<{
         address: string;
         gender: string;
         payment_due?: number;
-        face_image?: string;
-        full_body_image?: string;
+        face_image: string;
+        full_body_image: string;
     }
 }>();
 
@@ -28,13 +29,55 @@ const form = useForm({
     full_image: null,
 });
 
+// Image preview refs
+const faceImagePreview = ref<string | null>(null);
+const fullBodyImagePreview = ref<string | null>(null);
 
+// Computed URLs for displaying current or preview images
+const faceImageUrl = computed(() => {
+    return faceImagePreview.value
+        ? faceImagePreview.value
+        : `/storage/${props.customer.face_image?.replace(/^storage\//, '')}`;
+});
 
-const updateCustomer = () => {
-    form.put(route('customers.update', props.customer.id));
+const fullBodyImageUrl = computed(() => {
+    return fullBodyImagePreview.value
+        ? fullBodyImagePreview.value
+        : `/storage/${props.customer.full_body_image?.replace(/^storage\//, '')}`;
+});
+
+// Handlers to update form images and preview
+const handleFaceImageChange = (event: Event) => {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+        form.half_image = file;
+        faceImagePreview.value = URL.createObjectURL(file);
+    }
 };
 
+const handleFullBodyImageChange = (event: Event) => {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+        form.full_image = file;
+        fullBodyImagePreview.value = URL.createObjectURL(file);
+    }
+};
 
+const updateCustomer = () => {
+    form.transform((data) => ({
+        ...data,
+        _method: 'put',
+    }))
+    .post(route('customers.update', props.customer.id), {
+        onSuccess: () => {
+            alert('Customer updated successfully!');
+        },
+        onError: (errors) => {
+            console.error('Failed to update customer:', errors);
+            alert('An error occurred while updating the customer. Please check the form and try again.');
+        },
+    });
+};
 </script>
 
 <template>
@@ -78,8 +121,6 @@ const updateCustomer = () => {
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
                 </div>
 
-
-
                 <!-- Address -->
                 <div class="md:col-span-2">
                     <label class="bblock font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Address</label>
@@ -112,24 +153,37 @@ const updateCustomer = () => {
                             <span>Other</span>
                         </label>
                     </div>
-                    <div v-if="form.errors.gender" class="text-red-600 text-sm mt-1">
-                        {{ form.errors.gender }}
-                    </div>
+
                 </div>
 
                 <!-- Customer Images -->
-                <div class="mb-6">
-                    <div >
-                        <h2>Face Image:</h2>
-                        <img :src="customer.face_image" alt="Face Image"
-                            class="max-w-[300px] max-h-[300px] object-cover" />
+                <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Face Image -->
+                    <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-3">Face Image</h2>
+                        <div
+                            class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
+                            <img :src="faceImageUrl"  alt="Face Image" class="object-cover h-full w-full" />
+                        </div>
+                        <label class="mt-4 block">
+                            <span class="text-sm text-gray-600">Upload new image</span>
+                            <input type="file" @change="handleFaceImageChange"
+                                class="block w-full text-sm text-gray-500 mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
+                        </label>
                     </div>
-                    <p>{{ customer.face_image }}</p>
-                    <p>{{ customer.full_body_image }}</p>
-                    <div >
-                        <h2>Full Body Image:</h2>
-                        <img :src="customer.full_body_image" alt="Full Body Image"
-                            class="max-w-[300px] max-h-[300px] object-cover" />
+
+                    <!-- Full Body Image -->
+                    <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-3">Full Body Image</h2>
+                        <div
+                            class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
+                            <img :src="fullBodyImageUrl" alt="Full Body Image" class="object-cover h-full w-full" />
+                        </div>
+                        <label class="mt-4 block">
+                            <span class="text-sm text-gray-600">Upload new image</span>
+                            <input type="file"  @change="handleFullBodyImageChange"
+                                class="block w-full text-sm text-gray-500 mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
+                        </label>
                     </div>
                 </div>
 
