@@ -1,13 +1,17 @@
 <script setup>
 import AppLayout from '@/layouts/AppLayout.vue';
+const props = defineProps(["users","customers"])
+
 
 </script>
 
 <template>
     <AppLayout>
         <div class="lg:mx-auto p-4">
-            <!-- Add your content here -->
-        this is a create Order Page!
+        <pre>
+            {{ props.users }}
+            {{ props.customers }}
+        </pre>
         </div>
     </AppLayout>
 </template>

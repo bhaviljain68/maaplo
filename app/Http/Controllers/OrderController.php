@@ -15,7 +15,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Inertia::render('orders/index', ["orders" => Order::all()]);
+        $orders = Order::all();
+        
+        return Inertia::render('orders/index', ["orders" => $orders]);
     }
 
     /**
@@ -23,7 +25,13 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return Inertia::render('orders/create');
+        // Fetch all users and customers to populate the select options
+        $users = \App\Models\User::all();
+        $customers = \App\Models\Customer::all();
+        return Inertia::render('orders/create',[
+            'users' => $users,
+            'customers' => $customers
+        ]);
     }
 
     /**

@@ -26,4 +26,9 @@ class Order extends Model
         'notes',
     ];
 
+    // relations
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }
