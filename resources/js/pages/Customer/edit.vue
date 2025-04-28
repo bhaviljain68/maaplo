@@ -68,15 +68,15 @@ const updateCustomer = () => {
         ...data,
         _method: 'put',
     }))
-    .post(route('customers.update', props.customer.id), {
-        onSuccess: () => {
-            alert('Customer updated successfully!');
-        },
-        onError: (errors) => {
-            console.error('Failed to update customer:', errors);
-            alert('An error occurred while updating the customer. Please check the form and try again.');
-        },
-    });
+        .post(route('customers.update', props.customer.id), {
+            onSuccess: () => {
+                alert('Customer updated successfully!');
+            },
+            onError: (errors) => {
+                console.error('Failed to update customer:', errors);
+                alert('An error occurred while updating the customer. Please check the form and try again.');
+            },
+        });
 };
 </script>
 
@@ -163,7 +163,7 @@ const updateCustomer = () => {
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">Face Image</h2>
                         <div
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
-                            <img :src="faceImageUrl"  alt="Face Image" class="object-cover h-full w-full" />
+                            <img :src="faceImageUrl" alt="Face Image" class="object-cover h-full w-full" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
@@ -174,14 +174,14 @@ const updateCustomer = () => {
 
                     <!-- Full Body Image -->
                     <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-3">Full Body Image</h2>
+                        <h2 class="text-lg font-semibold text-gray-800 mb-3">Full Image</h2>
                         <div
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
                             <img :src="fullBodyImageUrl" alt="Full Body Image" class="object-cover h-full w-full" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
-                            <input type="file"  @change="handleFullBodyImageChange"
+                            <input type="file" @change="handleFullBodyImageChange"
                                 class="block w-full text-sm text-gray-500 mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
                         </label>
                     </div>
@@ -189,7 +189,7 @@ const updateCustomer = () => {
 
                 <!-- Update Button-->
                 <div class="md:col-span-3">
-                    <button type="submit" class="rounded-full p-3 text-white w-full bg-[#167893] mt-4"
+                    <button type="submit" class="rounded-full p-3 text-white w-full bg-[#167893] mt-0 md:mt-4"
                         :disabled="form.processing">
                         Update Customer
                     </button>
