@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('label');
             $table->softDeletes();
             $table->timestamps();
-            $table->softDeletes();
         });
 
     }

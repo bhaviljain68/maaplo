@@ -42,7 +42,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => Carbon::parse($this->email_verified_at)->format("DD M YYYY HH:mm:ss"),
+            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
