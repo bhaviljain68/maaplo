@@ -12,12 +12,12 @@ const props = defineProps<{
         phone: string;
         address: string;
         gender: string;
+        notes: Array<{ label: string; text: string }>;
         payment_due?: number;
         face_image: string;
         full_body_image: string;
     }
 }>();
-
 const form = useForm({
     name: props.customer.name,
     email: props.customer.email,
@@ -27,6 +27,7 @@ const form = useForm({
     payment_due: props.customer.payment_due,
     half_image: null,
     full_image: null,
+    notes: props.customer.notes.length > 0 ? props.customer.notes : [{ label: '', text: '' }],
 });
 
 // Image preview refs
@@ -64,6 +65,7 @@ const handleFullBodyImageChange = (event: Event) => {
 };
 
 const updateCustomer = () => {
+    if (!validateNotes()) return;
     form.transform((data) => ({
         ...data,
         _method: 'put',
@@ -77,6 +79,24 @@ const updateCustomer = () => {
                 alert('An error occurred while updating the customer. Please check the form and try again.');
             },
         });
+};
+
+const noteErrors = ref<string | null>(null);
+
+const addNote = () => {
+    form.notes.push({ label: '', text: '' });
+};
+
+const removeNote = (index: number) => {
+    form.notes.splice(index, 1);
+};
+
+const validateNotes = () => {
+    const isValid = form.notes.length > 0 && form.notes.every(
+        note => note.label.trim() !== '' && note.text.trim() !== ''
+    );
+    noteErrors.value = isValid ? null : 'All notes must have a label and text.';
+    return isValid;
 };
 </script>
 
@@ -154,6 +174,44 @@ const updateCustomer = () => {
                         </label>
                     </div>
 
+                </div>
+                <!-- Notes Section -->
+                <div class="notes-section">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block font-[Lato] text-[18px]">Notes <span class="text-red-500">*</span></label>
+
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm text-gray-600">Total: {{ form.notes.length }}</span>
+                            <button type="button" @click="addNote"
+                                class="flex items-center text-green-500 hover:text-green-600 transition">
+                                <Icon icon="mdi:plus-circle-outline" width="20" height="20" class="mr-1" />
+                                <span class="text-sm font-medium">Add Note</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div v-for="(note, index) in form.notes" :key="index" class="mb-4 flex gap-4 items-start">
+                        <div class="w-full">
+                            <label class="block text-sm mb-1">Label</label>
+                            <input type="text" placeholder="Write your Label..." v-model="note.label"
+                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" />
+                            <label class="block text-sm mt-2 mb-1">Note</label>
+                            <textarea v-model="note.text"
+                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" rows="2"
+                                placeholder="Write your note..."></textarea>
+                        </div>
+
+                        <!-- Remove note button -->
+                        <div class="flex items-center pt-6" v-if="form.notes.length > 1">
+                            <button type="button" @click="removeNote(index)"
+                                class="flex items-center text-red-500 hover:text-red-600 transition">
+                                <Icon icon="mdi:minus-circle-outline" width="24" height="24" class="mr-1" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Validation error -->
+                    <div v-if="noteErrors" class="text-red-600 text-sm mt-1">{{ noteErrors }}</div>
                 </div>
 
                 <!-- Customer Images -->
