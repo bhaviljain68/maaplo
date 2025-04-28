@@ -78,14 +78,16 @@ class Customer extends Model
     {
         // When a Project is soft-deleted
         static::deleting(function ($customer): void {
-            if (!$customer->isForceDeleting()) {
+            if (!$customer&& !$customer->isForceDeleting()) {
                 $customer->photos()->delete();
             }
         });
 
         // When a Project is restored
         static::restoring(function ($customer): void {
-            $customer->photos()->withTrashed()->restore();
+            if ($customer) {
+                $customer->photos()->withTrashed()->restore();
+            }
         });
     }
 }
