@@ -26,9 +26,8 @@ export default {
 </script>
 
 <template>
-    <div class="example border border-[#167893] mt-8 p-1 lg:p-4 lg:h-[400px] h-[200px]">
+    <div class="z-10 example rounded-lg border border-[#167893] mt-8 p-1 lg:p-4 lg:h-[400px] h-[200px]">
         <apexcharts height="100%" type="line" :options="chartOptions" :series="series"></apexcharts>
     </div>
-
 
 </template>
