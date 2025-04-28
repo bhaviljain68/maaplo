@@ -3,6 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import Chart from '@/components/Chart.vue';
+import { Link } from "@inertiajs/vue3";
 </script>
 
 <template>
@@ -59,12 +60,13 @@ import Chart from '@/components/Chart.vue';
                     </h1>
                 </div>
                 <div>
-                    <a class="font-[Lato] font-normal text-[16px] tracking-[0]">
-                        Create Customer
-                    </a>
+                    <Link :href="route('customers.create')" class="font-[Lato] font-normal text-[16px] tracking-[0]">
+                    Create Customer
+                    </Link>
                 </div>
                 <div>
-                    <a class="font-[Lato] font-normal text-[16px] tracking-[0]">Create Order</a>
+                    <Link :href="route('orders.create')" class="font-[Lato] font-normal text-[16px] tracking-[0]">Create
+                    Order</Link>
                 </div>
                 <div>
                     <a class="font-[Lato] font-normal text-[16px] tracking-[0]">Close Order</a>
@@ -79,12 +81,13 @@ import Chart from '@/components/Chart.vue';
                     </h1>
                 </div>
                 <div>
-                    <a class="font-[Lato] font-normal text-[16px] tracking-[0]">
-                        Customer List
-                    </a>
+                    <Link :href="route('customers.index')" class="font-[Lato] font-normal text-[16px] tracking-[0]">
+                    Customer List
+                    </Link>
                 </div>
                 <div>
-                    <a class="font-[Lato] font-normal text-[16px] tracking-[0]">Order List</a>
+                    <Link :href="route('orders.index')" class="font-[Lato] font-normal text-[16px] tracking-[0]">Order
+                    List</Link>
                 </div>
 
             </div>
