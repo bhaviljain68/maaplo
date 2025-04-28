@@ -1,70 +1,15 @@
-<!-- <script setup lang="ts">
-import NavFooter from '@/components/NavFooter.vue';
-import NavMain from '@/components/NavMain.vue';
-import NavUser from '@/components/NavUser.vue';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
-import AppLogo from './AppLogo.vue';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
-    },
-];
-</script>
-
-<template>
-    <Sidebar collapsible="icon" variant="inset">
-        <SidebarHeader>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <SidebarMenuButton size="lg" as-child>
-                        <Link :href="route('dashboard')">
-                            <AppLogo />
-                        </Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
-        </SidebarHeader>
-
-        <SidebarContent>
-            <NavMain :items="mainNavItems" />
-        </SidebarContent>
-
-        <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
-            <NavUser />
-        </SidebarFooter>
-    </Sidebar>
-    <slot />
-</template> -->
-
 <script setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import { Link } from "@inertiajs/vue3";
 const showDropdown = ref(false);
+const showDropdownCustomer = ref(false);
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
-
+function toggleDropdownCustomer() {
+    showDropdownCustomer.value = !showDropdownCustomer.value;
+}
 const visible = ref(false);
 </script>
 
@@ -108,16 +53,44 @@ const visible = ref(false);
                         </a>
                     </li>
                     <li>
-                        <a href="/customers" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black">
-                            <Icon icon="mdi:user" width="22" height="22" />
-                            <span
-                                class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Customer</span>
-                        </a>
+                        <div @click="toggleDropdownCustomer()" class="flex hover:bg-gray-100 text-black">
+                            <Link class="flex items-center p-2 rounded ">
+                            <Icon icon="lets-icons:order-fill" width="24" height="24" />
+                            <span class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Customer
+                            </span>
+                            </Link>
+                            <Icon v-if="showDropdownCustomer == false" icon="icon-park-outline:down" width="20"
+                                height="20" class="mt-[12px]" />
+                            <Icon v-if="showDropdownCustomer == true" icon="icon-park-outline:up" width="20" height="20"
+                                class="mt-[12px]" />
+                        </div>
+                        <!-- Dropdown -->
+                        <div v-show="showDropdownCustomer" class="mt-2 z-10 ml-5">
+                            <ul class="ml-8 list-disc list-insid font-inter font-medium text-[16px] leading-[16px] tracking-[0]"
+                                aria-labelledby="dropdownTrigger">
+
+                                <li>
+                                    <div class="flex flex-row">
+                                        <Link :href="route('customers.index')" class="text-black">
+                                        All Customers
+                                        </Link>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="flex flex-row py-2 mt-2">
+                                        <Link :href="route('customers.create')" class="block text-black">Create
+                                        Customers
+                                        </Link>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
                     </li>
                     <li>
                         <div @click="toggleDropdown()" class="flex hover:bg-gray-100 text-black">
-                            <Link :href="route('orders.index')" @click="visible = false"
+                            <Link @click="visible = false"
                                 class="flex items-center p-2 rounded ">
                             <Icon icon="lets-icons:order-fill" width="24" height="24" />
                             <span
