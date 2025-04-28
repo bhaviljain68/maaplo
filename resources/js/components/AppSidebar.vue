@@ -117,10 +117,11 @@ const visible = ref(false);
                     </li>
                     <li>
                         <div @click="toggleDropdown()" class="flex hover:bg-gray-100 text-black">
-                            <Link :href="route('orders.index')" @click="visible = false" class="flex items-center p-2 rounded ">
-                                <Icon icon="lets-icons:order-fill" width="24" height="24" />
-                                <span
-                                    class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Order</span>
+                            <Link :href="route('orders.index')" @click="visible = false"
+                                class="flex items-center p-2 rounded ">
+                            <Icon icon="lets-icons:order-fill" width="24" height="24" />
+                            <span
+                                class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Order</span>
                             </Link>
                             <Icon v-if="showDropdown == false" icon="icon-park-outline:down" width="20" height="20"
                                 class="mt-[12px]" />
@@ -135,14 +136,15 @@ const visible = ref(false);
                                 <li>
                                     <div class="flex flex-row">
                                         <Link :href="route('orders.index')" class="text-black">
-                                            All Orders
+                                        All Orders
                                         </Link>
                                     </div>
                                 </li>
 
                                 <li>
                                     <div class="flex flex-row py-2 mt-2">
-                                        <Link :href="route('orders.create')" class="block text-black">Create Orders</Link>
+                                        <Link :href="route('orders.create')" class="block text-black">Create Orders
+                                        </Link>
                                     </div>
                                 </li>
 
