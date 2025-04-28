@@ -9,9 +9,7 @@ const props = defineProps<{
     user_id: number
 }>();
 
-
 const toast = new ToastMagic();
-
 
 const form = reactive({
     user_id: props.user_id,
@@ -72,7 +70,7 @@ const submitForm = () => {
 
     router.post('/customers', payload, {
         onSuccess: () => {
-            toast.success("Customer created successfully!"); 
+            toast.success("Customer created successfully!");
         }
     });
 
