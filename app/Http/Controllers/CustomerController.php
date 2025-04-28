@@ -236,7 +236,6 @@ class CustomerController extends Controller
         if (!$customer) {
             return redirect()->route('customers.index')->with('error', 'Customer not found!');
         }
-        // dd('Customer id form delete: ' . $id, 'Customer name: ' . $customer->name);
         $customer->delete();
         return redirect()->route('customers.index')->with('status', 'Customer deleted successfully!');
     }
