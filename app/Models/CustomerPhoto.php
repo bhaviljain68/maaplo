@@ -25,9 +25,31 @@ class CustomerPhoto extends Model
         );
     }
 
+    protected static function booted()
+{
+    // When a Project is soft-deleted
+    static::deleting(function ($customer): void {
+        if ($customer && !$customer->isForceDeleting()) {
+            if ($customer->photos()->exists()) {
+                $customer->photos()->delete(); // Soft delete related photos
+            }
+        }
+    });
+
+    // When a Project is restored
+    static::restoring(function ($customer): void {
+        $customer->photos()->withTrashed()->restore(); // Restore soft deleted photos
+    });
+}
+
     // Relations
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function photos()
+{
+    return $this->hasMany(CustomerPhoto::class, 'customer_id');
+}
 }

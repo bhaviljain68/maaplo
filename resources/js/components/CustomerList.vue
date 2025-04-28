@@ -1,7 +1,8 @@
 <script setup>
 import { Icon } from '@iconify/vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+
 
 // JavaScript-style props
 const props = defineProps({
@@ -11,9 +12,15 @@ const props = defineProps({
     }
 });
 const showDropdown = ref(false);
+const customerDeleted = ref(false); // Track the deletion status of the customer
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
+
+// Soft delete function that calls the destroy route
+const softDeleteCustomer = (customerId) => {
+        router.delete(route('customers.destroy', customerId),);
+};
 </script>
 
 
@@ -77,7 +84,7 @@ function toggleDropdown() {
             <h1 v-else class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Payment Due:
                 ₹ 0.00
             </h1>
-            
+
         </div>
         <div>
             <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Total
@@ -88,9 +95,9 @@ function toggleDropdown() {
             <Link :href="route('customers.edit',customer.id)">
             <Icon icon="ri:edit-fill" width="18" height="18" class="text-[#005FAF]" />
             </Link>
-            <Link>
-            <Icon icon="ic:baseline-delete" width="18" height="18" class="text-[#E73939]" />
-            </Link>
+            <button @click="softDeleteCustomer(props.customer.id)" class="flex items-center text-red-500 hover:text-red-600 transition">
+                <Icon icon="ic:baseline-delete" width="18" height="18" class="text-[#E73939]" />
+            </button>
         </div>
     </div>
 </template>

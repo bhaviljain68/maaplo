@@ -232,8 +232,14 @@ class CustomerController extends Controller
     // Remove the specified customer from storage
     public function destroy($id)
     {
-        $customer = Customer::findOrFail($id);
+        $customer = Customer::find($id);
+        if (!$customer) {
+            return redirect()->route('customers.index')->with('error', 'Customer not found!');
+        }
+        // dd('Customer id form delete: ' . $id, 'Customer name: ' . $customer->name);
         $customer->delete();
-        return redirect()->route('customer.index');
+        return redirect()->route('customers.index')->with('status', 'Customer deleted successfully!');
     }
+
+
 }

@@ -27,8 +27,9 @@ const props = defineProps<{
 // debounce the function to avoid too many calls
 function myFn(val: string) {
     searchTerm.value = val
-    console.log('Searching  brj:', val)
+    // console.log('Searching  brj:', val)
 }
+
 </script>
 <template>
     <AppLayout>

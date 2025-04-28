@@ -98,6 +98,7 @@ const validateNotes = () => {
     noteErrors.value = isValid ? null : 'All notes must have a label and text.';
     return isValid;
 };
+
 </script>
 
 <template>
