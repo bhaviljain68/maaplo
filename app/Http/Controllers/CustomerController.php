@@ -62,9 +62,7 @@ class CustomerController extends Controller
             $username = preg_replace('/\s+/', '_', strtolower($user->name));
             $customerName = preg_replace('/\s+/', '_', strtolower($validated['name']));
 
-            // Handle address properly
             $address = $validated['address'];
-            // Only wrap the address in a JSON object
             $addressJson = json_encode(['value' => $address]);
 
             // First, create the customer to get the customer ID
@@ -78,7 +76,6 @@ class CustomerController extends Controller
                 'address' => $addressJson,
                 'notes' => json_encode($validated['notes']),
             ]);
-
             // Now that the customer is created, we have the customer ID
             $customerId = $customer->id;
 
@@ -158,13 +155,10 @@ class CustomerController extends Controller
         ]);
     }
 
-
     // Update the specified customer in storage
     public function update(Request $request, $id)
     {
-        // dd($request, $id);
         try {
-            // dd($request);
             $customer = Customer::findOrFail($id);
 
             $validated = $request->validate([
@@ -236,7 +230,6 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
-
         return redirect()->route('customer.index');
     }
 }
