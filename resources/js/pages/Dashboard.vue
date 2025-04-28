@@ -6,8 +6,15 @@ import Chart from '@/components/Chart.vue';
 import { Link } from "@inertiajs/vue3";
 import { ref } from 'vue';
 const showDropdown = ref(false);
+const selectedOption = ref('Yesterday'); // Default text inside input
+
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
+}
+
+function selectOption(option) {
+    selectedOption.value = option;
+    showDropdown.value = false;
 }
 </script>
 
@@ -24,41 +31,44 @@ function toggleDropdown() {
                     <h1 class="font-normal text-[20px] leading-[16px] tracking-[0] font-[Convergence]">Graph</h1>
                 </div>
                 <div>
-                    <div @click="toggleDropdown()">
+                    <div @click="toggleDropdown()" class="">
                         <div class="flex">
-                            <h1
-                                class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2 cursor-pointer">
-                                Yesterday
-                            </h1>
+                            <input type="text" v-model="selectedOption"
+                                class="p-2 border-none rounded-md focus:outline-none cursor-pointer w-32" />
                             <Icon v-if="showDropdown == false" icon="icon-park-outline:down" width="20" height="20"
-                                class="mt-[5px]" />
+                                class="mt-[10px]" />
                             <Icon v-if="showDropdown == true" icon="icon-park-outline:up" width="20" height="20"
-                                class="mt-[5px]" />
+                                class="mt-[10px]" />
                         </div>
                     </div>
 
                     <!-- Dropdown -->
-                    <div v-show="showDropdown" class="mt-2 z-10 bg-white rounded-lg shadow-lg">
-                        <ul class="text-sm text-gray-700 dark:text-gray-200">
-
+                    <div v-show="showDropdown" class="mt-2 z-10 bg-white rounded-lg shadow-lg ">
+                        <ul class="text-sm text-gray-700">
                             <li>
-                                <div class="flex flex-row ml-2">
-                                    <a href="#" class="text-black">
-                                        7 Days Ago </a>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="flex flex-row ml-2 py-2">
-                                    <a href="#" class="block text-black">1 Month Ago</a>
+                                <div @click="selectOption('Yesterday')"
+                                    class=" px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    Yesterday
                                 </div>
                             </li>
                             <li>
-                                <div class="flex flex-row ml-2">
-                                    <a href="#" class="block text-black">1 Year Ago</a>
+                                <div @click="selectOption('7 Days Ago')"
+                                    class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    7 Days Ago
                                 </div>
                             </li>
-
+                            <li>
+                                <div @click="selectOption('1 Month Ago')"
+                                    class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    1 Month Ago
+                                </div>
+                            </li>
+                            <li>
+                                <div @click="selectOption('1 Year Ago')"
+                                    class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    1 Year Ago
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
