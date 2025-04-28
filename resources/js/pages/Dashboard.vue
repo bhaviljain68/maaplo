@@ -16,6 +16,7 @@ function selectOption(option) {
     selectedOption.value = option;
     showDropdown.value = false;
 }
+const activeTab = ref('order')
 </script>
 
 <template>
@@ -73,20 +74,43 @@ function selectOption(option) {
             </div>
             <!-- Column Labels for Chart -->
             <div class="flex flex-row justify-between mt-5">
-                <div>
-                    <a class="font-[Lato] font-medium text-[20px] leading-[16px] tracking-[0] text-[#167893]">Order
+                <div class="relative">
+                    <a @click="activeTab = 'order'" :class="[
+                        'cursor-pointer font-[Lato] font-medium text-[20px] leading-[16px] tracking-[0] pb-2 relative z-10',
+                        activeTab === 'order' ? 'text-[#167893]' : 'text-black'
+                    ]">
+                        Order
                     </a>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-[#167893] transition-all duration-500" :style="{
+                        width: activeTab === 'order' ? '100%' : '0%'
+                    }"></div>
                 </div>
-                <div>
-                    <a class="font-[Lato] font-medium text-[20px] leading-[16px] tracking-[0]">Customer</a>
+                <div class="relative">
+                    <a @click="activeTab = 'customer'" :class="[
+                        'cursor-pointer font-[Lato] font-medium text-[20px] leading-[16px] tracking-[0] pb-2 relative z-10',
+                        activeTab === 'customer' ? 'text-[#167893]' : 'text-black'
+                    ]">
+                        Customer
+                    </a>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-[#167893] transition-all duration-500" :style="{
+                        width: activeTab === 'customer' ? '100%' : '0%'
+                    }"></div>
                 </div>
-                <div>
-                    <a class="font-[Lato] font-medium text-[20px] leading-[16px] tracking-[0]">Revenue</a>
+
+                <div class="relative">
+                    <a @click="activeTab = 'revenue'" :class="[
+                        'cursor-pointer font-[Lato] font-medium text-[20px] leading-[16px] tracking-[0] pb-2 relative z-10',
+                        activeTab === 'revenue' ? 'text-[#167893]' : 'text-black'
+                    ]">
+                        Revenue
+                    </a>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-[#167893] transition-all duration-500" :style="{
+                        width: activeTab === 'revenue' ? '100%' : '0%'
+                    }"></div>
                 </div>
             </div>
-
             <!-- Chart Component Section -->
-            <div class="z-10">
+            <div class="">
                 <Chart />
             </div>
 
@@ -98,16 +122,16 @@ function selectOption(option) {
                     </h1>
                 </div>
                 <div>
-                    <Link :href="route('customers.create')" class="font-[Lato] font-normal text-[16px] tracking-[0]">
+                    <Link :href="route('customers.create')" class="font-[Lato] font-normal text-[18px] tracking-[0]">
                     Create Customer
                     </Link>
                 </div>
                 <div>
-                    <Link :href="route('orders.create')" class="font-[Lato] font-normal text-[16px] tracking-[0]">Create
+                    <Link :href="route('orders.create')" class="font-[Lato] font-normal text-[18px] tracking-[0]">Create
                     Order</Link>
                 </div>
                 <div>
-                    <a class="font-[Lato] font-normal text-[16px] tracking-[0]">Close Order</a>
+                    <a class="font-[Lato] font-normal text-[18px] tracking-[0]">Close Order</a>
                 </div>
             </div>
 
@@ -119,12 +143,12 @@ function selectOption(option) {
                     </h1>
                 </div>
                 <div>
-                    <Link :href="route('customers.index')" class="font-[Lato] font-normal text-[16px] tracking-[0]">
+                    <Link :href="route('customers.index')" class="font-[Lato] font-normal text-[18px] tracking-[0]">
                     Customer List
                     </Link>
                 </div>
                 <div>
-                    <Link :href="route('orders.index')" class="font-[Lato] font-normal text-[16px] tracking-[0]">Order
+                    <Link :href="route('orders.index')" class="font-[Lato] font-normal text-[18px] tracking-[0]">Order
                     List</Link>
                 </div>
 
