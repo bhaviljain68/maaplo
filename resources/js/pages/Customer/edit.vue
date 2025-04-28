@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm, Link, Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
-
+const toast = new ToastMagic();
 const props = defineProps<{
     customer: {
         id: number;
@@ -72,7 +72,7 @@ const updateCustomer = () => {
     }))
         .post(route('customers.update', props.customer.id), {
             onSuccess: () => {
-                alert('Customer updated successfully!');
+                toast.success("Customer updated successfully!"); 
             },
             onError: (errors) => {
                 console.error('Failed to update customer:', errors);

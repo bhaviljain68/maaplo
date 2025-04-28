@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue';
 import { Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
-
+const toast = new ToastMagic();
 
 // JavaScript-style props
 const props = defineProps({
@@ -12,14 +12,37 @@ const props = defineProps({
     }
 });
 const showDropdown = ref(false);
-const customerDeleted = ref(false); // Track the deletion status of the customer
+const showDeletePopup = ref(false);
+
+// Show the delete confirmation popup
+const confirmDelete = () => {
+    showDeletePopup.value = true;
+};
+
+
+const cancelDelete = () => {
+    showDeletePopup.value = false;
+};
+
+const proceedDelete = () => {
+    softDeleteCustomer(props.customer.id);
+    showDeletePopup.value = false;
+};
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
 
 // Soft delete function that calls the destroy route
 const softDeleteCustomer = (customerId) => {
-        router.delete(route('customers.destroy', customerId),);
+    router.delete(route('customers.destroy', customerId), {
+        onSuccess: () => {
+            toast.success('Customer deleted successfully!');
+            router.reload();
+        },
+        onError: () => {
+            toast.error('Failed to delete customer.');
+        }
+    });
 };
 </script>
 
@@ -78,10 +101,12 @@ const softDeleteCustomer = (customerId) => {
             </h1>
         </div>
         <div>
-            <h1 v-if="props.customer.payment_due" class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Payment Due:
+            <h1 v-if="props.customer.payment_due"
+                class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Payment Due:
                 ₹ {{ props.customer.payment_due }}
             </h1>
-            <h1 v-else class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Payment Due:
+            <h1 v-else class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Payment
+                Due:
                 ₹ 0.00
             </h1>
 
@@ -92,12 +117,27 @@ const softDeleteCustomer = (customerId) => {
                 {{ }}</h1>
         </div>
         <div class="flex justify-end gap-3">
-            <Link :href="route('customers.edit',customer.id)">
+            <Link :href="route('customers.edit', customer.id)">
             <Icon icon="ri:edit-fill" width="18" height="18" class="text-[#005FAF]" />
             </Link>
-            <button @click="softDeleteCustomer(props.customer.id)" class="flex items-center text-red-500 hover:text-red-600 transition">
+            <button @click="confirmDelete" class="flex items-center text-red-500 hover:text-red-600 transition">
                 <Icon icon="ic:baseline-delete" width="18" height="18" class="text-[#E73939]" />
             </button>
         </div>
+        <!-- Confirmation Popup -->
+        <div v-if="showDeletePopup"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                <h2 class="text-xl font-bold mb-4">Are you sure?</h2>
+                <p class="mb-4">Do you really want to delete this customer? This action cannot be undone.</p>
+                <div class="flex justify-end gap-4">
+                    <button @click="cancelDelete"
+                        class="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-400">Cancel</button>
+                    <button @click="proceedDelete"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">OK</button>
+                </div>
+            </div>
+        </div>
     </div>
+
 </template>
