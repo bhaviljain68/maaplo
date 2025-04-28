@@ -4,6 +4,11 @@ import { Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import Chart from '@/components/Chart.vue';
 import { Link } from "@inertiajs/vue3";
+import { ref } from 'vue';
+const showDropdown = ref(false);
+function toggleDropdown() {
+    showDropdown.value = !showDropdown.value;
+}
 </script>
 
 <template>
@@ -18,18 +23,43 @@ import { Link } from "@inertiajs/vue3";
                 <div>
                     <h1 class="font-normal text-[20px] leading-[16px] tracking-[0] font-[Convergence]">Graph</h1>
                 </div>
-                <div class="relative inline-block text-left w-26">
-                    <select
-                        class="block w-full appearance-none border-none px-4 py-2 pr-8 text-[20px] leading-[16px] font-medium tracking-[0] focus:outline-none focus:ring-1 focus:ring-indigo-500 font-[Inter]">
-                        <option>Yesterday</option>
-                        <option>7 Days Ago</option>
-                        <option>1 Month Ago</option>
-                        <option>1 Year Ago</option>
-                    </select>
+                <div>
+                    <div @click="toggleDropdown()">
+                        <div class="flex">
+                            <h1
+                                class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2 cursor-pointer">
+                                Yesterday
+                            </h1>
+                            <Icon v-if="showDropdown == false" icon="icon-park-outline:down" width="20" height="20"
+                                class="mt-[5px]" />
+                            <Icon v-if="showDropdown == true" icon="icon-park-outline:up" width="20" height="20"
+                                class="mt-[5px]" />
+                        </div>
+                    </div>
 
-                    <!-- Down Icon from Iconify -->
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-black">
-                        <Icon icon="formkit:down" width="16" height="16" />
+                    <!-- Dropdown -->
+                    <div v-show="showDropdown" class="mt-2 z-10 bg-white rounded-lg shadow-lg">
+                        <ul class="text-sm text-gray-700 dark:text-gray-200">
+
+                            <li>
+                                <div class="flex flex-row ml-2">
+                                    <a href="#" class="text-black">
+                                        7 Days Ago </a>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="flex flex-row ml-2 py-2">
+                                    <a href="#" class="block text-black">1 Month Ago</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex flex-row ml-2">
+                                    <a href="#" class="block text-black">1 Year Ago</a>
+                                </div>
+                            </li>
+
+                        </ul>
                     </div>
                 </div>
             </div>
