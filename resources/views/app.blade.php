@@ -38,8 +38,11 @@
         @routes
         @vite(['resources/js/app.ts'])
         @inertiaHead
+        {!! ToastMagic::styles() !!}
     </head>
     <body class="font-sans antialiased">
         @inertia
+        {!! ToastMagic::scripts() !!}
+        
     </body>
 </html>

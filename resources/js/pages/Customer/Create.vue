@@ -4,11 +4,14 @@ import { Head, router } from '@inertiajs/vue3';
 import { reactive, ref } from 'vue';
 import { computed } from 'vue';
 import { Icon } from '@iconify/vue';
-
 const props = defineProps<{
     errors: Record<string, string>,
     user_id: number
 }>();
+
+
+const toast = new ToastMagic();
+
 
 const form = reactive({
     user_id: props.user_id,
@@ -67,7 +70,12 @@ const submitForm = () => {
     });
     payload.append('notes', JSON.stringify(notes.value));
 
-    router.post('/customers', payload);
+    router.post('/customers', payload, {
+        onSuccess: () => {
+            toast.success("Customer created successfully!"); 
+        }
+    });
+
 };
 
 const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => {
@@ -88,6 +96,7 @@ const phoneError = computed(() => {
     }
     return '';
 });
+
 
 </script>
 

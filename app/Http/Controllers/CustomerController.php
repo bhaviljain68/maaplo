@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Helpers\ImageHelper;
+use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -123,7 +124,7 @@ class CustomerController extends Controller
             }
 
             DB::commit();
-
+            ToastMagic::success('Customer created successfully!');
             return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -151,7 +152,8 @@ class CustomerController extends Controller
                     'face_image' => $faceImage ? $faceImage->image_url : null,
                     'full_body_image' => $fullBodyImage ? $fullBodyImage->image_url : null
                 ]
-            )
+                ),
+                'notes' => $customer->notes ?? [],
         ]);
     }
 
@@ -167,6 +169,7 @@ class CustomerController extends Controller
                 'phone' => 'string|max:10',
                 'gender' => 'in:m,f,o',
                 'address' => 'string',
+                'notes' => 'nullable|array',
                 'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ]);
@@ -177,6 +180,7 @@ class CustomerController extends Controller
                 'email' => $validated['email'],
                 'gender' => $validated['gender'],
                 'phone' => $validated['phone'],
+                'notes' => json_encode($validated['notes']),
                 'address' => json_encode(['value' => $validated['address']]), // keep consistent format
             ]);
 
