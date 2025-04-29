@@ -45,7 +45,7 @@ const visible = ref(false);
                 <ul class="space-y-1 p-4">
                     <li>
                         <a href="/dashboard" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black">
+                            class="flex items-center p-2 rounded hover:bg-gray-200 text-black">
                             <Icon icon="ic:round-dashboard" width="20" height="20" />
                             <span
                                 class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Dashboard</span>
@@ -53,7 +53,7 @@ const visible = ref(false);
                         </a>
                     </li>
                     <li>
-                        <div @click="toggleDropdownCustomer()" class="flex hover:bg-gray-100 text-black">
+                        <div @click="toggleDropdownCustomer()" class="flex rounded hover:bg-gray-200 text-black">
                             <Link :href="route('customers.index')" class="flex items-center p-2 rounded ">
                             <Icon icon="mdi:user" width="24" height="24" />
                             <span class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Customer
@@ -70,15 +70,15 @@ const visible = ref(false);
                                 aria-labelledby="dropdownTrigger">
 
                                 <li>
-                                    <div class="flex flex-row">
-                                        <Link :href="route('customers.index')" class="text-black">
+                                    <div class="flex flex-row rounded hover:bg-gray-100 p-2">
+                                        <Link :href="route('customers.index')" class="text-black ">
                                         All Customers
                                         </Link>
                                     </div>
                                 </li>
 
                                 <li>
-                                    <div class="flex flex-row py-2 mt-2">
+                                    <div class="flex flex-row py-2 mt-2 rounded hover:bg-gray-100 p-2">
                                         <Link :href="route('customers.create')" class="block text-black">Create
                                         Customers
                                         </Link>
@@ -89,7 +89,7 @@ const visible = ref(false);
                         </div>
                     </li>
                     <li>
-                        <div @click="toggleDropdown()" class="flex hover:bg-gray-100 text-black">
+                        <div @click="toggleDropdown()" class="flex rounded hover:bg-gray-200 text-black">
                             <Link :href="route('orders.index')" @click="visible = false"
                                 class="flex items-center p-2 rounded ">
                             <Icon icon="lets-icons:order-fill" width="24" height="24" />
@@ -107,7 +107,7 @@ const visible = ref(false);
                                 aria-labelledby="dropdownTrigger">
 
                                 <li>
-                                    <div class="flex flex-row">
+                                    <div class="flex flex-row rounded hover:bg-gray-100 p-2">
                                         <Link :href="route('orders.index')" class="text-black">
                                         All Orders
                                         </Link>
@@ -115,7 +115,7 @@ const visible = ref(false);
                                 </li>
 
                                 <li>
-                                    <div class="flex flex-row py-2 mt-2">
+                                    <div class="flex flex-row py-2 mt-2 rounded hover:bg-gray-100 p-2">
                                         <Link :href="route('orders.create')" class="block text-black">Create Orders
                                         </Link>
                                     </div>
@@ -126,19 +126,12 @@ const visible = ref(false);
                     </li>
                     <li>
                         <Link href="/Items" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black ml-1">
+                            class="flex items-center p-2 rounded hover:bg-gray-200 text-black ml-1">
                         <Icon icon="qlementine-icons:items-list-16" width="16" height="16" />
                         <span class="ml-3 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Items</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/templates" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black ml-1">
-                        <Icon icon="gg:template" width="20" height="20" />
-                        <span
-                            class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Templates</span>
-                        </Link>
-                    </li>
+
                 </ul>
                 <!-- Bottom "Preference" Link -->
                 <div class="p-4 absolute inset-x-0 bottom-0">
