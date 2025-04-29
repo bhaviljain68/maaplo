@@ -2,14 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body,
 html {
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
+@layer utilities {
+    .bg-primary {
+      background-color: var(--color-primary);
+    }
+  
+    .text-primary {
+      color: var(--text-primary);
+    }
+  
+    .bg-secondary {
+      background-color: var(--color-secondary);
+    }
+  
+    .text-secondary {
+      color: var(--text-secondary);
+    }
+    .border-primary {
+      border-color: var(--border-primary);
+    }
+  }
 
 @layer base {
     :root {
+        --color-primary: #167893;
+        --color-secondary: #9333EA;
+        --text-primary: #167893;
+        --text-secondary: #6B7280;
+        --border-primary: #167893;
+
         --background: 0 0% 100%;
         --foreground: 0 0% 3.9%;
         --card: 0 0% 100%;
@@ -45,6 +72,7 @@ html {
         --sidebar-ring: 217.2 91.2% 59.8%;
     }
 
+    
     .dark {
         --background: 0 0% 3.9%;
         --foreground: 0 0% 98%;
