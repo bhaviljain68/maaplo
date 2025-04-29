@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
 const props = defineProps<{
-    errors: Record<string, string>,
+    errors: Object,
     user_id: number
 }>();
 
@@ -46,37 +46,42 @@ const validateNotes = () => {
     return isValid;
 };
 
-const submitForm = () => {
-    if (!validateNotes()) return;
+// const submitForm = () => {
+//     if (!validateNotes()) return;
 
-    const payload = new FormData();
+//     const payload = new FormData();
 
-    payload.append('user_id', form.user_id.toString());
-    payload.append('name', form.name);
-    payload.append('phone', form.phone);
-    payload.append('email', form.email);
-    payload.append('gender', form.gender);
-    payload.append('address', form.address);
-    payload.append('dob', form.dob);
+//     payload.append('user_id', form.user_id.toString());
+//     payload.append('name', form.name);
+//     payload.append('phone', form.phone);
+//     payload.append('email', form.email);
+//     payload.append('gender', form.gender);
+//     payload.append('address', form.address);
+//     payload.append('dob', form.dob);
 
-    if (form.half_image) payload.append('half_image', form.half_image);
-    if (form.full_image) payload.append('full_image', form.full_image);
+//     if (form.half_image) payload.append('half_image', form.half_image);
+//     if (form.full_image) payload.append('full_image', form.full_image);
 
-    // Serialize notes
-    notes.value.forEach((note, index) => {
-        payload.append(`notes[${index}][label]`, note.label);
-        payload.append(`notes[${index}][text]`, note.text);
-    });
-    payload.append('notes', JSON.stringify(notes.value));
+//     // Serialize notes
+//     notes.value.forEach((note, index) => {
+//         payload.append(`notes[${index}][label]`, note.label);
+//         payload.append(`notes[${index}][text]`, note.text);
+//     });
+//     payload.append('notes', JSON.stringify(notes.value));
 
-    router.post('/customers', payload, {
-        onSuccess: () => {
-            toast.success("Customer created successfully!");
-        }
-    });
+//     router.post('/customers', payload, {
+//         onSuccess: () => {
+//             toast.success("Customer created successfully!");
+//         }
+//     });
 
-};
+// };
 
+
+
+function submit() {
+  router.post('/customers', form)
+}
 const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file && file.size > 2 * 1024 * 1024) {
@@ -90,6 +95,9 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 };
 
 const phoneError = computed(() => {
+    if (!/^\d*$/.test(form.phone)) {
+        return 'Phone number must contain only digits.';
+    }
     if (form.phone && form.phone.toString().length > 10) {
         return 'Phone number cannot exceed 10 digits.';
     }
@@ -127,7 +135,7 @@ const phoneError = computed(() => {
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
                         Contact Number <span class="text-red-500">*</span>
                     </label>
-                    <input type="number" v-model="form.phone"
+                    <input type="text" v-model="form.phone"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
                         placeholder="Enter Phone Number" />
                     <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
@@ -280,8 +288,8 @@ const phoneError = computed(() => {
 
 
                 <!-- Submit Button (Full Width Below) -->
-                
-                <Button @click="submitForm" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
+
+                <Button @click="submit" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
                     Save & Continue
                 </Button>
 
