@@ -55,8 +55,8 @@ class CustomerController extends Controller
                 'address' => 'required|string|max:255',
                 'dob' => 'nullable|date',
                 'notes' => 'required|array',
-                'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'half_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'full_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             ]);
             // dd($validated);
             try {
@@ -236,9 +236,9 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
         if (!$customer) {
-            return redirect()->route('customers.Index')->with('error', 'Customer not found!');
+            return redirect()->route('customers.index')->with('error', 'Customer not found!');
         }
         $customer->delete();
-        return redirect()->route('customers.Index')->with('status', 'Customer deleted successfully!');
+        return redirect()->route('customers.index')->with('status', 'Customer deleted successfully!');
     }
 }
