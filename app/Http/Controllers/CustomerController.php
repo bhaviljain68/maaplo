@@ -74,8 +74,8 @@ class CustomerController extends Controller
                 'name' => $validated['name'],
                 'gender' => $validated['gender'],
                 'phone' => $validated['phone'],
-                'email' => $validated['email'] ?? null,
-                'dob' => $validated['dob'] ?? null,
+                'email' => $validated['email'],
+                'dob' => $validated['dob'] ,
                 'address' => $addressJson,
                 'notes' => json_encode($validated['notes']),
             ]);

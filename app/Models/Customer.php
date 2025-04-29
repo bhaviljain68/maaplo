@@ -17,11 +17,11 @@ class Customer extends Model
         'user_id',
         'name',
         'gender',
-        // 'email',
+        'email',
         'phone',
         'address',
         'notes',
-        // 'dob'
+        'dob'
     ];
 
     // Accessor for 'address'
