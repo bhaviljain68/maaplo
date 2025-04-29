@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm, Link, Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
+import Button from '@/components/Button.vue';
 const toast = new ToastMagic();
 const props = defineProps<{
     customer: {
@@ -72,7 +73,7 @@ const updateCustomer = () => {
     }))
         .post(route('customers.update', props.customer.id), {
             onSuccess: () => {
-                toast.success("Customer updated successfully!"); 
+                toast.success("Customer updated successfully!");
             },
             onError: (errors) => {
                 console.error('Failed to update customer:', errors);
@@ -248,10 +249,11 @@ const validateNotes = () => {
 
                 <!-- Update Button-->
                 <div class="md:col-span-3">
-                    <button type="submit" class="rounded-full p-3 text-white w-full bg-primary mt-0 md:mt-4"
-                        :disabled="form.processing">
+                    <Button :disabled="form.processing" :color="'primary'" :padding="'lg'" :rounded="'full'"
+                        :textSize="'base'">
                         Update Customer
-                    </button>
+                    </Button>
+
                 </div>
             </form>
         </div>

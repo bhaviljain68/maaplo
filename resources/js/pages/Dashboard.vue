@@ -24,7 +24,7 @@ const activeTab = ref('order')
     <Head title="Dashboard" />
     <AppLayout>
         <div class="mx-auto max-w-7xl px-4 py-8 w-full">
-            <h1 class="text-[24px] leading-[16px] font-bold tracking-[0] text-gray-800 font-[Convergence]">Total Orders
+            <h1 class="text-[24px] leading-[16px] font-bold tracking-[0] text-gray-800 font-[Convergence]">Total Orders : 0
             </h1>
             <!-- Graph Section Header with Filter Dropdown -->
             <div class="flex flex-row justify-between mt-8">
