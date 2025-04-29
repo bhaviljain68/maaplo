@@ -136,7 +136,6 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
-
         // Get the customer photos (face image and full-body image)
         $photos = CustomerPhoto::where('customer_id', $customer->id)->get();
 
@@ -162,7 +161,6 @@ class CustomerController extends Controller
     {
         try {
             $customer = Customer::findOrFail($id);
-
             $validated = $request->validate([
                 'name' => 'string|max:255',
                 'email' => 'email|unique:customers,email,' . $id,
