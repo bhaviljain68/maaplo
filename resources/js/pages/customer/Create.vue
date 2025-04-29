@@ -109,7 +109,7 @@ const phoneError = computed(() => {
                     New Customer
                 </h1>
             </div>
-            <form class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg:border-[#167893] p-0 lg:p-4">
+            <form class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
                 <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Enter Details</h1>
                 <!-- Customer Name -->
                 <div>

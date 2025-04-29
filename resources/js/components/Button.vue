@@ -4,10 +4,10 @@ const props = defineProps(['type' ,'color' ,'padding' ,'margin' ,'rounded' ,'ful
 
 // Classes for color variants
 const colorClass = {
-    primary: 'bg-[#167893] text-white hover:bg-[#145e75]',
+    primary: 'bg-primary text-white hover:bg-[#145e75]',
     secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
     danger: 'bg-red-500 text-white hover:bg-red-600',
-}[props.color] ?? 'bg-[#167893] text-white'
+}[props.color] ?? 'bg-primary text-white'
 
 // Padding sizes
 const paddingClass = {

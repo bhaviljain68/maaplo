@@ -119,7 +119,7 @@ const validateNotes = () => {
             </div>
             <!-- Edit Form -->
             <form @submit.prevent="updateCustomer"
-                class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg:border-[#167893] p-0 lg:p-4">
+                class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
                 <!-- <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Edit Details</h1> -->
                 <!-- Customer Name -->
                 <div>
@@ -248,7 +248,7 @@ const validateNotes = () => {
 
                 <!-- Update Button-->
                 <div class="md:col-span-3">
-                    <button type="submit" class="rounded-full p-3 text-white w-full bg-[#167893] mt-0 md:mt-4"
+                    <button type="submit" class="rounded-full p-3 text-white w-full bg-primary mt-0 md:mt-4"
                         :disabled="form.processing">
                         Update Customer
                     </button>
