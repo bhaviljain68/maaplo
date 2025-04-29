@@ -10,7 +10,7 @@ const searchTerm = ref('');
 const orders = ref([]);
 const selectedStatus = ref('');
 const selectedDelivery = ref('');
-const showDropdown = ref(false); 
+const showDropdown = ref(false);
 const showDropdownDelivery = ref(false);
 
 let showable = reactive({ showSearch: false, showFilter: false })
@@ -186,8 +186,7 @@ function toggleDropdownDelivery() {
             <div class="px-4 mt-10 py-6 gap-[10px] rounded-[10px] shadow-[0px_0px_8.6px_0px_#005FAF40]">
                 <!-- Orders list -->
                 <div class="space-y-4">
-                    <OrderList v-for="order in filteredOrders" :key="order.id" :bgColor="'#FFFCE6'"
-                        :borderColor="'#837200'" />
+                    <OrderList :bgColor="'#FFFCE6'" :borderColor="'#837200'" />
                     <OrderList :bgColor="'#EAF5FF'" :borderColor="'#005FAF'" />
                     <OrderList :bgColor="'#FFFFFF'" :borderColor="'#828282'" />
                     <OrderList :bgColor="'#FFEAEA'" :borderColor="'#FF0000'" />

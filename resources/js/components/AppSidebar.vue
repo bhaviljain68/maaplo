@@ -54,7 +54,7 @@ const visible = ref(false);
                     </li>
                     <li>
                         <div @click="toggleDropdownCustomer()" class="flex hover:bg-gray-100 text-black">
-                            <Link class="flex items-center p-2 rounded ">
+                            <Link :href="route('customers.index')" class="flex items-center p-2 rounded ">
                             <Icon icon="mdi:user" width="24" height="24" />
                             <span class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Customer
                             </span>
@@ -90,7 +90,8 @@ const visible = ref(false);
                     </li>
                     <li>
                         <div @click="toggleDropdown()" class="flex hover:bg-gray-100 text-black">
-                            <Link @click="visible = false" class="flex items-center p-2 rounded ">
+                            <Link :href="route('orders.index')" @click="visible = false"
+                                class="flex items-center p-2 rounded ">
                             <Icon icon="lets-icons:order-fill" width="24" height="24" />
                             <span
                                 class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Order</span>
@@ -130,14 +131,7 @@ const visible = ref(false);
                         <span class="ml-3 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Items</span>
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/templates" @click="visible = false"
-                            class="flex items-center p-2 rounded hover:bg-gray-100 text-black ml-1">
-                        <Icon icon="gg:template" width="20" height="20" />
-                        <span
-                            class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Templates</span>
-                        </Link>
-                    </li>
+
                 </ul>
                 <!-- Bottom "Preference" Link -->
                 <div class="p-4 absolute inset-x-0 bottom-0">
