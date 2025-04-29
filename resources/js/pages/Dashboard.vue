@@ -123,9 +123,13 @@ const activeTab = ref('order')
                 </div>
                 <div class="flex flex-col lg:flex-row gap-4 justify-between ">
                     <div
-                        class="bg-[#167893]/75 lg:w-[300px] h-[50px] rounded-md flex items-center justify-center text-white">
+                        class="relative group overflow-hidden border border-[#167893] lg:w-[300px] h-[100px] rounded-md flex items-center justify-center">
+                        <div
+                            class="absolute left-0 top-0 w-0 h-full bg-[#167893] transition-all duration-500 group-hover:w-full z-0">
+                        </div>
+
                         <Link :href="route('customers.create')"
-                            class="font-[Lato] font-normal text-[18px] tracking-[0]">
+                            class="relative z-10 text-[#167893] group-hover:text-white font-[Lato] font-normal text-[22px] tracking-[0]">
                         Create Customer
                         </Link>
                     </div>
@@ -151,7 +155,7 @@ const activeTab = ref('order')
                 </div>
                 <div class="flex flex-col lg:flex-row gap-4">
                     <div
-                        class="relative group overflow-hidden border border-[#167893] lg:w-[300px] h-[50px] rounded-md flex items-center justify-center">
+                        class="relative group overflow-hidden border border-[#167893] lg:w-[300px] h-[100px] rounded-md flex items-center justify-center">
                         <!-- Sliding background -->
                         <div
                             class="absolute left-0 top-0 w-0 h-full bg-[#167893] transition-all duration-500 group-hover:w-full z-0">
@@ -159,18 +163,18 @@ const activeTab = ref('order')
 
                         <!-- Text content -->
                         <Link :href="route('customers.index')"
-                            class="relative z-10 text-[#167893] group-hover:text-white font-[Lato] font-normal text-[18px] tracking-[0]">
+                            class="relative z-10 text-[#167893] group-hover:text-white font-[Lato] font-normal text-[22px] tracking-[0]">
                         Customer List
                         </Link>
                     </div>
 
                     <div
-                        class="relative group overflow-hidden border border-[#167893] lg:w-[300px] h-[50px] rounded-md flex items-center justify-center">
+                        class="relative group overflow-hidden border border-[#167893] lg:w-[300px] h-[100px] rounded-md flex items-center justify-center">
                         <div
                             class="absolute left-0 top-0 w-0 h-full bg-[#167893] transition-all duration-500 group-hover:w-full z-0">
                         </div>
                         <Link :href="route('orders.index')"
-                            class="relative z-10 text-[#167893] group-hover:text-white font-[Lato] font-normal text-[18px] tracking-[0]">
+                            class="relative z-10 text-[#167893] group-hover:text-white font-[Lato] font-normal text-[22px] tracking-[0]">
                         Order
                         List</Link>
                     </div>
