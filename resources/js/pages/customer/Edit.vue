@@ -248,13 +248,13 @@ const validateNotes = () => {
                 </div>
 
                 <!-- Update Button-->
-                <div class="md:col-span-3">
+               
                     <Button :disabled="form.processing" :color="'primary'" :padding="'lg'" :rounded="'full'"
                         :textSize="'base'">
                         Update Customer
                     </Button>
 
-                </div>
+               
             </form>
         </div>
     </AppLayout>
