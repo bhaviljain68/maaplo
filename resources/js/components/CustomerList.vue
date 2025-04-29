@@ -86,12 +86,12 @@ const softDeleteCustomer = (customerId) => {
                         <a href="#" class="block text-black">{{ props.customer.email }}</a>
                     </div>
                 </li>
-                <li>
+                <!-- <li>
                     <div class="flex flex-row ml-1">
                         <Icon icon="mdi:location" width="24" height="24" class="mr-1" />
                         <a href="#" class="block text-black">{{ props.customer.address }}</a>
                     </div>
-                </li>
+                </li> -->
 
             </ul>
         </div>
@@ -129,7 +129,10 @@ const softDeleteCustomer = (customerId) => {
             class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
                 <h2 class="text-xl font-bold mb-4">Are you sure?</h2>
-                <p class="mb-4">Do you really want to delete this customer? This action cannot be undone.</p>
+                <p class="mb-4 text-lg text-black font-semibold">
+                    <span class="text-xl">Warning:</span> Are you sure you want to delete this customer <span
+                        class="font-bold text-blue-600">{{ props.customer.name }}</span> ?
+                </p>
                 <div class="flex justify-end gap-4">
                     <button @click="cancelDelete"
                         class="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-400">Cancel</button>
