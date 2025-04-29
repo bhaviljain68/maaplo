@@ -19,7 +19,7 @@ const visible = ref(false);
     <div class="flex justify-between mt-3 lg:mx-10 mx-5">
         <div>
             <button v-if="!visible" @click="visible = true"
-                class="top-4 left-4 z-50 p-2 rounded-md text-white bg-[#167893] focus:outline-none"
+                class="top-4 left-4 z-50 p-2 rounded-md text-white bg-primary focus:outline-none"
                 :aria-controls="visible ? 'sbar' : null" :aria-expanded="visible">
                 <Icon icon="ci:menu-alt-03" width="24" height="24" />
             </button>
@@ -90,7 +90,8 @@ const visible = ref(false);
                     </li>
                     <li>
                         <div @click="toggleDropdown()" class="flex hover:bg-gray-100 text-black">
-                            <Link :href="route('orders.index')" @click="visible = false" class="flex items-center p-2 rounded ">
+                            <Link :href="route('orders.index')" @click="visible = false"
+                                class="flex items-center p-2 rounded ">
                             <Icon icon="lets-icons:order-fill" width="24" height="24" />
                             <span
                                 class="ml-2 font-inter font-medium text-[16px] leading-[16px] tracking-[0]">Order</span>
