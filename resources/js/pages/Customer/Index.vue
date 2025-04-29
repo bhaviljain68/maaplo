@@ -19,7 +19,7 @@ const props = defineProps<{
         phone: string,
         address: string,
         gender: string,
-        active_orders?: number,
+        active_orders?: number, 
         payment_due?: number
     }>
 }>();

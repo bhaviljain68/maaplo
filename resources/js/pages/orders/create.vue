@@ -14,4 +14,4 @@ const props = defineProps(["users","customers"])
         </pre>
         </div>
     </AppLayout>
-</template>
+</template> 

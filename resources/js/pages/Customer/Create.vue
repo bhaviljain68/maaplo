@@ -16,7 +16,7 @@ const form = reactive({
     user_id: props.user_id,
     name: '',
     gender: '',
-    phone: '',
+    phone: '', 
     email: '',
     address: '',
     dob: '',
