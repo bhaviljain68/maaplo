@@ -25,12 +25,12 @@ const props = defineProps({
         <div class="flex flex-row">
             <div>
                 <h1
-                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-[#837200] p-2">
+                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-secondary p-2">
                     1</h1>
             </div>
             <div>
                 <h1
-                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-[#837200] p-2">
+                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-secondary p-2">
                     Richa Shah
                 </h1>
             </div>
@@ -39,17 +39,17 @@ const props = defineProps({
         <div class="flex flex-row justify-between">
             <div>
                 <p
-                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-[#837200] p-2">
+                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-secondary p-2">
                     Items - 5</p>
             </div>
             <div>
                 <p
-                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-[#837200] p-2">
+                    class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-center text-secondary p-2">
                     Delivery - 14-04-2025</p>
             </div>
         </div>
         <div>
-            <p class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0]  text-[#837200] p-2">Status - In
+            <p class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0]  text-secondary p-2">Status - In
                 Progress</p>
         </div>
         <div class="flex justify-end gap-3">
