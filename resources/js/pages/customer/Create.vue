@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { reactive, ref } from 'vue';
-import { computed } from 'vue';
+import { reactive, ref,computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
 const props = defineProps<{
-    errors: Object,
+    errors: Record<string, string>,
     user_id: number
 }>();
 
@@ -17,9 +16,9 @@ const form = reactive({
     name: '',
     gender: '',
     phone: '',
-    email: '',
+    email: '' ? null : '',
     address: '',
-    dob: '',
+    dob: ''  ? null : '',
     half_image: null,
     full_image: null,
     half_image_preview: '',
@@ -46,42 +45,22 @@ const validateNotes = () => {
     return isValid;
 };
 
-// const submitForm = () => {
-//     if (!validateNotes()) return;
+const submitForm = () => {
+    // console.log('Form submitted:', form);
+    // if (!validateNotes()) return;
+    // console.log('Notes:', notes.value);
 
-//     const payload = new FormData();
-
-//     payload.append('user_id', form.user_id.toString());
-//     payload.append('name', form.name);
-//     payload.append('phone', form.phone);
-//     payload.append('email', form.email);
-//     payload.append('gender', form.gender);
-//     payload.append('address', form.address);
-//     payload.append('dob', form.dob);
-
-//     if (form.half_image) payload.append('half_image', form.half_image);
-//     if (form.full_image) payload.append('full_image', form.full_image);
-
-//     // Serialize notes
-//     notes.value.forEach((note, index) => {
-//         payload.append(`notes[${index}][label]`, note.label);
-//         payload.append(`notes[${index}][text]`, note.text);
-//     });
-//     payload.append('notes', JSON.stringify(notes.value));
-
-//     router.post('/customers', payload, {
-//         onSuccess: () => {
-//             toast.success("Customer created successfully!");
-//         }
-//     });
-
-// };
+    router.post('/customers', {
+        ...form,
+        notes: notes.value,
+    }, {
+        onSuccess: () => {
+            toast.success("Customer created successfully!");
+        }
+    });
+};
 
 
-
-function submit() {
-  router.post('/customers', form)
-}
 const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file && file.size > 2 * 1024 * 1024) {
@@ -95,10 +74,11 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 };
 
 const phoneError = computed(() => {
-    if (!/^\d*$/.test(form.phone)) {
-        return 'Phone number must contain only digits.';
+    if (!form.phone) return '';
+    if (!/^\d+$/.test(form.phone)) {
+        return 'Phone number must contain only numbers.';
     }
-    if (form.phone && form.phone.toString().length > 10) {
+    if (form.phone.length > 10) {
         return 'Phone number cannot exceed 10 digits.';
     }
     return '';
@@ -194,11 +174,10 @@ const phoneError = computed(() => {
                                 class="form-radio accent-black" />
                             <span>Other</span>
                         </label>
-
                     </div>
-                    <div v-if="errors.gender" class="text-red-600 text-sm mt-1">{{ errors.gender }}</div>
-
                 </div>
+                <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
+
 
                 <!-- Notes Section -->
                 <div class="notes-section">
@@ -283,13 +262,13 @@ const phoneError = computed(() => {
                             </div>
                         </div>
                     </div>
-                    <div v-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div>
+                    <div v-if="errors.full_image" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div>
                 </div>
 
 
                 <!-- Submit Button (Full Width Below) -->
 
-                <Button @click="submit" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
+                <Button @click="submitForm" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
                     Save & Continue
                 </Button>
 

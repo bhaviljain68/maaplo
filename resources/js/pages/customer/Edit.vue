@@ -66,7 +66,7 @@ const handleFullBodyImageChange = (event: Event) => {
 };
 
 const updateCustomer = () => {
-    if (!validateNotes()) return;
+    // if (!validateNotes()) return;
     form.transform((data) => ({
         ...data,
         _method: 'put',
@@ -75,10 +75,10 @@ const updateCustomer = () => {
             onSuccess: () => {
                 toast.success("Customer updated successfully!");
             },
-            onError: (errors) => {
-                console.error('Failed to update customer:', errors);
-                alert('An error occurred while updating the customer. Please check the form and try again.');
-            },
+            // onError: (errors) => {
+            //     console.error('Failed to update customer:', errors);
+            //     alert('An error occurred while updating the customer. Please check the form and try again.');
+            // },
         });
 };
 

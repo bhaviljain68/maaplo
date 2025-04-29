@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->enum('gender', ["m", "f", "o"]); // Define possible values for gender
             $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->date('dob')->nullable();
             $table->json('address');
             $table->json('base_measurements')->nullable(); // Nullable for optional base measurements
