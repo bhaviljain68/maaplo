@@ -33,7 +33,7 @@ const activeTab = ref('order')
                 </div>
                 <div>
                     <div class="relative">
-                        <button @click="toggleDropdown" class="flex items-center justify-between w-40 px-4 py-2 bg-white
+                        <button @click="toggleDropdown" class="flex items-center justify-between gap-5 py-2 bg-white
                              rounded-md focus:outline-none">
                             <span>{{ selectedOption }}</span>
                             <Icon :icon="showDropdown ? 'icon-park-outline:up' : 'icon-park-outline:down'" width="20"
@@ -121,17 +121,24 @@ const activeTab = ref('order')
                         Quick Links
                     </h1>
                 </div>
-                <div>
-                    <Link :href="route('customers.create')" class="font-[Lato] font-normal text-[18px] tracking-[0]">
-                    Create Customer
-                    </Link>
-                </div>
-                <div>
-                    <Link :href="route('orders.create')" class="font-[Lato] font-normal text-[18px] tracking-[0]">Create
-                    Order</Link>
-                </div>
-                <div>
-                    <a class="font-[Lato] font-normal text-[18px] tracking-[0]">Close Order</a>
+                <div class="flex flex-col lg:flex-row gap-4 justify-between ">
+                    <div
+                        class="bg-[#167893]/75 lg:w-[300px] h-[50px] rounded-md flex items-center justify-center text-white">
+                        <Link :href="route('customers.create')"
+                            class="font-[Lato] font-normal text-[18px] tracking-[0]">
+                        Create Customer
+                        </Link>
+                    </div>
+                    <div
+                        class="bg-[#167893]/75 lg:w-[300px] h-[50px] rounded-md flex items-center justify-center text-white">
+                        <Link :href="route('orders.create')" class="font-[Lato] font-normal text-[18px] tracking-[0]">
+                        Create
+                        Order</Link>
+                    </div>
+                    <div
+                        class="bg-[#167893]/75 lg:w-[300px] h-[50px] rounded-md flex items-center justify-center text-white">
+                        <a class="font-[Lato] font-normal text-[18px] tracking-[0]">Close Order</a>
+                    </div>
                 </div>
             </div>
 
@@ -142,14 +149,32 @@ const activeTab = ref('order')
                         Data
                     </h1>
                 </div>
-                <div>
-                    <Link :href="route('customers.index')" class="font-[Lato] font-normal text-[18px] tracking-[0]">
-                    Customer List
-                    </Link>
-                </div>
-                <div>
-                    <Link :href="route('orders.index')" class="font-[Lato] font-normal text-[18px] tracking-[0]">Order
-                    List</Link>
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <div
+                        class="relative group overflow-hidden border border-[#167893] lg:w-[300px] h-[50px] rounded-md flex items-center justify-center">
+                        <!-- Sliding background -->
+                        <div
+                            class="absolute left-0 top-0 w-0 h-full bg-[#167893] transition-all duration-500 group-hover:w-full z-0">
+                        </div>
+
+                        <!-- Text content -->
+                        <Link :href="route('customers.index')"
+                            class="relative z-10 text-[#167893] group-hover:text-white font-[Lato] font-normal text-[18px] tracking-[0]">
+                        Customer List
+                        </Link>
+                    </div>
+
+                    <div
+                        class="relative group overflow-hidden border border-[#167893] lg:w-[300px] h-[50px] rounded-md flex items-center justify-center">
+                        <div
+                            class="absolute left-0 top-0 w-0 h-full bg-[#167893] transition-all duration-500 group-hover:w-full z-0">
+                        </div>
+                        <Link :href="route('orders.index')"
+                            class="relative z-10 text-[#167893] group-hover:text-white font-[Lato] font-normal text-[18px] tracking-[0]">
+                        Order
+                        List</Link>
+                    </div>
+
                 </div>
 
             </div>

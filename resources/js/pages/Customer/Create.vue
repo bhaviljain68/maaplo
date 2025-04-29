@@ -4,6 +4,7 @@ import { Head, router } from '@inertiajs/vue3';
 import { reactive, ref } from 'vue';
 import { computed } from 'vue';
 import { Icon } from '@iconify/vue';
+import Button from '@/components/Button.vue';
 const props = defineProps<{
     errors: Record<string, string>,
     user_id: number
@@ -279,12 +280,11 @@ const phoneError = computed(() => {
 
 
                 <!-- Submit Button (Full Width Below) -->
-                <div class="md:col-span-3">
-                    <button @click="submitForm" type="button"
-                        class="rounded-full p-3 text-white w-full bg-[#167893] mt-4">Save &
-                        Continue</button>
+                
+                <Button @click="submitForm" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
+                    Save & Continue
+                </Button>
 
-                </div>
             </form>
         </div>
     </AppLayout>
