@@ -19,8 +19,8 @@ const form = reactive({
     email: '' ? null : '',
     address: '',
     dob: ''  ? null : '',
-    half_image: null,
-    full_image: null,
+    half_image: '',
+    full_image: '',
     half_image_preview: '',
     full_image_preview: ''
 });
@@ -262,7 +262,7 @@ const phoneError = computed(() => {
                             </div>
                         </div>
                     </div>
-                    <div v-if="errors.full_image" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div>
+                    <!-- <div v-if="errors.full_image" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div> -->
                 </div>
 
 
