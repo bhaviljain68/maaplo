@@ -37,7 +37,7 @@ const textSizeClass = {
 </script>
 
 <template>
-    <button :type="type" @click="$emit('click')" :class="[
+    <button type="button" @click="$emit('click')" :class="[
         ' transition duration-200 font-medium focus:outline-none',
         colorClass,
         paddingClass,

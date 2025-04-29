@@ -19,7 +19,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return Inertia::render('customer/index', [
+        return Inertia::render('customer/Index', [
             'customers' => $customers
         ]);
     }
@@ -28,7 +28,7 @@ class CustomerController extends Controller
     public function create()
     {
         $user_id = auth()->id();
-        return Inertia::render('customer/create', [
+        return Inertia::render('customer/Create', [
             'user_id' => $user_id,
         ]);
     }
@@ -36,6 +36,7 @@ class CustomerController extends Controller
     // Store a newly created customer in storage
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             $user_id = auth()->id();
             $user = User::findOrFail($user_id);
@@ -144,7 +145,7 @@ class CustomerController extends Controller
         $faceImage = $photos->where('label', 'Faceimage')->first();
         $fullBodyImage = $photos->where('label', 'Fullbody')->first();
 
-        return Inertia::render('customer/edit', [
+        return Inertia::render('customer/Edit', [
             'customer' => array_merge(
                 $customer->toArray(),
                 ['gender' => $customer->getAttributes()['gender']],
@@ -234,9 +235,9 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
         if (!$customer) {
-            return redirect()->route('customers.index')->with('error', 'Customer not found!');
+            return redirect()->route('customers.Index')->with('error', 'Customer not found!');
         }
         $customer->delete();
-        return redirect()->route('customers.index')->with('status', 'Customer deleted successfully!');
+        return redirect()->route('customers.Index')->with('status', 'Customer deleted successfully!');
     }
 }
