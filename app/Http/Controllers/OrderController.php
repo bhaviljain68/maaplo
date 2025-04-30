@@ -11,10 +11,17 @@ use Inertia\Inertia;
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Orders And Related Data.
      */
     public function index()
     {
+        /**
+         * 
+         * Order -> customer
+         * Order -> order items  
+         * 
+         **/
+
         $orders = Order::all();
 
         return Inertia::render('orders/Index', ["orders" => $orders]);
@@ -28,7 +35,7 @@ class OrderController extends Controller
         // Fetch all users and customers to populate the select options
         $users = \App\Models\User::all();
         $customers = \App\Models\Customer::all();
-        return Inertia::render('orders/Create',[
+        return Inertia::render('orders/Create', [
             'users' => $users,
             'customers' => $customers
         ]);
