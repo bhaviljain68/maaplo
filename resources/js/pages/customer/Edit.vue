@@ -139,13 +139,14 @@ const validateNotes = () => {
 
                 <!-- Email -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email (Optional)</label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email
+                        (Optional)</label>
                     <input v-model="form.email" type="email"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
                 </div>
 
-                     <!-- Date of Birth -->
-                     <div>
+                <!-- Date of Birth -->
+                <div>
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Date of Birth
                         (Optional)</label>
                     <input v-model="form.dob" type="date"
@@ -257,13 +258,9 @@ const validateNotes = () => {
                 </div>
 
                 <!-- Update Button-->
-
-                    <Button  @click="updateCustomer" :color="'primary'" :padding="'lg'" :rounded="'full'"
-                        :textSize="'base'">
-                        Update Customer
-                    </Button>
-
-
+                <Button @click="updateCustomer" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
+                    Update Customer
+                </Button>
             </form>
         </div>
     </AppLayout>
@@ -288,6 +285,4 @@ const validateNotes = () => {
     border-radius: 6px;
     cursor: pointer;
 }
-
-
 </style>

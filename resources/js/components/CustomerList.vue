@@ -84,7 +84,7 @@ const softDeleteCustomer = (customerId) => {
                 <li>
                     <div class="flex flex-row ml-2 py-2">
                         <Icon icon="ic:outline-email" width="18" height="18" class="mr-1" />
-                        <a href="#" class="block text-black">{{ props.customer.email }}</a>
+                        <a href="#" class="block text-black"> {{ props.customer.email ? props.customer.email : 'Email Not Available' }}</a>
                     </div>
                 </li>
                 <!-- <li>
@@ -97,8 +97,8 @@ const softDeleteCustomer = (customerId) => {
             </ul>
         </div>
         <div>
-            <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Active Order:
-                {{ props.customer.active_orders }}
+            <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Active Order :
+                {{ props.customer.active_orders != null ? props.customer.active_orders : 'Not Yet' }}
             </h1>
         </div>
         <div>
@@ -107,15 +107,14 @@ const softDeleteCustomer = (customerId) => {
                 ₹ {{ props.customer.payment_due }}
             </h1>
             <h1 v-else class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Payment
-                Due:
+                Due :
                 ₹ 0.00
             </h1>
 
         </div>
         <div>
             <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">Total
-                Payment: ₹
-                {{ }}</h1>
+                Payment : ₹ 0.00</h1>
         </div>
         <div class="flex justify-end gap-3">
             <Link :href="route('customers.edit', customer.id)">
