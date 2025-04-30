@@ -27,8 +27,11 @@ html {
     .border-primary {
       border-color: var(--border-primary);
     }
-    .bg-red {
+    .bg-danger {
       background-color: var(--color-danger);
+    }
+    .bg-gray {
+      background-color: var(--color-gray);
     }
   }
 
