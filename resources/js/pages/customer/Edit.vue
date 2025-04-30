@@ -32,7 +32,6 @@ const form = useForm({
     full_image: null,
     notes: props.customer.notes.length > 0 ? props.customer.notes : [{ label: '', text: '' }],
 });
-
 // Image preview refs
 const faceImagePreview = ref<string | null>(null);
 const fullBodyImagePreview = ref<string | null>(null);
@@ -259,7 +258,7 @@ const validateNotes = () => {
 
                 <!-- Update Button-->
 
-                    <Button :disabled="form.processing" :color="'primary'" :padding="'lg'" :rounded="'full'"
+                    <Button  @click="updateCustomer" :color="'primary'" :padding="'lg'" :rounded="'full'"
                         :textSize="'base'">
                         Update Customer
                     </Button>

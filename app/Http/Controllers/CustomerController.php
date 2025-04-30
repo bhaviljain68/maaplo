@@ -162,7 +162,6 @@ class CustomerController extends Controller
     // Update the specified customer in storage
     public function update(Request $request, $id)
     {
-
             $customer = Customer::findOrFail($id);
 
             $validated = $request->validate([
@@ -170,17 +169,20 @@ class CustomerController extends Controller
                 'email' => 'nullable|email|unique:customers,email,' . $id,
                 'phone' => 'required|string|max:10',
                 'gender' => 'required|in:m,f,o',
+                'dob' => 'nullable|date',
                 'address' => 'required|string',
                 'notes' => 'nullable|array',
                 'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ]);
+
             try {
             // Update the base customer fields
             $customer->update([
                 'name' => $validated['name'],
                 'email' => $validated['email'] ?? null,
                 'gender' => $validated['gender'],
+                'dob' => $validated['dob'] ,
                 'phone' => $validated['phone'],
                 'notes' => json_encode($validated['notes']),
                 'address' => json_encode(['value' => $validated['address']]), // keep consistent format
