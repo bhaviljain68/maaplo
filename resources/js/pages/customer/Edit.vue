@@ -205,7 +205,7 @@ const phoneError = computed(() => {
                 <!-- Notes Section -->
                 <div class="notes-section">
                     <div class="flex items-center justify-between mb-2">
-                        <label class="block font-[Lato] text-[18px]">Notes <span class="text-red-500">*</span></label>
+                        <label class="block font-[Lato] text-[18px]">Notes </label>
 
                         <div class="flex items-center space-x-3">
                             <span class="text-sm text-gray-600">Total: {{ form.notes.length }}</span>
@@ -242,6 +242,8 @@ const phoneError = computed(() => {
                 </div>
 
                 <!-- Customer Images -->
+                <h2 class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-5">Photos </h2>
+
                 <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Face Image -->
                     <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
