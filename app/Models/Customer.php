@@ -66,7 +66,7 @@ class Customer extends Model
     //    Relations
     public function photos()
     {
-        $this->hasMany(CustomerPhoto::class, 'customer_id', 'id');
+        return $this->hasMany(CustomerPhoto::class, 'customer_id', 'id');
     }
 
     public function orders()
@@ -74,20 +74,21 @@ class Customer extends Model
         return $this->hasMany(Order::class);
     }
 
+    //for Soft delete customer related photos
     protected static function booted()
     {
-        // When a Project is soft-deleted
-        static::deleting(function ($customer): void {
-            if (!$customer&& !$customer->isForceDeleting()) {
+        static::deleting(function ($customer) {
+            if ($customer->isForceDeleting()) {
+                // Permanently delete related photos
+                $customer->photos()->withTrashed()->forceDelete();
+            } else {
+                // Soft delete related photos
                 $customer->photos()->delete();
             }
         });
 
-        // When a Project is restored
-        static::restoring(function ($customer): void {
-            if ($customer) {
-                $customer->photos()->withTrashed()->restore();
-            }
+        static::restoring(function ($customer) {
+            $customer->photos()->withTrashed()->restore();
         });
     }
 }
