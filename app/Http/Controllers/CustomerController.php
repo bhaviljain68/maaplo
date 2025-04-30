@@ -158,7 +158,6 @@ class CustomerController extends Controller
                 'notes' => $customer->notes ?? [],
         ]);
     }
-
     // Update the specified customer in storage
     public function update(Request $request, $id)
     {
