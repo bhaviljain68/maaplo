@@ -6,6 +6,7 @@ import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
 const toast = new ToastMagic();
 const props = defineProps<{
+    errors: Record<string, string>,
     customer: {
         id: number;
         name: string;
@@ -100,7 +101,16 @@ const validateNotes = () => {
     noteErrors.value = isValid ? null : 'All notes must have a label and text.';
     return isValid;
 };
-
+const phoneError = computed(() => {
+    if (!form.phone) return '';
+    if (!/^\d+$/.test(form.phone)) {
+        return 'Phone number must contain only numbers.';
+    }
+    if (form.phone.length > 10) {
+        return 'Phone number cannot exceed 10 digits.';
+    }
+    return '';
+});
 </script>
 
 <template>
@@ -128,6 +138,7 @@ const validateNotes = () => {
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Customer Name</label>
                     <input v-model="form.name" type="text"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                    <div v-if="errors.name" class="text-red-600 text-sm mt-1">{{ errors.name }}</div>
                 </div>
 
                 <!-- Contact Number -->
@@ -135,6 +146,8 @@ const validateNotes = () => {
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Contact Number</label>
                     <input v-model="form.phone" type="text"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                    <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
+                    <div v-else-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.phone }}</div>
                 </div>
 
                 <!-- Email -->
@@ -143,6 +156,7 @@ const validateNotes = () => {
                         (Optional)</label>
                     <input v-model="form.email" type="email"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                    <div v-if="errors.email" class="text-red-600 text-sm mt-1">{{ errors.email }}</div>
                 </div>
 
                 <!-- Date of Birth -->
@@ -151,6 +165,7 @@ const validateNotes = () => {
                         (Optional)</label>
                     <input v-model="form.dob" type="date"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                    <div v-if="errors.dob" class="text-red-600 text-sm mt-1">{{ errors.dob }}</div>
                 </div>
 
                 <!-- Address -->
@@ -185,7 +200,7 @@ const validateNotes = () => {
                             <span>Other</span>
                         </label>
                     </div>
-
+                    <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
                 </div>
                 <!-- Notes Section -->
                 <div class="notes-section">
@@ -240,6 +255,9 @@ const validateNotes = () => {
                             <input type="file" @change="handleFaceImageChange"
                                 class="block w-full text-sm text-gray-500 mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
                         </label>
+                        <div v-if="props.errors.half_image" class="text-red-600 text-sm mt-1">
+                            {{ props.errors.half_image }}
+                        </div>
                     </div>
 
                     <!-- Full Body Image -->
@@ -254,6 +272,9 @@ const validateNotes = () => {
                             <input type="file" @change="handleFullBodyImageChange"
                                 class="block w-full text-sm text-gray-500 mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
                         </label>
+                        <div v-if="props.errors.full_image" class="text-red-600 text-sm mt-1">
+                            {{ props.errors.full_image }}
+                        </div>
                     </div>
                 </div>
 
