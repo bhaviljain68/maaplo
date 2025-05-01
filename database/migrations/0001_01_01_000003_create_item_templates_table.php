@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->string('name');
             $table->enum('gender', ["m", "f", "o"]);
             $table->json('required_measurements');
-            $table->boolean("custom_template")->default(false);
-            $table->foreignId("user_id")->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            // $table->boolean("custom_template")->default(false);
+            // $table->foreignId("user_id")->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
