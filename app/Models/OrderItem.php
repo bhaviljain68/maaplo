@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
+class OrderItem extends Model
+{
+    use SoftDeletes;
+
+    protected $table = 'order_items';
+
+    protected $fillable = [
+        'order_id',
+        'item_template_id',
+        'name',
+        'measurements',
+        'design_details',
+        'colors',
+        'material',
+        'trial_dates',
+        'price',
+        'status',
+    ];
+
+    protected $casts = [
+        'measurements' => 'array',
+        'design_details' => 'array',
+        'trial_dates' => 'date',
+        'price' => 'decimal:2',
+    ];
+
+    // Relationships
+
+    /**
+     * Get the order that owns the order item.
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * Get the item template associated with the order item.
+     */
+    public function itemTemplate()
+    {
+        return $this->belongsTo(ItemTemplate::class);
+    }
+
+    // Accessors & Mutators
+
+    /**
+     * Get the formatted status.
+     */
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => ucfirst(str_replace('_', ' ', $value)),
+            set: fn(string $value) => strtolower(str_replace(' ', '_', $value))
+        );
+    }
+}
