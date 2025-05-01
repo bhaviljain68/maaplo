@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->json('design_details');
             $table->string('colors');
             $table->string('material');
+            $table->json("notes")->nullable();
             $table->date('trial_dates');
             $table->decimal('price', 10);
             $table->enum('status', ["created", "in process", "processed", "delivered", "completed", "cancelled"])->default("created");

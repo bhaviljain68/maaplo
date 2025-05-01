@@ -9,8 +9,6 @@ const props = defineProps<{
     user_id: number
 }>();
 
-const toast = new ToastMagic();
-
 const form = reactive({
     user_id: props.user_id,
     name: '',
