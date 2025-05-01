@@ -36,30 +36,27 @@ class CustomerController extends Controller
     // Store a newly created customer in storage
     public function store(Request $request)
     {
-        // dd($request->all());
-
-            $user_id = auth()->id();
-            $user = User::findOrFail($user_id);
-            if ($request->has('notes') && is_string($request->notes)) {
-                $request->merge([
-                    'notes' => json_decode($request->notes, true),
-                ]);
-            }
-
-            $validated = $request->validate([
-                'user_id' => 'nullable|exists:users,id',
-                'name' => 'required|string|max:255',
-                'gender' => 'required|in:m,f,o',
-                'phone' => 'required|regex:/^[0-9]{10}$/',
-                'email' => 'nullable|email|unique:customers,email',
-                'address' => 'required|string|max:255',
-                'dob' => 'nullable|date',
-                'notes' => 'required|array',
-                'half_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'full_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        $user_id = auth()->id();
+        $user = User::findOrFail($user_id);
+        if ($request->has('notes') && is_string($request->notes)) {
+            $request->merge([
+                'notes' => json_decode($request->notes, true),
             ]);
-            // dd($validated);
-            try {
+        }
+
+        $validated = $request->validate([
+            'user_id' => 'nullable|exists:users,id',
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:m,f,o',
+            'phone' => 'required|regex:/^[0-9]{10}$/',
+            'email' => 'nullable|email|unique:customers,email',
+            'address' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'notes' => 'required|array',
+            'half_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'full_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        try {
             DB::beginTransaction();
 
             $username = preg_replace('/\s+/', '_', strtolower($user->name));
@@ -75,7 +72,7 @@ class CustomerController extends Controller
                 'gender' => $validated['gender'],
                 'phone' => $validated['phone'],
                 'email' => $validated['email'],
-                'dob' => $validated['dob'] ,
+                'dob' => $validated['dob'],
                 'address' => $addressJson,
                 'notes' => json_encode($validated['notes']),
             ]);
@@ -154,34 +151,34 @@ class CustomerController extends Controller
                     'face_image' => $faceImage ? $faceImage->image_url : null,
                     'full_body_image' => $fullBodyImage ? $fullBodyImage->image_url : null
                 ]
-                ),
-                'notes' => $customer->notes ?? [],
+            ),
+            'notes' => $customer->notes ?? [],
         ]);
     }
     // Update the specified customer in storage
     public function update(Request $request, $id)
     {
-            $customer = Customer::findOrFail($id);
+        $customer = Customer::findOrFail($id);
 
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'nullable|email|unique:customers,email,' . $id,
-                'phone' => 'required|string|max:10',
-                'gender' => 'required|in:m,f,o',
-                'dob' => 'nullable|date',
-                'address' => 'required|string',
-                'notes' => 'nullable|array',
-                'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:customers,email,' . $id,
+            'phone' => 'required|string|max:10',
+            'gender' => 'required|in:m,f,o',
+            'dob' => 'nullable|date',
+            'address' => 'required|string',
+            'notes' => 'nullable|array',
+            'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-            try {
+        try {
             // Update the base customer fields
             $customer->update([
                 'name' => $validated['name'],
                 'email' => $validated['email'] ?? null,
                 'gender' => $validated['gender'],
-                'dob' => $validated['dob'] ,
+                'dob' => $validated['dob'],
                 'phone' => $validated['phone'],
                 'notes' => json_encode($validated['notes']),
                 'address' => json_encode(['value' => $validated['address']]), // keep consistent format
