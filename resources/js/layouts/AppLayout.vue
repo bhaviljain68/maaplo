@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
 <template>
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="min-h-[calc(100vh-64px)] flex flex-col">
+        <div class="min-h-[calc(100vh-64px)] flex flex-col bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#0a0a0a]">
             <!-- Breadcrumbs or other header content -->
             <div class="flex-grow">
                 <slot />
