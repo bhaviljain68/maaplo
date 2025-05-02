@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
-<<<<<<< HEAD
 import { reactive, ref,computed } from 'vue';
-=======
-import { reactive, ref } from 'vue';
-import { computed } from 'vue';
->>>>>>> richa
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
 const props = defineProps<{
@@ -14,30 +9,18 @@ const props = defineProps<{
     user_id: number
 }>();
 
+const toast = new ToastMagic();
+
 const form = reactive({
     user_id: props.user_id,
     name: '',
     gender: '',
-<<<<<<< HEAD
-<<<<<<<< HEAD:resources/js/pages/customer/Create.vue
     phone: '',
     email:  null ,
-========
-    phone: '', 
-    email: '',
->>>>>>>> richa:resources/js/pages/Customer/Create.vue
     address: '',
     dob:null ,
     half_image: '',
     full_image: '',
-=======
-    phone: '', 
-    email: '',
-    address: '',
-    dob: '',
-    half_image: null,
-    full_image: null,
->>>>>>> richa
     half_image_preview: '',
     full_image_preview: ''
 });
@@ -63,7 +46,6 @@ const validateNotes = () => {
 };
 
 const submitForm = () => {
-<<<<<<< HEAD
     // console.log('Form submitted:', form);
     // if (!validateNotes()) return;
     // console.log('Notes:', notes.value);
@@ -72,42 +54,12 @@ const submitForm = () => {
         ...form,
         notes: notes.value,
     }, {
-=======
-    if (!validateNotes()) return;
-
-    const payload = new FormData();
-
-    payload.append('user_id', form.user_id.toString());
-    payload.append('name', form.name);
-    payload.append('phone', form.phone);
-    payload.append('email', form.email);
-    payload.append('gender', form.gender);
-    payload.append('address', form.address);
-    payload.append('dob', form.dob);
-
-    if (form.half_image) payload.append('half_image', form.half_image);
-    if (form.full_image) payload.append('full_image', form.full_image);
-
-    // Serialize notes
-    notes.value.forEach((note, index) => {
-        payload.append(`notes[${index}][label]`, note.label);
-        payload.append(`notes[${index}][text]`, note.text);
-    });
-    payload.append('notes', JSON.stringify(notes.value));
-
-    router.post('/customers', payload, {
->>>>>>> richa
         onSuccess: () => {
             toast.success("Customer created successfully!");
         }
     });
-<<<<<<< HEAD
 };
 
-=======
-
-};
->>>>>>> richa
 
 const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -122,15 +74,11 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
 };
 
 const phoneError = computed(() => {
-<<<<<<< HEAD
     if (!form.phone) return '';
     if (!/^\d+$/.test(form.phone)) {
         return 'Phone number must contain only numbers.';
     }
     if (form.phone.length > 10) {
-=======
-    if (form.phone && form.phone.toString().length > 10) {
->>>>>>> richa
         return 'Phone number cannot exceed 10 digits.';
     }
     return '';
@@ -149,11 +97,7 @@ const phoneError = computed(() => {
                     New Customer
                 </h1>
             </div>
-<<<<<<< HEAD
             <form class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
-=======
-            <form class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg:border-[#167893] p-0 lg:p-4">
->>>>>>> richa
                 <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Enter Details</h1>
                 <!-- Customer Name -->
                 <div>
@@ -171,11 +115,7 @@ const phoneError = computed(() => {
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
                         Contact Number <span class="text-red-500">*</span>
                     </label>
-<<<<<<< HEAD
                     <input type="text" v-model="form.phone"
-=======
-                    <input type="number" v-model="form.phone"
->>>>>>> richa
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
                         placeholder="Enter Phone Number" />
                     <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
@@ -234,18 +174,10 @@ const phoneError = computed(() => {
                                 class="form-radio accent-black" />
                             <span>Other</span>
                         </label>
-<<<<<<< HEAD
                     </div>
                 </div>
                 <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
 
-=======
-
-                    </div>
-                    <div v-if="errors.gender" class="text-red-600 text-sm mt-1">{{ errors.gender }}</div>
-
-                </div>
->>>>>>> richa
 
                 <!-- Notes Section -->
                 <div class="notes-section">
@@ -330,20 +262,12 @@ const phoneError = computed(() => {
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
                     <!-- <div v-if="errors.full_image" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div> -->
-=======
-                    <div v-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div>
->>>>>>> richa
                 </div>
 
 
                 <!-- Submit Button (Full Width Below) -->
-<<<<<<< HEAD
 
-=======
-                
->>>>>>> richa
                 <Button @click="submitForm" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
                     Save & Continue
                 </Button>
