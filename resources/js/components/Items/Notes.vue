@@ -35,7 +35,7 @@ const removeNote = (index: number) => {
         <div v-for="(note, index) in notes" :key="index" class="mb-4 mt-2 flex gap-4 items-start">
             <div>
                 <input v-model="note.text" type="text" id="favcolor" name="favcolor"
-                    class="ml-5 p-1 border border-gray-300 rounded cursor-pointer w-[300px]">
+                    class="lg:ml-5 ml-0 p-1 border border-gray-300 rounded cursor-pointer w-[330px]">
             </div>
 
             <!-- Show - button if more than one note -->

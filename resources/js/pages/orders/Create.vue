@@ -3,7 +3,6 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
 import VueDatePicker from 'vue3-datepicker';
 import { ref } from 'vue';
-import SvgIcon from '@/components/SvgIcon.vue';
 import WorkType from '@/components/Items/WorkType.vue';
 import ItemType from '@/components/Items/ItemType.vue';
 import Measurements from '@/components/Items/Measurements.vue';
@@ -11,12 +10,8 @@ import DesignDetails from '@/components/Items/DesignDetails.vue';
 import Colors from '@/components/Items/Colors.vue';
 import Notes from '@/components/Items/Notes.vue';
 const showDropdown = ref(false);
-
-
 const props = defineProps(["users", "customers"])
-
 const selectedCustomer = ref('Select Customer');
-
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
@@ -90,7 +85,7 @@ function selectOption(name) {
                     </div>
                     <!-- Add Icon -->
                     <div>
-                        <Icon icon="material-symbols:add-rounded" width="30" height="30" />
+                        <Icon icon="material-symbols:add-rounded" width="20" height="20" />
                     </div>
                 </div>
 
@@ -102,21 +97,25 @@ function selectOption(name) {
                         </label>
                     </div>
                     <div>
-                        <!-- <VueDatePicker> -->
-                        <!-- <template #input-icon> -->
-                        <Icon icon="pixel:calender-solid" width="24" height="24" />
-                        <!-- </template> -->
-                        <!-- </VueDatePicker> -->
+                        <Icon icon="pixel:calender-solid" width="22" height="22" />
                     </div>
                 </div>
 
                 <!-- items -->
                 <div class="mt-5">
                     <div>
-                        <label class="font-lato text-base font-normal leading-4 tracking-normal">
-                            Items
-                        </label>
-                        <div class="bg-white mt-5 p-4 shadow-[0_0_7.6px_0_#BDDBDB9C]  rounded-[10px] relative">
+                        <div class="flex flex-row justify-between items-center">
+                            <div>
+                                <label class="font-lato text-base font-normal leading-4 tracking-normal">
+                                    Items
+                                </label>
+                            </div>
+                            <!-- Add Icon -->
+                            <div>
+                                <Icon icon="material-symbols:add-rounded" width="20" height="20" />
+                            </div>
+                        </div>
+                        <div class="bg-white mt-3 p-4 shadow-[0_0_7.6px_0_#BDDBDB9C]  rounded-[10px] relative">
                             <!-- work type -->
                             <WorkType />
 
@@ -136,7 +135,7 @@ function selectOption(name) {
                             </div>
 
                             <!-- Refference dress given? -->
-                            <div class="flex items-center gap-4 mt-3">
+                            <div class="flex justify-between items-center gap-4 mt-3">
                                 <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">
                                     Reference dress given?
                                 </h1>
@@ -151,7 +150,52 @@ function selectOption(name) {
                                     </div>
                                 </label>
                             </div>
+                            <!-- Trail Date -->
+                            <div class="flex flex-col lg:flex-row justify-between">
+                                <div class="lg:gap-2 gap-4 mt-3 flex flex-col">
+                                    <div>
+                                        <label>Trail Date : </label>
+                                    </div>
+                                    <div class="flex">
+                                        <input type="date" id="trail-date" name="trail-date"
+                                            class="lg:ml-5 ml-0 p-1 border border-gray-300 rounded cursor-pointer w-[330px]">
+                                        <Icon icon="mingcute:delete-fill" width="24" height="24" class="mt-2 ml-2" />
+                                    </div>
+                                </div>
 
+                                <!-- Delivery Date -->
+                                <div class="lg:gap-2 gap-4 mt-3 flex flex-col">
+                                    <div>
+                                        <label>Delivery Date : </label>
+                                    </div>
+                                    <div>
+                                        <input type="date" id="trail-date" name="trail-date"
+                                            class="lg:ml-5 ml-0 p-1 border border-gray-300 rounded cursor-pointer w-[330px]">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mark as Urgent -->
+                            <div class="flex items-center gap-4 mt-5">
+                                <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">
+                                    Mark as Urgent
+                                </h1>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer">
+                                    <div
+                                        class="w-11 h-6 bg-gray-300 rounded-full peer dark:bg-gray-700 peer-checked:bg-primary transition duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 transform peer-checked:translate-x-full">
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Cloth Images -->
+                            <div class="mt-5">
+                                <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">Cloth Images
+                                </h1>
+                            </div>
 
                         </div>
                     </div>
