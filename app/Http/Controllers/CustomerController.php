@@ -190,6 +190,18 @@ class CustomerController extends Controller
             $customerName = preg_replace('/\s+/', '_', strtolower($validated['name']));
 
             if ($request->hasFile('half_image')) {
+                // Delete previous half image
+                $oldHalfImage = CustomerPhoto::where('customer_id', $customer->id)
+                    ->where('label', 'Faceimage')
+                    ->first();
+
+
+                if ($oldHalfImage && CustomerPhoto::exists($oldHalfImage->image_url)) {
+                    // dd('Image exists',$oldHalfImage->image_url);
+                    Storage::delete($oldHalfImage->image_url);
+                }
+
+                // Store new image
                 $halfImagePath = ImageHelper::imageProccess(
                     $request->file('half_image'),
                     $customer->id,
@@ -198,6 +210,7 @@ class CustomerController extends Controller
                     $customerName,
                     'faceimage'
                 );
+                // dd($halfImagePath);
 
                 CustomerPhoto::updateOrCreate(
                     ['customer_id' => $customer->id, 'label' => 'Faceimage'],
@@ -205,7 +218,19 @@ class CustomerController extends Controller
                 );
             }
 
+
             if ($request->hasFile('full_image')) {
+                // Delete previous full image
+                $oldFullImage = CustomerPhoto::where('customer_id', $customer->id)
+                    ->where('label', 'Fullbody')
+                    ->first();
+
+                if ($oldFullImage && CustomerPhoto::exists($oldFullImage->image_url)) {
+                    // dd('Image exists',$oldFullImage->image_url);
+                    Storage::delete($oldFullImage->image_url);
+                }
+
+                // Store new image
                 $fullImagePath = ImageHelper::imageProccess(
                     $request->file('full_image'),
                     $customer->id,
@@ -220,6 +245,7 @@ class CustomerController extends Controller
                     ['image_url' => $fullImagePath]
                 );
             }
+
 
             return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
         } catch (\Exception $e) {

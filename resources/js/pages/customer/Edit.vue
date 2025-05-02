@@ -3,7 +3,8 @@ import { ref, computed } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm, Link, Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
-const toast = new ToastMagic();
+import Button from '@/components/Button.vue';
+import ImageModal from '@/components/ImageModal.vue';
 const props = defineProps<{
     customer: {
         id: number;
@@ -15,11 +16,11 @@ const props = defineProps<{
         notes: Array<{ label: string; text: string }>;
         payment_due?: number;
         face_image: string;
-        full_body_image: string;  
+        full_body_image: string;
     }
 }>();
 const form = useForm({
-    name: props.customer.name, 
+    name: props.customer.name,
     email: props.customer.email,
     phone: props.customer.phone,
     address: props.customer.address,
@@ -71,7 +72,7 @@ const updateCustomer = () => {
     }))
         .post(route('customers.update', props.customer.id), {
             onSuccess: () => {
-                toast.success("Customer updated successfully!"); 
+                toast.success("Customer updated successfully!");
             },
             onError: (errors) => {
                 console.error('Failed to update customer:', errors);
@@ -96,6 +97,28 @@ const validateNotes = () => {
     );
     noteErrors.value = isValid ? null : 'All notes must have a label and text.';
     return isValid;
+};
+const phoneError = computed(() => {
+    if (!form.phone) return '';
+    if (!/^\d+$/.test(form.phone)) {
+        return 'Phone number must contain only numbers.';
+    }
+    if (form.phone.length > 10) {
+        return 'Phone number cannot exceed 10 digits.';
+    }
+    return '';
+});
+
+const showImageModal = ref(false);
+const currentImageUrl = ref('');
+
+const openImageModal = (url: string) => {
+    currentImageUrl.value = url;
+    showImageModal.value = true;
+};
+
+const closeImageModal = () => {
+    showImageModal.value = false;
 };
 </script>
 
@@ -217,9 +240,9 @@ const validateNotes = () => {
                     <!-- Face Image -->
                     <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">Face Image</h2>
-                        <div
+                        <div @click="openImageModal(faceImageUrl)"
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
-                            <img :src="faceImageUrl" alt="Face Image" class="object-cover h-full w-full" />
+                                <img :src="faceImageUrl" alt="Face Image" class="object-scale-down h-64 w-[500px]" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
@@ -231,9 +254,9 @@ const validateNotes = () => {
                     <!-- Full Body Image -->
                     <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">Full Image</h2>
-                        <div
+                        <div @click="openImageModal(fullBodyImageUrl)"
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
-                            <img :src="fullBodyImageUrl" alt="Full Body Image" class="object-cover h-full w-full" />
+                            <img :src="fullBodyImageUrl" alt="Full Body Image" class="object-scale-down h-[250px]  w-[500px]" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
@@ -243,6 +266,8 @@ const validateNotes = () => {
                     </div>
                 </div>
 
+                <!-- Modal Component -->
+                <ImageModal :show="showImageModal" :imageUrl="currentImageUrl" @close="closeImageModal" />
                 <!-- Update Button-->
                 <div class="md:col-span-3">
                     <button type="submit" class="rounded-full p-3 text-white w-full bg-[#167893] mt-0 md:mt-4"

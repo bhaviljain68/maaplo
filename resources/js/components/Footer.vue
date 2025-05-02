@@ -2,12 +2,12 @@
 
 </script>
 <template>
-    <footer class="bg-primary text-center p-4">
+    <footer class="bg-primary text-center py-2">
         <div>
-        <h1 class="font-[Lato] text-white font-normal text-[14px] leading-[16px] tracking-[0]">
-            Copyright © Lorem ipsum dolor sit amet
-        </h1>
-    </div>
+            <h1 class="font-[Lato] text-white font-normal text-[14px] leading-[16px] tracking-[0]">
+                Copyright © Lorem ipsum dolor sit amet
+            </h1>
+        </div>
     </footer>
 
 </template>
