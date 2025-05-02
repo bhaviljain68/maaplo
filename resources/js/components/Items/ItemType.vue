@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
+import Input from '../InputWithLabel.vue';
 const showDropdownItemType = ref(false);
 function toggleDropdownItemType() {
     showDropdownItemType.value = !showDropdownItemType.value;
@@ -21,28 +22,27 @@ function toggleDropdownItemType() {
                 <li>
                     <div class="flex flex-col ml-2  gap-3 text-black mt-2">
                         <div class="flex gap-2">
-                            <input type="radio" id="Kurta" name="Kurta" value="Kurta" class="w-4">
+                            <Input type="radio" id="Kurta" name="Item-type" value="Kurta" width="sm"/>
                             <h1 class="font-normal text-sm leading-4 tracking-normal font-lato">
                                 Kurta
                             </h1>
                         </div>
                         <div class="flex gap-2">
-                            <input type="radio" id="Shirt" name="Shirt" value="Shirt" class="w-4">
+                            <Input type="radio" id="Shirt" name="Item-type" value="Shirt" width="sm"/>
                             <h1 class="font-normal text-sm leading-4 tracking-normal font-lato">
                                 Shirt</h1>
 
                         </div>
                         <div class="flex gap-2">
-                            <input type="radio" id="Kurti" name="Kurti" value="Kurti" class="w-4">
+                            <Input type="radio" id="Kurti" name="Item-type" value="Kurti" width="sm"/>
                             <h1 class="font-normal text-sm leading-4 tracking-normal font-lato">
                                 Kurti</h1>
                         </div>
                         <div class="flex gap-2">
-                            <input type="radio" id="Pajama" name="Pajama" value="Pajama" class="w-4">
+                            <Input type="radio" id="Pajama" name="Item-type" value="Pajama" width="sm"/>
                             <h1 class="font-normal text-sm leading-4 tracking-normal font-lato">
                                 Pajama</h1>
                         </div>
-
                     </div>
                 </li>
             </ul>

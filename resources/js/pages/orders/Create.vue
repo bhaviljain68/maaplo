@@ -9,6 +9,9 @@ import Measurements from '@/components/Items/Measurements.vue';
 import DesignDetails from '@/components/Items/DesignDetails.vue';
 import Colors from '@/components/Items/Colors.vue';
 import Notes from '@/components/Items/Notes.vue';
+import Date from '@/components/Date.vue';
+import DateIcon from '@/components/DateIcon.vue';
+import ToggleButton from '@/components/ToggleButton.vue';
 const showDropdown = ref(false);
 const props = defineProps(["users", "customers"])
 const selectedCustomer = ref('Select Customer');
@@ -19,7 +22,6 @@ function selectOption(name) {
     selectedCustomer.value = name;
     showDropdown.value = false;
 }
-
 
 </script>
 
@@ -40,7 +42,7 @@ function selectOption(name) {
                         <button @click="toggleDropdown"
                             class="flex cursor-pointer items-center justify-between gap-2 py-2 bg-white rounded-md focus:outline-none">
                             <span class="font-lato text-base font-normal leading-4 tracking-normal">{{ selectedCustomer
-                                }}</span>
+                            }}</span>
                             <Icon :icon="showDropdown ? 'icon-park-outline:up' : 'icon-park-outline:down'" width="20"
                                 height="20" />
                         </button>
@@ -90,17 +92,7 @@ function selectOption(name) {
                 </div>
 
                 <!-- Delivery Date -->
-                <div class="mt-5 flex flex-row gap-3">
-                    <div>
-                        <label class="font-lato text-base font-normal leading-4 tracking-normal">
-                            Delivery Date <span class="text-red-500">*</span>
-                        </label>
-                    </div>
-                    <div>
-                        <Icon icon="pixel:calender-solid" width="22" height="22" />
-                    </div>
-                </div>
-
+                <DateIcon />
                 <!-- items -->
                 <div class="mt-5">
                     <div>
@@ -139,56 +131,16 @@ function selectOption(name) {
                                 <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">
                                     Reference dress given?
                                 </h1>
-
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" class="sr-only peer">
-                                    <div
-                                        class="w-11 h-6 bg-gray-300 rounded-full peer dark:bg-gray-700 peer-checked:bg-primary transition duration-300">
-                                    </div>
-                                    <div
-                                        class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 transform peer-checked:translate-x-full">
-                                    </div>
-                                </label>
+                                <ToggleButton />
                             </div>
                             <!-- Trail Date -->
-                            <div class="flex flex-col lg:flex-row justify-between">
-                                <div class="lg:gap-2 gap-4 mt-3 flex flex-col">
-                                    <div>
-                                        <label>Trail Date : </label>
-                                    </div>
-                                    <div class="flex">
-                                        <input type="date" id="trail-date" name="trail-date"
-                                            class="lg:ml-5 ml-0 p-1 border border-gray-300 rounded cursor-pointer w-[330px]">
-                                        <Icon icon="mingcute:delete-fill" width="24" height="24" class="mt-2 ml-2" />
-                                    </div>
-                                </div>
-
-                                <!-- Delivery Date -->
-                                <div class="lg:gap-2 gap-4 mt-3 flex flex-col">
-                                    <div>
-                                        <label>Delivery Date : </label>
-                                    </div>
-                                    <div>
-                                        <input type="date" id="trail-date" name="trail-date"
-                                            class="lg:ml-5 ml-0 p-1 border border-gray-300 rounded cursor-pointer w-[330px]">
-                                    </div>
-                                </div>
-                            </div>
-
+                            <Date />
                             <!-- Mark as Urgent -->
                             <div class="flex items-center gap-4 mt-5">
                                 <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">
                                     Mark as Urgent
                                 </h1>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" class="sr-only peer">
-                                    <div
-                                        class="w-11 h-6 bg-gray-300 rounded-full peer dark:bg-gray-700 peer-checked:bg-primary transition duration-300">
-                                    </div>
-                                    <div
-                                        class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition-transform duration-300 transform peer-checked:translate-x-full">
-                                    </div>
-                                </label>
+                                <ToggleButton />
                             </div>
 
                             <!-- Cloth Images -->
