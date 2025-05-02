@@ -4,7 +4,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm, Link, Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
-const toast = new ToastMagic();
+import ImageModal from '@/components/ImageModal.vue';
 const props = defineProps<{
     errors: Record<string, string>,
     customer: {
@@ -111,6 +111,18 @@ const phoneError = computed(() => {
     }
     return '';
 });
+
+const showImageModal = ref(false);
+const currentImageUrl = ref('');
+
+const openImageModal = (url: string) => {
+    currentImageUrl.value = url;
+    showImageModal.value = true;
+};
+
+const closeImageModal = () => {
+    showImageModal.value = false;
+};
 </script>
 
 <template>
@@ -248,9 +260,9 @@ const phoneError = computed(() => {
                     <!-- Face Image -->
                     <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">Face Image</h2>
-                        <div
+                        <div @click="openImageModal(faceImageUrl)"
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
-                            <img :src="faceImageUrl" alt="Face Image" class="object-cover h-full w-full" />
+                                <img :src="faceImageUrl" alt="Face Image" class="object-scale-down h-64 w-[500px]" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
@@ -265,9 +277,9 @@ const phoneError = computed(() => {
                     <!-- Full Body Image -->
                     <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">Full Image</h2>
-                        <div
+                        <div @click="openImageModal(fullBodyImageUrl)"
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
-                            <img :src="fullBodyImageUrl" alt="Full Body Image" class="object-cover h-full w-full" />
+                            <img :src="fullBodyImageUrl" alt="Full Body Image" class="object-scale-down h-[250px]  w-[500px]" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
@@ -280,6 +292,8 @@ const phoneError = computed(() => {
                     </div>
                 </div>
 
+                <!-- Modal Component -->
+                <ImageModal :show="showImageModal" :imageUrl="currentImageUrl" @close="closeImageModal" />
                 <!-- Update Button-->
                 <Button @click="updateCustomer" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
                     Update Customer
