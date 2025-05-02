@@ -4,8 +4,7 @@ import Input from '../InputWithLabel.vue';
 </script>
 <template>
     <div class="mt-5 flex flex-col">
-        <label class="font-normal text-md leading-4 tracking-normal font-lato mb-2">
-            Color : </label>
-        <Input type="text" id="favcolor" name="favcolor" color="grayBorder" margin="md"/>
+        <Input v-model="favColor" id="favcolor" name="favcolor" label="Color:" type="text" color="grayBorder"
+            margin="md" placeholder="Enter color" />
     </div>
-</template>
+</template> 

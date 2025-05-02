@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import CustomerList from '@/components/CustomerList.vue';
 import SearchList from '@/components/SearchIcon.vue';
 import AppLayout from '@/layouts/AppLayout.vue';

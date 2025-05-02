@@ -19,9 +19,6 @@ const removeNote = (index: number) => {
 
     <div class="notes-section">
         <div class="flex items-center justify-between mt-5">
-            <label class="block font-normal text-md leading-4 tracking-normal font-lato mb-2">Notes <span
-                    class="text-red-500">*</span></label>
-
             <div class="flex items-center space-x-3">
                 <!-- Notes Count -->
                 <span class="text-sm text-gray-600">Total: {{ notes.length }}</span>
@@ -36,7 +33,7 @@ const removeNote = (index: number) => {
 
         <div v-for="(note, index) in notes" :key="index" class="mb-2 flex flex-row gap-4 lg:items-start">
             <div>
-                <Input v-model="note.text" type="text" id="notes" width="full" name="notes" color="grayBorder"
+                <Input v-model="note.text" type="text" id="notes" width="full"  label="Notes:" name="notes" color="grayBorder"
                     margin="md"/>
             </div>
             <!-- Show - button if more than one note -->

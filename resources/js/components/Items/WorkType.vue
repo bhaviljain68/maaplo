@@ -42,7 +42,6 @@ function toggleDropdownWorkType() {
                         <div class="flex gap-2">
                             <Input type="radio" id="only-altering" name="work-type"
                                 radioValue="only-altering" v-model="selectedWorkType" width="sm" />
-
                             <h1 class="font-normal text-sm leading-4 tracking-normal font-lato">
                                 Only
                                 Altering</h1>
@@ -53,43 +52,37 @@ function toggleDropdownWorkType() {
 
 
             <!-- Conditional Input Fields -->
-            <div v-if="selectedWorkType === 'new-from-material'" class="mt-4 ml-2 flex flex-col gap-4">
+            <div v-if="selectedWorkType === 'new-from-material'" class="mt-4 ml-2 flex flex-col gap-3">
                 <div>
-                    <label class="block text-md font-medium text-gray-700">Material Code :</label>
-                    <Input type="text" padding="md" margin="md" rounded="md"
+                    <Input type="text" padding="md" label="Material Code :" margin="md" rounded="md"
                         textSize="base" width="full" placeholder="Enter material code" />
                 </div>
                 <div>
-                    <label class="block text-md font-medium text-gray-700">Material Cost :</label>
-                    <Input type="number" padding="md" margin="md" rounded="md" textSize="base"
+                    <Input type="number" padding="md" margin="md" label="Material Cost:" rounded="md" textSize="base"
                         width="full" placeholder="Enter material cost" />
                 </div>
                 <div>
-                    <label class="block text-md font-medium text-gray-700">Material Type :</label>
-                    <Input type="number" padding="md" margin="md" rounded="md" textSize="base"
+                    <Input type="number" padding="md" margin="md" label="Material Type :" rounded="md" textSize="base"
                         width="full" placeholder="Enter material Type" />
                 </div>
                 <div>
-                    <label class="block text-md font-medium text-gray-700">Stiching Cost :</label>
-                    <Input type="number" padding="md" margin="md" rounded="md" textSize="base"
+                    <Input type="number" padding="md" margin="md" label="Stiching Cost :" rounded="md" textSize="base"
                         width="full" placeholder="Enter stitching cost" />
                 </div>
             </div>
 
             <!-- Conditional Input Fields -->
-            <div v-if="selectedWorkType === 'only-stitching'" class="mt-4 ml-2 flex flex-col gap-4">
+            <div v-if="selectedWorkType === 'only-stitching'" class="mt-4 ml-2 flex flex-col gap-3">
                 <div>
-                    <label class="block text-md font-medium text-gray-700">Cost :</label>
-                    <Input type="text" padding="md" margin="md" rounded="md" textSize="base"
+                    <Input type="text" padding="md" margin="md" label="Cost :" rounded="md" textSize="base"
                         width="full" placeholder="Enter Cost" />
                 </div>
             </div>
 
             <!-- Conditional Input Fields -->
-            <div v-if="selectedWorkType === 'only-altering'" class="mt-4 ml-2 flex flex-col gap-4">
+            <div v-if="selectedWorkType === 'only-altering'" class="mt-4 ml-2 flex flex-col gap-3">
                 <div>
-                    <label class="block text-md font-medium text-gray-700">Cost :</label>
-                    <Input type="text" padding="md" margin="md" rounded="md" textSize="base"
+                    <Input type="text" padding="md" margin="md" label="Cost :" rounded="md" textSize="base"
                         width="full" placeholder="Enter Cost" />
                 </div>
             </div>
