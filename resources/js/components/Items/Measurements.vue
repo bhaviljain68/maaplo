@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import SvgIcon from '../SvgIcon.vue';
+import Input from '../InputWithLabel.vue';
 const showDropdownMeasurements = ref(false);
 function toggleDropdownMeasurements() {
     showDropdownMeasurements.value = !showDropdownMeasurements.value;
@@ -27,7 +28,7 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'length'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Length</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Chest -->
@@ -35,7 +36,7 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'chest'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Chest</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Arms -->
@@ -43,7 +44,7 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'Arms'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Arms</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Sleeve length -->
@@ -52,7 +53,7 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Sleeve
                                 length</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Back Neck -->
@@ -61,7 +62,7 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Back
                                 Neck</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Shoulder -->
@@ -69,7 +70,7 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'shoulder'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Shoulder</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Waist -->
@@ -77,7 +78,7 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'waist'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Waist</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Seat -->
@@ -85,7 +86,7 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'seat'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Seat</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Sleeve Circle -->
@@ -94,7 +95,7 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Sleeve
                                 Circle</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
 
                         <!-- Front Neck -->
@@ -103,7 +104,7 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Front
                                 Neck</span>
-                            <input type="text" class="border border-gray-500 rounded-sm px-2 py-1 w-20" />
+                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
                         </div>
                     </div>
 

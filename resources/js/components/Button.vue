@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['type' ,'color' ,'padding' ,'margin' ,'rounded' ,'fullWidth' ,'textSize','disabled' ])
+const props = defineProps(['type', 'color', 'padding', 'margin', 'rounded', 'fullWidth', 'textSize', 'disabled'])
 
 
 // Classes for color variants
@@ -7,7 +7,7 @@ const colorClass = {
     primary: 'bg-primary text-white hover:bg-[#145e75]',
     secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
     danger: 'bg-danger  text-white hover:bg-red-600',
-    gray : '.bg-gray text-gray-800 hover:bg-gray-300',
+    gray: '.bg-gray text-gray-800 hover:bg-gray-300',
 }[props.color] ?? 'bg-primary text-white'
 
 // Padding sizes
@@ -28,11 +28,11 @@ const roundedClass = {
 
 // text size classes
 const textSizeClass = {
-  xs: 'text-xs',
-  sm: 'text-sm',
-  base: 'text-base',
-  lg: 'text-lg',
-  xl: 'text-xl'
+    xs: 'text-xs',
+    sm: 'text-sm',
+    base: 'text-base',
+    lg: 'text-lg',
+    xl: 'text-xl'
 }[props.textSize] ?? ''
 
 </script>

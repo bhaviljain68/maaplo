@@ -1,0 +1,43 @@
+<script setup>
+import { computed, ref } from 'vue'
+import { Icon } from '@iconify/vue';
+const selectedDate = ref('')
+const dateInput = ref(null)
+
+function openCalendar() {
+    if (dateInput.value?.showPicker) {
+        dateInput.value.showPicker()
+    } else {
+        dateInput.value?.focus()
+    }
+}
+
+const formattedDate = computed(() => {
+    if (!selectedDate.value) return ''
+    const d = new Date(selectedDate.value)
+    return d.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit'
+    })
+})
+</script>
+<template>
+    <div class="mt-5 flex items-center gap-3">
+        <label class="font-lato text-base font-normal leading-4 tracking-normal">
+            Delivery Date <span class="text-red-500">*</span>
+        </label>
+
+        <!-- Calendar icon acts as the “open picker” trigger -->
+        <Icon icon="pixel:calender-solid" width="22" height="22"
+            class="cursor-pointer text-gray-700 hover:text-gray-900" @click="openCalendar" />
+
+        <!-- Hidden native date input -->
+        <input ref="dateInput" type="date" v-model="selectedDate" @change="onDateChange" class="hidden" />
+
+        <!-- Show the picked date -->
+        <span v-if="selectedDate" class="ml-2 text-gray-800">
+            {{ formattedDate }}
+        </span>
+    </div>
+</template>
