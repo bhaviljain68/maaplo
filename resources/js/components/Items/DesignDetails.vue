@@ -36,7 +36,7 @@ function toggleDropdownSleeveType() {
                     <!--  Front Neck Design -->
                     <div>
                         <div @click="toggleDropdownFrontNeckDesign()" class="flex">
-                            <h1 class="font-normal ml-3 mt-3 text-[16px] leading-4 tracking-normal font-lato">
+                            <h1 class="font-normal ml-3 mt-4 text-[16px] leading-4 tracking-normal font-lato">
                                 Front Neck Design
                             </h1>
                             <Icon v-if="showDropdownFrontNeckDesign == false" icon="icon-park-outline:down" width="20"
@@ -84,7 +84,7 @@ function toggleDropdownSleeveType() {
                     <!--  Back Neck Design -->
                     <div>
                         <div @click="toggleDropdownBackNeckDesign()" class="flex">
-                            <h1 class="font-normal ml-3 mt-3 text-[16px] leading-4 tracking-normal font-lato">
+                            <h1 class="font-normal ml-3 mt-4 text-[16px] leading-4 tracking-normal font-lato">
                                 Back Neck Design
                             </h1>
                             <Icon v-if="showDropdownBackNeckDesign == false" icon="icon-park-outline:down" width="20"
@@ -132,7 +132,7 @@ function toggleDropdownSleeveType() {
                     <!--  Sleeve Type -->
                     <div>
                         <div @click="toggleDropdownSleeveType()" class="flex">
-                            <h1 class="font-normal ml-3 mt-3 text-[16px] leading-4 tracking-normal font-lato">
+                            <h1 class="font-normal ml-3 mt-4 text-[16px] leading-4 tracking-normal font-lato">
                                 Sleeve Type
                             </h1>
                             <Icon v-if="showDropdownSleeveType == false" icon="icon-park-outline:down" width="20"
@@ -144,7 +144,7 @@ function toggleDropdownSleeveType() {
                         <div v-show="showDropdownSleeveType" class="z-10">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
-                                    <div class="flex flex-row gap-3 lg:ml-10 ml-5 py-5 text-black font-lato text-sm">
+                                    <div class="flex flex-row gap-3 lg:ml-10 ml-5 pt-4 text-black font-lato text-sm">
                                         <div class="text-center">
                                             <h1 class="text-[14px] tracking-normal font-lato">
                                                 Full

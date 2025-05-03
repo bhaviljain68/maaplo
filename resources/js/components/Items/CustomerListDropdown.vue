@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
+import { Link } from '@inertiajs/vue3';
 const selectedCustomer = ref('Select Customer');
 const showDropdown = ref(false);
 function toggleDropdown() {
@@ -61,7 +62,7 @@ function selectOption(name) {
         </div>
         <!-- Add Icon -->
         <div>
-            <Icon icon="material-symbols:add-rounded" width="20" height="20" />
+            <Link :href="route('customers.create')" ><Icon icon="material-symbols:add-rounded" width="20" height="20" /></Link>
         </div>
     </div>
 </template>

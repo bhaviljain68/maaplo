@@ -84,7 +84,7 @@ const props = defineProps(["users", "customers"])
                             </div>
 
                             <!-- Cloth Images -->
-                            <div class="flex flex-col lg:flex-row justify-between mt-5">
+                            <div class="flex flex-col lg:flex-row justify-between">
                                 <ClothImage />
                                 <PatternImage />
                             </div>
