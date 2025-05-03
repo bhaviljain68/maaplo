@@ -1,8 +1,6 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 const props = defineProps(['type', 'id', 'name', 'color', 'padding', 'margin', 'rounded', 'fullWidth', 'textSize', 'disabled', 'placeholder', 'modelValue', 'width', 'fonttype', 'label', 'radioValue'])
-console.log(props);
-
 const emit = defineEmits(['update:modelValue'])
 
 // Color classes
@@ -10,6 +8,7 @@ const colorClass = {
     primary: 'bg-primary border border-primary text-black focus:border-primary',
     gray: 'border text-gray-800 focus:border-gray-500',
     grayBorder: 'border border-gray-600 text-gray-800 focus:border-gray-500',
+    // grayBorderBottom: 'border-b border-gray-600 text-gray-800 focus:border-gray-500',
 }[props.color] ?? 'bg-white border border-gray-300 text-black'
 
 // Padding classes
@@ -47,32 +46,40 @@ const marginClass = {
 const widthClass = {
     sm: 'w-4',
     md: 'w-20',
-    lg: 'w-96',
+    lg: 'w-80',
     full: 'w-full',
 }[props.width] ?? ''
 </script>
 
 <template>
-    <!-- <label v-if="label" :class="[textSize,fonttype]">{{ label }}</label>
-    <input :type="type" :placeholder="placeholder" :value="radioValue" :id="id" :name="name"
-        @input="$emit('update:modelValue', $event.target.value); console.log($event.target.value)" :disabled="disabled"
-        :class="[
-            'transition duration-200 focus:outline-none',
-            colorClass,
-            paddingClass,
-            roundedClass,
-            textSizeClass,
-            marginClass,
-            widthClass,
-            fullWidth ? 'w-full' : '',
-            disabled ? 'opacity-50 cursor-not-allowed' : ''
-        ]" /> -->
     <div class="flex flex-col">
         <label v-if="label" :for="id" :class="[textSizeClass, fonttype]">
             {{ label }}
         </label>
-        <input :type="type" :placeholder="placeholder" :value="radioValue" :id="id" :name="name"
-            @input="$emit('update:modelValue', $event.target.value); console.log($event.target.value)"
+         <!-- If type is textarea -->
+    <textarea
+      v-if="type === 'textarea'"
+      :id="id"
+      :name="name"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+      :class="[
+        'transition duration-200 focus:outline-none resize-none',
+        colorClass,
+        paddingClass,
+        roundedClass,
+        textSizeClass,
+        marginClass,
+        widthClass,
+        fullWidth ? 'w-full' : '',
+        disabled ? 'opacity-50 cursor-not-allowed' : ''
+      ]"
+      rows="2"
+    ></textarea>
+        <input  v-else :type="type" :placeholder="placeholder" :value="radioValue" :id="id" :name="name"
+            @input="$emit('update:modelValue', $event.target.value)"
             :disabled="disabled" :class="[
                 'transition duration-200 focus:outline-none',
                 colorClass,

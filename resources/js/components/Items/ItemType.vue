@@ -17,7 +17,7 @@ function toggleDropdownItemType() {
                 class="text-black ml-2" />
         </div>
         <!-- Dropdown -->
-        <div v-show="showDropdownItemType" class="z-10" v-debounce:400ms="myFn">
+        <div v-show="showDropdownItemType" class="z-10">
             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
                     <div class="flex flex-col ml-2  gap-3 text-black mt-2">

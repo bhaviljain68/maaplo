@@ -30,13 +30,13 @@ function toggleDropdownSleeveType() {
                 class="text-black ml-2" />
         </div>
         <!-- Dropdown -->
-        <div v-show="showDropdownDesignDetails" class="z-10" v-debounce:400ms="myFn">
+        <div v-show="showDropdownDesignDetails" class="z-10">
             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
                     <!--  Front Neck Design -->
                     <div>
                         <div @click="toggleDropdownFrontNeckDesign()" class="flex">
-                            <h1 class="font-normal ml-3 mt-3 text-[16px] leading-4 tracking-normal font-lato">
+                            <h1 class="font-normal ml-3 mt-4 text-[16px] leading-4 tracking-normal font-lato">
                                 Front Neck Design
                             </h1>
                             <Icon v-if="showDropdownFrontNeckDesign == false" icon="icon-park-outline:down" width="20"
@@ -45,7 +45,7 @@ function toggleDropdownSleeveType() {
                                 height="20" class="text-black ml-2 mt-3" />
                         </div>
                         <!-- Dropdown -->
-                        <div v-show="showDropdownFrontNeckDesign" class="z-10" v-debounce:400ms="myFn">
+                        <div v-show="showDropdownFrontNeckDesign" class="z-10">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
                                     <div class="flex flex-row gap-5 lg:ml-10 ml-5 py-5 text-black font-lato text-sm">
@@ -84,7 +84,7 @@ function toggleDropdownSleeveType() {
                     <!--  Back Neck Design -->
                     <div>
                         <div @click="toggleDropdownBackNeckDesign()" class="flex">
-                            <h1 class="font-normal ml-3 mt-3 text-[16px] leading-4 tracking-normal font-lato">
+                            <h1 class="font-normal ml-3 mt-4 text-[16px] leading-4 tracking-normal font-lato">
                                 Back Neck Design
                             </h1>
                             <Icon v-if="showDropdownBackNeckDesign == false" icon="icon-park-outline:down" width="20"
@@ -93,7 +93,7 @@ function toggleDropdownSleeveType() {
                                 height="20" class="text-black ml-2 mt-3" />
                         </div>
                         <!-- Dropdown -->
-                        <div v-show="showDropdownBackNeckDesign" class="z-10" v-debounce:400ms="myFn">
+                        <div v-show="showDropdownBackNeckDesign" class="z-10">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
                                     <div class="flex flex-row gap-5 lg:ml-10 ml-5 py-5 text-black font-lato text-sm">
@@ -121,7 +121,7 @@ function toggleDropdownSleeveType() {
                                             <SvgIcon :name="'close-neck'" />
                                             <h1
                                                 class="font-medium mt-3 text-[12px] leading-[8px] tracking-normal text-center font-lato">
-                                                Round Neck</h1>
+                                                Close Neck</h1>
                                         </div>
                                     </div>
                                 </li>
@@ -132,7 +132,7 @@ function toggleDropdownSleeveType() {
                     <!--  Sleeve Type -->
                     <div>
                         <div @click="toggleDropdownSleeveType()" class="flex">
-                            <h1 class="font-normal ml-3 mt-3 text-[16px] leading-4 tracking-normal font-lato">
+                            <h1 class="font-normal ml-3 mt-4 text-[16px] leading-4 tracking-normal font-lato">
                                 Sleeve Type
                             </h1>
                             <Icon v-if="showDropdownSleeveType == false" icon="icon-park-outline:down" width="20"
@@ -141,10 +141,10 @@ function toggleDropdownSleeveType() {
                                 height="20" class="text-black ml-2 mt-3" />
                         </div>
                         <!-- Dropdown -->
-                        <div v-show="showDropdownSleeveType" class="z-10" v-debounce:400ms="myFn">
+                        <div v-show="showDropdownSleeveType" class="z-10">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
-                                    <div class="flex flex-row gap-3 lg:ml-10 ml-5 py-5 text-black font-lato text-sm">
+                                    <div class="flex flex-row gap-3 lg:ml-10 ml-5 pt-4 text-black font-lato text-sm">
                                         <div class="text-center">
                                             <h1 class="text-[14px] tracking-normal font-lato">
                                                 Full
