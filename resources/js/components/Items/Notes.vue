@@ -17,7 +17,7 @@ const removeNote = (index: number) => {
 
 <template>
 
-    <div class="notes-section">
+    <div class="notes-section lg:w-96">
         <div class="flex items-center justify-between mt-5">
             <div class="flex items-center space-x-3">
                 <!-- Notes Count -->
@@ -28,21 +28,26 @@ const removeNote = (index: number) => {
                     class="flex items-center text-green-500 hover:text-green-600 transition">
                     <Icon icon="mdi:plus-circle-outline" width="20" height="20" class="mr-1" />
                 </button>
-            </div> 
+            </div>
         </div>
 
-        <div v-for="(note, index) in notes" :key="index" class="mb-2 flex flex-row gap-4 lg:items-start">
+        <div v-for="(note, index) in notes" :key="index" class="mb-2 flex flex-row gap-2 lg:items-start">
             <div>
-                <Input v-model="note.text" type="text" id="notes" width="full"  label="Notes:" name="notes" color="grayBorder"
-                    margin="md"/>
+                <Input type="text" label="Label" id="notes" width="lg" name="notes"
+                    color="grayBorder" margin="md" placeholder="Write your label" />
+                <Input type="textarea" id="notes" width="lg" label="Notes:" name="notes"
+                    color="grayBorder" margin="md" placeholder="Write your Note..."/>
             </div>
             <!-- Show - button if more than one note -->
             <div class="flex items-center p-1" v-if="notes.length > 1">
-                <button type="button" @click="removeNote(index) "
+                <button type="button" @click="removeNote(index)"
                     class="flex items-center text-red-500 hover:text-red-600 transition">
                     <Icon icon="mdi:minus-circle-outline" width="20" height="20" class="mr-1" />
                 </button>
             </div>
         </div>
     </div>
+
+    <!-- notes -->
+
 </template>

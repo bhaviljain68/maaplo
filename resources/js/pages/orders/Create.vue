@@ -1,8 +1,6 @@
 <script setup>
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
-import VueDatePicker from 'vue3-datepicker';
-import { ref } from 'vue';
 import WorkType from '@/components/Items/WorkType.vue';
 import ItemType from '@/components/Items/ItemType.vue';
 import Measurements from '@/components/Items/Measurements.vue';
@@ -12,16 +10,10 @@ import Notes from '@/components/Items/Notes.vue';
 import Date from '@/components/Date.vue';
 import DateIcon from '@/components/DateIcon.vue';
 import ToggleButton from '@/components/ToggleButton.vue';
-const showDropdown = ref(false);
+import ClothImage from '@/components/Items/ClothImage.vue';
+import PatternImage from '@/components/Items/PatternImage.vue';
+import CustomerListDropdown from '@/components/Items/CustomerListDropdown.vue';
 const props = defineProps(["users", "customers"])
-const selectedCustomer = ref('Select Customer');
-function toggleDropdown() {
-    showDropdown.value = !showDropdown.value;
-}
-function selectOption(name) {
-    selectedCustomer.value = name;
-    showDropdown.value = false;
-}
 
 </script>
 
@@ -35,64 +27,12 @@ function selectOption(name) {
             </div>
             <div class="flex flex-col lg:mt-5 rounded-lg lg:border lg:border-primary p-0 lg:p-4">
                 <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Enter Details</h1>
-
-                <div class="w-full border-b border-black flex justify-between items-center relative">
-                    <!-- Dropdown Button -->
-                    <div>
-                        <button @click="toggleDropdown"
-                            class="flex cursor-pointer items-center justify-between gap-2 py-2 bg-white rounded-md focus:outline-none">
-                            <span class="font-lato text-base font-normal leading-4 tracking-normal">{{ selectedCustomer
-                            }}</span>
-                            <Icon :icon="showDropdown ? 'icon-park-outline:up' : 'icon-park-outline:down'" width="20"
-                                height="20" />
-                        </button>
-
-                        <!-- Dropdown Menu -->
-                        <div v-if="showDropdown"
-                            class="absolute mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                            <ul class="py-1 text-sm text-gray-700">
-                                <!-- Static Customer Option -->
-                                <li>
-                                    <div @click="selectOption('Riya Patel')"
-                                        class="w-full text-left px-4 py-2 hover:bg-gray-100">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <h1 class="text-gray-800 font-medium text-[18px]">Riya Patel</h1>
-                                            </div>
-                                            <div>
-                                                <img src="/images/Profile.png" alt="Customer Image"
-                                                    class="w-8 h-8 rounded-full ml-4" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </li>
-                                <li>
-                                    <div @click="selectOption('Riya Patel')"
-                                        class="w-full text-left px-4 py-2 hover:bg-gray-100">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <h1 class="text-gray-800 font-medium text-[18px]">Riya Patel</h1>
-                                            </div>
-                                            <div>
-                                                <img src="/images/Profile.png" alt="Customer Image"
-                                                    class="w-8 h-8 rounded-full ml-4" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Add Icon -->
-                    <div>
-                        <Icon icon="material-symbols:add-rounded" width="20" height="20" />
-                    </div>
-                </div>
+                <!-- selected customer list -->
+                <CustomerListDropdown />
 
                 <!-- Delivery Date -->
                 <DateIcon />
+
                 <!-- items -->
                 <div class="mt-5">
                     <div>
@@ -127,7 +67,7 @@ function selectOption(name) {
                             </div>
 
                             <!-- Refference dress given? -->
-                            <div class="flex justify-between items-center gap-4 mt-3">
+                            <div class="flex items-center gap-4 mt-3">
                                 <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">
                                     Reference dress given?
                                 </h1>
@@ -144,9 +84,9 @@ function selectOption(name) {
                             </div>
 
                             <!-- Cloth Images -->
-                            <div class="mt-5">
-                                <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">Cloth Images
-                                </h1>
+                            <div class="flex flex-col lg:flex-row justify-between mt-5">
+                                <ClothImage />
+                                <PatternImage />
                             </div>
 
                         </div>

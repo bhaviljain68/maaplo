@@ -234,7 +234,6 @@ const phoneError = computed(() => {
                             <label class="upload-box cursor-pointer">
                                 <img :src="form.half_image_preview || '/images/half-coustomer.jpeg'"
                                     alt="Half Image Preview" class="w-28 h-24 object-cover mb-2" />
-
                                 <input type="file" class="hidden" accept="image/*"
                                     @change="handleImageUpload($event, 'half_image')" />
                             </label>
