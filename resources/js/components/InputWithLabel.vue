@@ -1,14 +1,34 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
-const props = defineProps(['type', 'id', 'name', 'color', 'padding', 'margin', 'rounded', 'fullWidth', 'textSize', 'disabled', 'placeholder', 'modelValue', 'width', 'fonttype', 'label', 'radioValue'])
-const emit = defineEmits(['update:modelValue'])
+import { defineProps, defineModel } from 'vue'
+
+const props = defineProps([
+    'type',
+    'id',
+    'name',
+    'color',
+    'padding',
+    'margin',
+    'rounded',
+    'fullWidth',
+    'textSize',
+    'disabled',
+    'placeholder',
+    'modelValue',
+    'width',
+    'fonttype',
+    'label',
+    'radioValue',
+    'error',
+    'required'
+])
+
+const model = defineModel('modelValue');
 
 // Color classes
 const colorClass = {
     primary: 'bg-primary border border-primary text-black focus:border-primary',
     gray: 'border text-gray-800 focus:border-gray-500',
     grayBorder: 'border border-gray-600 text-gray-800 focus:border-gray-500',
-    // grayBorderBottom: 'border-b border-gray-600 text-gray-800 focus:border-gray-500',
 }[props.color] ?? 'bg-white border border-gray-300 text-black'
 
 // Padding classes
@@ -52,36 +72,31 @@ const widthClass = {
 </script>
 
 <template>
-    <div class="flex flex-col">
-        <label v-if="label" :for="id" :class="[textSizeClass, fonttype]">
-            {{ label }}
-        </label>
-         <!-- If type is textarea -->
-    <textarea
-      v-if="type === 'textarea'"
-      :id="id"
-      :name="name"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-      :class="[
-        'transition duration-200 focus:outline-none resize-none',
-        colorClass,
-        paddingClass,
-        roundedClass,
-        textSizeClass,
-        marginClass,
-        widthClass,
-        fullWidth ? 'w-full' : '',
-        disabled ? 'opacity-50 cursor-not-allowed' : ''
-      ]"
-      rows="2"
-    ></textarea>
-        <input  v-else :type="type" :placeholder="placeholder" :value="radioValue" :id="id" :name="name"
-            @input="$emit('update:modelValue', $event.target.value)"
-            :disabled="disabled" :class="[
+    <div class="flex flex-col" :class="{ 'flex-row items-center space-x-2': type === 'radio' }">
+        <!-- RADIO BUTTON -->
+        <template v-if="type === 'radio'">
+            <input :type="type" :id="id" :name="name" :value="radioValue" v-model="model" :disabled="disabled" :class="[
                 'transition duration-200 focus:outline-none',
+                colorClass,
+                paddingClass,
+                roundedClass,
+                textSizeClass,
+                marginClass,
+                widthClass,
+                disabled ? 'opacity-50 cursor-not-allowed' : ''
+            ]" />
+            <label :for="id" class="text-sm">{{ label }}</label>
+        </template>
+
+        <!-- TEXTAREA -->
+        <template v-else-if="type === 'textarea'">
+            <label v-if="label" :for="id" :class="[textSizeClass, fonttype]">
+                {{ label }}
+                <span v-if="required" class="text-red-500 text-lg">*</span>
+                <span v-else class="text-gray-400 text-sm">(optional)</span>
+            </label>
+            <textarea :id="id" :name="name" :placeholder="placeholder" :disabled="disabled" v-model="model" :class="[
+                'transition duration-200 focus:outline-none resize-none',
                 colorClass,
                 paddingClass,
                 roundedClass,
@@ -90,6 +105,31 @@ const widthClass = {
                 widthClass,
                 fullWidth ? 'w-full' : '',
                 disabled ? 'opacity-50 cursor-not-allowed' : ''
-            ]" />
+            ]" rows="2" />
+        </template>
+
+        <!-- INPUT (text, email, etc.) -->
+        <template v-else>
+            <label v-if="label" :for="id" :class="[textSizeClass, fonttype]">
+                {{ label }}
+                <span v-if="required" class="text-red-500 text-lg">*</span>
+                <span v-else class="text-gray-400 text-sm">(optional)</span>
+            </label>
+            <input :type="type" :id="id" :name="name" :placeholder="placeholder" :disabled="disabled" v-model="model"
+                :class="[
+                    'transition duration-200 focus:outline-none',
+                    colorClass,
+                    paddingClass,
+                    roundedClass,
+                    textSizeClass,
+                    marginClass,
+                    widthClass,
+                    fullWidth ? 'w-full' : '',
+                    disabled ? 'opacity-50 cursor-not-allowed' : ''
+                ]" />
+        </template>
+
+        <!-- ERROR MESSAGE -->
+        <p v-if="error" class="text-red-600 text-sm mt-1">{{ error }}</p>
     </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['type', 'color', 'padding', 'margin', 'rounded', 'fullWidth', 'textSize', 'disabled'])
+const props = defineProps(['type', 'color', 'padding', 'rounded', 'fullWidth', 'textSize', 'disabled'])
 
 
 // Classes for color variants
@@ -42,7 +42,6 @@ const textSizeClass = {
         ' transition duration-200 font-medium focus:outline-none',
         colorClass,
         paddingClass,
-        marginClass,
         roundedClass,
         textSizeClass,
         fullWidth ? 'w-full' : '',

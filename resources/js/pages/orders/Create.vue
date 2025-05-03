@@ -61,7 +61,7 @@ const props = defineProps(["users", "customers"])
                             <DesignDetails />
 
                             <!-- color / notes -->
-                            <div class="flex flex-col lg:flex-row justify-between">
+                            <div class="flex flex-col">
                                 <Colors />
                                 <Notes />
                             </div>

@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { reactive, ref,computed } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
+import Input from '@/components/InputWithLabel.vue';
+import InputWithLabel from '@/components/InputWithLabel.vue';
+import Notes from '@/components/Items/Notes.vue';
+
 const props = defineProps<{
     errors: Record<string, string>,
     user_id: number
@@ -16,9 +20,9 @@ const form = reactive({
     name: '',
     gender: '',
     phone: '',
-    email:  null ,
+    email: null,
     address: '',
-    dob:null ,
+    dob: null,
     half_image: '',
     full_image: '',
     half_image_preview: '',
@@ -98,125 +102,64 @@ const phoneError = computed(() => {
                 </h1>
             </div>
             <form class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
-                <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Enter Details</h1>
+                <h1 class="text-xl font-bold lg:mt-0 mt-6">Enter Details</h1>
                 <!-- Customer Name -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
-                        Customer Name <span class="text-red-500">*</span>
-                    </label>
+                    <!-- <span class="text-red-500">*</span> -->
+                    <Input type="text" v-model="form.name" label="Customer Name" color="grayBorder" :required="true"
+                        :error="errors.name" placeholder="Enter Customer Name" />
 
-                    <input type="text" v-model="form.name" placeholder="Enter Customer Name"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
-                    <div v-if="errors.name" class="text-red-600 text-sm mt-1">{{ errors.name }}</div>
                 </div>
 
                 <!-- Contact Number -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">
-                        Contact Number <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" v-model="form.phone"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
-                        placeholder="Enter Phone Number" />
+                    <Input type="text" v-model="form.phone" label="Contact Number" :required="true"
+                        :error="errors.phone" color="grayBorder" placeholder="Enter Phone Number" />
                     <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
-                    <div v-else-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.phone }}</div>
                 </div>
 
 
                 <!-- Email -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email
-                        (Optional)</label>
-                    <input type="email" v-model="form.email"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
+                    <Input type="email" v-model="form.email" label="Email" color="grayBorder" :error="errors.email"
                         placeholder="example@mail.com" />
-                    <div v-if="errors.email" class="text-red-600 text-sm mt-1">{{ errors.email }}</div>
                 </div>
 
                 <!-- Date of Birth -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Date of Birth
-                        (Optional)</label>
-                    <input type="date" v-model="form.dob"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
-                    <div v-if="errors.dob" class="text-red-600 text-sm mt-1">{{ errors.dob }}</div>
+                    <Input type="date" v-model="form.dob" :error="errors.dob" label="Date of Birth"
+                        color="grayBorder" />
                 </div>
 
                 <!-- Address -->
                 <div class="md:col-span-2">
-                    <label class="bblock font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Address <span
-                            class="text-red-500">*</span></label>
-                    <textarea v-model="form.address"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
-                        rows="2" placeholder="Enter address here..."></textarea>
-                    <div v-if="errors.address" class="text-red-600 text-sm mt-1">{{ errors.address }}</div>
+                    <!-- <label class="bblock font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Address <span
+                            class="text-red-500">*</span></label> -->
+                    <Input type="textarea" v-model="form.address" :required="true" label="Address"
+                        :error="errors.address"></Input>
+
                 </div>
 
                 <!-- Gender -->
                 <div class="flex">
                     <div class="mr-3">
-                        <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Gender <span
-                                class="text-red-500">*</span></label>
+                        <label class="text-[18px]  mb-1">Gender <span class="text-red-500">*</span></label>
                     </div>
-                    <div class="flex items-center space-x-6 text-black">
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="m"
-                                class="form-radio accent-black" />
-                            <span>Male</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="f"
-                                class="form-radio accent-black" />
-                            <span>Female</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="o"
-                                class="form-radio accent-black" />
-                            <span>Other</span>
-                        </label>
+                    <div class="flex flex-row items-center space-x-6 text-black">
+                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Male"
+                            radioValue="m" />
+                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Female"
+                            radioValue="f" />
+                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Other"
+                            radioValue="o" />
                     </div>
+
                 </div>
                 <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
 
 
                 <!-- Notes Section -->
-                <div class="notes-section">
-                    <div class="flex items-center justify-between mb-2">
-                        <label class="block font-[Lato] text-[18px]">Notes <span class="text-red-500">*</span></label>
-
-                        <div class="flex items-center space-x-3">
-                            <!-- Notes Count -->
-                            <span class="text-sm text-gray-600">Total: {{ notes.length }}</span>
-
-                            <!-- + Button on label line -->
-                            <button type="button" @click="addNote"
-                                class="flex items-center text-green-500 hover:text-green-600 transition">
-                                <Icon icon="mdi:plus-circle-outline" width="20" height="20" class="mr-1" />
-                                <span class="text-sm font-medium">Add Note</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div v-for="(note, index) in notes" :key="index" class="mb-4 flex gap-4 items-start">
-                        <div class="w-full">
-                            <label class="block text-sm mb-1">Label</label>
-                            <input type="text" placeholder="Write your Label..." v-model="note.label"
-                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" />
-                            <label class="block text-sm mt-2 mb-1">Note</label>
-                            <textarea v-model="note.text"
-                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" rows="2"
-                                placeholder="Write your note..."></textarea>
-                        </div>
-
-                        <!-- Show - button if more than one note -->
-                        <div class="flex items-center pt-6" v-if="notes.length > 1">
-                            <button type="button" @click="removeNote(index)"
-                                class="flex items-center text-red-500 hover:text-red-600 transition">
-                                <Icon icon="mdi:minus-circle-outline" width="24" height="24" class="mr-1" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <Notes />
 
                 <!-- Upload Section -->
                 <div>

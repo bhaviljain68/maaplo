@@ -13,11 +13,18 @@ const addNote = () => {
 const removeNote = (index: number) => {
     notes.value.splice(index, 1);
 };
+const validateNotes = () => {
+    const isValid = notes.value.length > 0 && notes.value.every(
+        note => note.label.trim() !== '' && note.text.trim() !== ''
+    );
+    noteErrors.value = isValid ? null : 'All notes must have a label and text.';
+    return isValid;
+};
 </script>
 
 <template>
 
-    <div class="notes-section lg:w-96">
+    <div class="notes-section">
         <div class="flex items-center justify-between mt-5">
             <div class="flex items-center space-x-3">
                 <!-- Notes Count -->
@@ -32,10 +39,10 @@ const removeNote = (index: number) => {
         </div>
 
         <div v-for="(note, index) in notes" :key="index" class="mb-2 flex flex-row gap-2 lg:items-start">
-            <div>
-                <Input type="text" label="Label" id="notes" width="lg" name="notes"
+            <div class="w-full">
+                <Input type="text" label="Label" v-model="note.label" id="notes" name="notes"
                     color="grayBorder" margin="md" placeholder="Write your label" />
-                <Input type="textarea" id="notes" width="lg" label="Notes:" name="notes"
+                <Input type="textarea" v-model="note.text" id="notes" label="Notes:" name="notes"
                     color="grayBorder" margin="md" placeholder="Write your Note..."/>
             </div>
             <!-- Show - button if more than one note -->
