@@ -165,7 +165,7 @@ const closeImageModal = () => {
 
                 <!-- Email -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email</label>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email (Optional)</label>
                     <input v-model="form.email" type="email"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
                         <div v-if="errors.email" class="text-red-600 text-sm mt-1">{{ errors.email }}</div>
