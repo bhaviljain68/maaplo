@@ -101,7 +101,7 @@ const phoneError = computed(() => {
                     New Customer
                 </h1>
             </div>
-            <form class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
+            <form class="flex flex-col lg:mt-5 gap-3 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
                 <h1 class="text-xl font-bold lg:mt-0 mt-6">Enter Details</h1>
                 <!-- Customer Name -->
                 <div>
@@ -135,7 +135,7 @@ const phoneError = computed(() => {
                 <div class="md:col-span-2">
                     <!-- <label class="bblock font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Address <span
                             class="text-red-500">*</span></label> -->
-                    <Input type="textarea" v-model="form.address" :required="true" label="Address"
+                    <Input type="textarea" v-model="form.address" color="grayBorder" :required="true" label="Address"
                         :error="errors.address"></Input>
 
                 </div>
@@ -210,7 +210,7 @@ const phoneError = computed(() => {
 
                 <!-- Submit Button (Full Width Below) -->
 
-                <Button @click="submitForm" :color="'primary'" :padding="'lg'" :rounded="'full'" :textSize="'base'">
+                <Button @click="submitForm" :color="'primary'" :padding="'md'" :rounded="'full'" :textSize="'sm'">
                     Save & Continue
                 </Button>
 

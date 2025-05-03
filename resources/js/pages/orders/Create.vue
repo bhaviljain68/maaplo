@@ -63,7 +63,7 @@ const props = defineProps(["users", "customers"])
                             <!-- color / notes -->
                             <div class="flex flex-col">
                                 <Colors />
-                                <Notes />
+                                <Notes  class="mt-5"/>
                             </div>
 
                             <!-- Refference dress given? -->

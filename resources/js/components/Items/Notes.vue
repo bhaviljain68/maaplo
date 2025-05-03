@@ -25,7 +25,7 @@ const validateNotes = () => {
 <template>
 
     <div class="notes-section">
-        <div class="flex items-center justify-between mt-5">
+        <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <!-- Notes Count -->
                 <span class="text-sm text-gray-600">Total: {{ notes.length }}</span>
@@ -40,10 +40,14 @@ const validateNotes = () => {
 
         <div v-for="(note, index) in notes" :key="index" class="mb-2 flex flex-row gap-2 lg:items-start">
             <div class="w-full">
-                <Input type="text" label="Label" v-model="note.label" id="notes" name="notes"
-                    color="grayBorder" margin="md" placeholder="Write your label" />
-                <Input type="textarea" v-model="note.text" id="notes" label="Notes:" name="notes"
-                    color="grayBorder" margin="md" placeholder="Write your Note..."/>
+                <div>
+                    <Input type="text" label="Label" v-model="note.label" id="notes" name="notes" color="grayBorder"
+                        margin="md" placeholder="Write your label" />
+                </div>
+                <div class="mt-3">
+                    <Input type="textarea" v-model="note.text" id="notes" label="Notes:" name="notes" color="grayBorder"
+                        margin="md" placeholder="Write your Note..." />
+                </div>
             </div>
             <!-- Show - button if more than one note -->
             <div class="flex items-center p-1" v-if="notes.length > 1">
