@@ -121,7 +121,7 @@ function toggleDropdownSleeveType() {
                                             <SvgIcon :name="'close-neck'" />
                                             <h1
                                                 class="font-medium mt-3 text-[12px] leading-[8px] tracking-normal text-center font-lato">
-                                                Round Neck</h1>
+                                                Close Neck</h1>
                                         </div>
                                     </div>
                                 </li>
