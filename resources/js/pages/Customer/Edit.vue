@@ -5,12 +5,15 @@ import { useForm, Link, Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
 import ImageModal from '@/components/ImageModal.vue';
+const toast = new ToastMagic();
 const props = defineProps<{
+    errors: Record<string, string>,
     customer: {
         id: number;
         name: string;
         email: string;
         phone: string;
+        dob: string;
         address: string;
         gender: string;
         notes: Array<{ label: string; text: string }>;
@@ -24,6 +27,7 @@ const form = useForm({
     email: props.customer.email,
     phone: props.customer.phone,
     address: props.customer.address,
+    dob: props.customer.dob,
     gender: props.customer.gender,
     payment_due: props.customer.payment_due,
     half_image: null,
@@ -162,6 +166,14 @@ const closeImageModal = () => {
                     <input v-model="form.email" type="email"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
                 </div>
+                <!-- Date of Birth -->
+                <div>
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Date of Birth
+                        (Optional)</label>
+                    <input v-model="form.dob" type="date"
+                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                    <div v-if="errors.dob" class="text-red-600 text-sm mt-1">{{ errors.dob }}</div>
+                </div>
 
                 <!-- Address -->
                 <div class="md:col-span-2">
@@ -242,7 +254,7 @@ const closeImageModal = () => {
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">Face Image</h2>
                         <div @click="openImageModal(faceImageUrl)"
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
-                                <img :src="faceImageUrl" alt="Face Image" class="object-scale-down h-64 w-[500px]" />
+                            <img :src="faceImageUrl" alt="Face Image" class="object-scale-down h-64 w-[500px]" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
@@ -256,7 +268,8 @@ const closeImageModal = () => {
                         <h2 class="text-lg font-semibold text-gray-800 mb-3">Full Image</h2>
                         <div @click="openImageModal(fullBodyImageUrl)"
                             class="w-full h-64 bg-gray-50 flex items-center justify-center rounded-md overflow-hidden border">
-                            <img :src="fullBodyImageUrl" alt="Full Body Image" class="object-scale-down h-[250px]  w-[500px]" />
+                            <img :src="fullBodyImageUrl" alt="Full Body Image"
+                                class="object-scale-down h-[250px]  w-[500px]" />
                         </div>
                         <label class="mt-4 block">
                             <span class="text-sm text-gray-600">Upload new image</span>
