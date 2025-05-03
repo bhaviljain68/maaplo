@@ -78,10 +78,10 @@ const updateCustomer = () => {
             onSuccess: () => {
                 toast.success("Customer updated successfully!");
             },
-            onError: (errors) => {
-                console.error('Failed to update customer:', errors);
-                alert('An error occurred while updating the customer. Please check the form and try again.');
-            },
+            // onError: (errors) => {
+            //     console.error('Failed to update customer:', errors);
+            //     alert('An error occurred while updating the customer. Please check the form and try again.');
+            // },
         });
 };
 
@@ -151,6 +151,7 @@ const closeImageModal = () => {
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Customer Name</label>
                     <input v-model="form.name" type="text"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                        <div v-if="errors.name" class="text-red-600 text-sm mt-1">{{ errors.name }}</div>
                 </div>
 
                 <!-- Contact Number -->
@@ -158,6 +159,8 @@ const closeImageModal = () => {
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Contact Number</label>
                     <input v-model="form.phone" type="text"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                        <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
+                    <div v-else-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.phone }}</div>
                 </div>
 
                 <!-- Email -->
@@ -165,6 +168,7 @@ const closeImageModal = () => {
                     <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email</label>
                     <input v-model="form.email" type="email"
                         class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
+                        <div v-if="errors.email" class="text-red-600 text-sm mt-1">{{ errors.email }}</div>
                 </div>
                 <!-- Date of Birth -->
                 <div>
@@ -207,6 +211,7 @@ const closeImageModal = () => {
                             <span>Other</span>
                         </label>
                     </div>
+                    <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
                 </div>
                 <!-- Notes Section -->
                 <div class="notes-section">
