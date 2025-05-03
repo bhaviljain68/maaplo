@@ -19,7 +19,7 @@ const props = defineProps<{
         phone: string,
         address: string,
         gender: string,
-        active_orders?: number, 
+        active_orders?: number,
         payment_due?: number
     }>
 }>();
@@ -46,10 +46,15 @@ function myFn(val: string) {
                     </div>
                     <div class="mx-auto max-w-7xl w-full">
                         <!-- add customer details -->
-                        <div class="mt-1">
+                        <div class="relative group mt-1">
                             <Link :href="route('customers.create')">
                             <Icon icon="material-symbols:add-rounded" width="30" height="30" />
                             </Link>
+                            <!-- Add lable for user move curser in add icon -->
+                            <div
+                                class="absolute top-full mt-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-gray-800 text-white text-xs rounded py-1 px-2 pointer-events-none z-10">
+                                Create Customer
+                            </div>
                         </div>
                     </div>
 
