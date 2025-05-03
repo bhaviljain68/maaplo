@@ -19,7 +19,7 @@ function toggleDropdownMeasurements() {
                 class="text-black ml-2" />
         </div>
         <!-- Dropdown -->
-        <div v-show="showDropdownMeasurements" class="z-10" v-debounce:400ms="myFn">
+        <div v-show="showDropdownMeasurements" class="z-10">
             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
                     <div class="grid grid-col-1 lg:grid-cols-2 gap-x-4 gap-y-4 ml-2 mt-2 text-black font-lato text-sm">

@@ -1,8 +1,6 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
 const props = defineProps(['type', 'id', 'name', 'color', 'padding', 'margin', 'rounded', 'fullWidth', 'textSize', 'disabled', 'placeholder', 'modelValue', 'width', 'fonttype', 'label', 'radioValue'])
-console.log(props);
-
 const emit = defineEmits(['update:modelValue'])
 
 // Color classes
@@ -53,26 +51,12 @@ const widthClass = {
 </script>
 
 <template>
-    <!-- <label v-if="label" :class="[textSize,fonttype]">{{ label }}</label>
-    <input :type="type" :placeholder="placeholder" :value="radioValue" :id="id" :name="name"
-        @input="$emit('update:modelValue', $event.target.value); console.log($event.target.value)" :disabled="disabled"
-        :class="[
-            'transition duration-200 focus:outline-none',
-            colorClass,
-            paddingClass,
-            roundedClass,
-            textSizeClass,
-            marginClass,
-            widthClass,
-            fullWidth ? 'w-full' : '',
-            disabled ? 'opacity-50 cursor-not-allowed' : ''
-        ]" /> -->
     <div class="flex flex-col">
         <label v-if="label" :for="id" :class="[textSizeClass, fonttype]">
             {{ label }}
         </label>
         <input :type="type" :placeholder="placeholder" :value="radioValue" :id="id" :name="name"
-            @input="$emit('update:modelValue', $event.target.value); console.log($event.target.value)"
+            @input="$emit('update:modelValue', $event.target.value)"
             :disabled="disabled" :class="[
                 'transition duration-200 focus:outline-none',
                 colorClass,

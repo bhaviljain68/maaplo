@@ -10,8 +10,8 @@ import { Icon } from '@iconify/vue';
                 <!-- <label>Trail Date : </label> -->
             </div>
             <div class="flex">
-                <Input type="date" id="trail-date" label="Trail Date :" width="full" name="trail-date" color="grayBorder"
-                    margin="md" />
+                <Input type="date" id="trail-date" label="Trail Date :" width="full" name="trail-date"
+                    color="grayBorder" margin="md" />
                 <Icon icon="mingcute:delete-fill" width="24" height="24" class="mt-10 ml-2" />
             </div>
         </div>
@@ -22,8 +22,8 @@ import { Icon } from '@iconify/vue';
                 <!-- <label>Delivery Date : </label> -->
             </div>
             <div>
-                <Input type="date" id="delivery-date" label="Delivery Date :" width="full" name="delivery-date" color="grayBorder"
-                    margin="md" />
+                <Input type="date" id="delivery-date" label="Delivery Date :" width="full" name="delivery-date"
+                    color="grayBorder" margin="md" />
             </div>
         </div>
     </div>

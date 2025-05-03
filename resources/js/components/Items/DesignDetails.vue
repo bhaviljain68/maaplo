@@ -30,7 +30,7 @@ function toggleDropdownSleeveType() {
                 class="text-black ml-2" />
         </div>
         <!-- Dropdown -->
-        <div v-show="showDropdownDesignDetails" class="z-10" v-debounce:400ms="myFn">
+        <div v-show="showDropdownDesignDetails" class="z-10">
             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
                     <!--  Front Neck Design -->
@@ -45,7 +45,7 @@ function toggleDropdownSleeveType() {
                                 height="20" class="text-black ml-2 mt-3" />
                         </div>
                         <!-- Dropdown -->
-                        <div v-show="showDropdownFrontNeckDesign" class="z-10" v-debounce:400ms="myFn">
+                        <div v-show="showDropdownFrontNeckDesign" class="z-10">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
                                     <div class="flex flex-row gap-5 lg:ml-10 ml-5 py-5 text-black font-lato text-sm">
@@ -93,7 +93,7 @@ function toggleDropdownSleeveType() {
                                 height="20" class="text-black ml-2 mt-3" />
                         </div>
                         <!-- Dropdown -->
-                        <div v-show="showDropdownBackNeckDesign" class="z-10" v-debounce:400ms="myFn">
+                        <div v-show="showDropdownBackNeckDesign" class="z-10">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
                                     <div class="flex flex-row gap-5 lg:ml-10 ml-5 py-5 text-black font-lato text-sm">
@@ -141,7 +141,7 @@ function toggleDropdownSleeveType() {
                                 height="20" class="text-black ml-2 mt-3" />
                         </div>
                         <!-- Dropdown -->
-                        <div v-show="showDropdownSleeveType" class="z-10" v-debounce:400ms="myFn">
+                        <div v-show="showDropdownSleeveType" class="z-10">
                             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                                 <li>
                                     <div class="flex flex-row gap-3 lg:ml-10 ml-5 py-5 text-black font-lato text-sm">
