@@ -12,6 +12,7 @@ use App\Helpers\ImageHelper;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -196,9 +197,13 @@ class CustomerController extends Controller
                     ->first();
 
 
-                if ($oldHalfImage && CustomerPhoto::exists($oldHalfImage->image_url)) {
-                    // dd('Image exists',$oldHalfImage->image_url);
-                    Storage::delete($oldHalfImage->image_url);
+                if ($oldHalfImage) {
+                    $relativePath = Str::after($oldHalfImage->image_url, 'storage/');
+
+                    if (Storage::disk('public')->exists($relativePath)) {
+                        Storage::disk('public')->delete($relativePath);
+                        // dd('Image deleted', $relativePath); // You can log this or remove it in production
+                    }
                 }
 
                 // Store new image
@@ -225,9 +230,14 @@ class CustomerController extends Controller
                     ->where('label', 'Fullbody')
                     ->first();
 
-                if ($oldFullImage && CustomerPhoto::exists($oldFullImage->image_url)) {
-                    // dd('Image exists',$oldFullImage->image_url);
-                    Storage::delete($oldFullImage->image_url);
+
+                if ($oldFullImage) {
+                    $relativePath = Str::after($oldFullImage->image_url, 'storage/');
+
+                    if (Storage::disk('public')->exists($relativePath)) {
+                        Storage::disk('public')->delete($relativePath);
+                        // dd('Image deleted', $relativePath); // You can log this or remove it in production
+                    }
                 }
 
                 // Store new image
