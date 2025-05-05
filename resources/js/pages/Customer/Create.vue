@@ -159,7 +159,7 @@ const phoneError = computed(() => {
 
 
                 <!-- Notes Section -->
-                <Notes />
+                <Notes v-model:notes="notes" />
 
                 <!-- Upload Section -->
                 <div>
