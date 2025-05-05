@@ -16,11 +16,13 @@ class OrderController extends Controller
     public function index()
     {
         /**
+         *  
+         *  -> user -> order
          * 
-         * Order -> customer
-         * Order -> order items  
+         *  -> order items  
          * 
          **/
+
 
         $orders = Order::all();
 
