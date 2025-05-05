@@ -46,58 +46,52 @@ const softDeleteCustomer = (customerId) => {
 </script>
 
 <template>
-    <div class="gap-[10px] mt-5 h-full rounded-[10px] px-[10px] py-[17px] bg-[#DEEFF4]">
-        <!-- Top section with Name and Face Image -->
-        <div class="flex items-center justify-between px-2">
-            <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] text-black">
-                {{ props.customer.name }}
-            </h1>
-            <img v-if="props.customer.face_image" :src="props.customer.face_image" alt="Face Image"
-                class="w-16 h-16 object-cover rounded-full border border-gray-300" />
+    <div class="relative mt-5 h-full rounded-[10px] px-[10px] py-[17px] bg-[#DEEFF4]">
+        <div class="flex justify-between gap-4">
+            <!-- Left Section -->
+            <div class="flex-2">
+                <h1 class="text-[22px] font-semibold tracking-wide text-gray-900">
+                    {{ props.customer.name }}
+                </h1>
+
+                <div @click="toggleDropdown()" class="flex items-center gap-2 cursor-pointer mt-4">
+                    <h1 class="font-[Lato] font-medium text-[18px] text-black">Contact</h1>
+                    <Icon :icon="showDropdown ? 'icon-park-outline:up' : 'icon-park-outline:down'" width="20"
+                        height="20" />
+                </div>
+
+                <div v-show="showDropdown" class="mt-2">
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li class="flex items-center gap-2">
+                            <Icon icon="ic:baseline-phone" width="16" height="16" />
+                            <span class="text-black">{{ props.customer.phone }}</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <Icon icon="ic:outline-email" width="18" height="18" />
+                            <span class="text-black">{{ props.customer.email || 'Email Not Available' }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <h1 class="font-[Lato] font-medium text-[18px] text-black mt-3">
+                    Active Order : {{ props.customer.active_orders || 'N/A' }}
+                </h1>
+                <h1 class="font-[Lato] font-medium text-[18px] text-black mt-2">
+                    Payment Due : ₹ {{ props.customer.payment_due || '0.00' }}
+                </h1>
+                <h1 class="font-[Lato] font-medium text-[18px] text-black mt-2">
+                    Total Payment : ₹ 0.00
+                </h1>
+            </div>
+
+            <!-- Right Section: Image -->
+            <div class="w-[150px] h-[100px] bg-[#E4F7FF] rounded-md overflow-hidden flex items-center justify-center">
+                <img v-if="props.customer.face_image" :src="props.customer.face_image" alt="Customer Image"
+                    class="w-full h-full object-cover" />
+                <img v-else src="/images/by_default_user.png" alt="Default Image" class="w-94 h-full object-fill" />
+            </div>
+
         </div>
-        <!-- Dropdown Trigger -->
-        <div @click="toggleDropdown()" class="flex items-center gap-2 cursor-pointer px-2 py-2">
-            <h1 class="font-[Lato] font-medium text-[18px] text-black">Contact</h1>
-            <Icon :icon="showDropdown ? 'icon-park-outline:up' : 'icon-park-outline:down'" width="20" height="20" />
-        </div>
-
-        <!-- Dropdown Content -->
-        <div v-show="showDropdown" class="mt-2 z-10 px-4">
-            <ul class="text-sm text-gray-700 space-y-2">
-                <!-- Phone -->
-                <li>
-                    <div class="flex items-center gap-2">
-                        <Icon icon="ic:baseline-phone" width="16" height="16" />
-                        <span class="text-black">{{ props.customer.phone }}</span>
-                    </div>
-                </li>
-
-                <!-- Email -->
-                <li>
-                    <div class="flex items-center gap-2">
-                        <Icon icon="ic:outline-email" width="18" height="18" />
-                        <span class="text-black">
-                            {{ props.customer.email ? props.customer.email : 'Email Not Available' }}
-                        </span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Active Orders -->
-        <h1 class="font-[Lato] font-medium text-[18px] text-black p-2">
-            Active Order : {{ props.customer.active_orders ? props.customer.active_orders : 'N/A' }}
-        </h1>
-
-        <!-- Payment Due -->
-        <h1 class="font-[Lato] font-medium text-[18px] text-black p-2">
-            Payment Due : ₹ {{ props.customer.payment_due ? props.customer.payment_due : '0.00' }}
-        </h1>
-
-        <!-- Total Payment -->
-        <h1 class="font-[Lato] font-medium text-[18px] text-black p-2">
-            Total Payment : ₹ 0.00
-        </h1>
 
         <!-- Edit & Delete Icons with Tooltips -->
         <div class="flex justify-end gap-3">
@@ -124,14 +118,15 @@ const softDeleteCustomer = (customerId) => {
             </div>
         </div>
 
-        <!-- Delete Confirmation Popup -->
+        <!-- Delete Popup (optional, same as before) -->
         <div v-if="showDeletePopup"
             class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg mx-5 lg:w-1/3">
-                <h2 class="text-xl font-bold mb-4">Are you sure?</h2>
+                <h2 class="text-xl font-bold mb-4">Are you sure ?</h2>
                 <p class="mb-4 text-md lg:text-lg text-black font-semibold">
-                    <span class="text-md lg:text-xl">Warning:</span> Are you sure you want to delete
-                    <span class="font-bold text-blue-600">{{ props.customer.name }}</span>?
+                    <span class="text-md text-red-600 lg:text-xl">Warning :</span> Are you sure you want to delete
+                    Customer
+                    <span class="font-bold text-blue-600">{{ props.customer.name }}</span> ?
                 </p>
                 <div class="flex justify-end gap-4">
                     <Button @click="cancelDelete" :color="'gray'">Cancel</Button>
