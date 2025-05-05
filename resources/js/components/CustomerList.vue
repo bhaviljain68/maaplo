@@ -47,10 +47,14 @@ const softDeleteCustomer = (customerId) => {
 
 <template>
     <div class="gap-[10px] mt-5 h-full rounded-[10px] px-[10px] py-[17px] bg-[#DEEFF4]">
-        <!-- Name -->
-        <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] tracking-[0] text-black p-2">
-            {{ props.customer.name }}
-        </h1>
+        <!-- Top section with Name and Face Image -->
+        <div class="flex items-center justify-between px-2">
+            <h1 class="font-[Lato] font-medium text-[18px] leading-[16px] text-black">
+                {{ props.customer.name }}
+            </h1>
+            <img v-if="props.customer.face_image" :src="props.customer.face_image" alt="Face Image"
+                class="w-16 h-16 object-cover rounded-full border border-gray-300" />
+        </div>
         <!-- Dropdown Trigger -->
         <div @click="toggleDropdown()" class="flex items-center gap-2 cursor-pointer px-2 py-2">
             <h1 class="font-[Lato] font-medium text-[18px] text-black">Contact</h1>
@@ -82,7 +86,7 @@ const softDeleteCustomer = (customerId) => {
 
         <!-- Active Orders -->
         <h1 class="font-[Lato] font-medium text-[18px] text-black p-2">
-            Active Order : {{ props.customer.active_orders ? props.customer.active_orders : 'Not Yet' }}
+            Active Order : {{ props.customer.active_orders ? props.customer.active_orders : 'N/A' }}
         </h1>
 
         <!-- Payment Due -->
