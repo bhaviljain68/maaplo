@@ -1,26 +1,37 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import { ref } from 'vue';
 import Input from '../InputWithLabel.vue';
 
-const notes = ref([{ label: '', text: '' }]);
-const noteErrors = ref<string | null>(null);
+const props = defineProps<{
+  notes: Array<{ label: string; text: string }>;
+}>();
+
+const emit = defineEmits(['update:notes']);
 
 const addNote = () => {
-    notes.value.push({ label: '', text: '' });
+  const newNotes = [...props.notes, { label: '', text: '' }];
+  emit('update:notes', newNotes);
 };
 
 const removeNote = (index: number) => {
-    notes.value.splice(index, 1);
+  const newNotes = props.notes.slice();
+  newNotes.splice(index, 1);
+  emit('update:notes', newNotes);
 };
-const validateNotes = () => {
-    const isValid = notes.value.length > 0 && notes.value.every(
-        note => note.label.trim() !== '' && note.text.trim() !== ''
-    );
-    noteErrors.value = isValid ? null : 'All notes must have a label and text.';
-    return isValid;
+
+const updateLabel = (index: number, value: string) => {
+  const newNotes = [...props.notes];
+  newNotes[index].label = value;
+  emit('update:notes', newNotes);
+};
+
+const updateText = (index: number, value: string) => {
+  const newNotes = [...props.notes];
+  newNotes[index].text = value;
+  emit('update:notes', newNotes);
 };
 </script>
+
 
 <template>
 
