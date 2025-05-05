@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('user_id')->nullable(false); // Nullable for optional user association
             $table->string('name');
             $table->enum('gender', ["m", "f", "o"]); // Define possible values for gender
             $table->string('phone');
