@@ -18,7 +18,7 @@ class OrderController extends Controller
     {
         /**
          *  
-         *  -> user -> orders
+         *  -> user -> orders -> customer
          * 
          *  -> order items  
          * 
@@ -36,12 +36,17 @@ class OrderController extends Controller
      */
     public function create()
     {
+        /**
+         * 
+         * -> user -> customers 
+         * 
+         */
+
         // Fetch all users and customers to populate the select options
         $user = Auth::user();
         
         $customers = $user->load('customers');
-
-        // dd($customers);
+        // $orderItems =         
         return Inertia::render('orders/Create', [
             'customers' => $customers
         ]);
