@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -17,14 +18,15 @@ class OrderController extends Controller
     {
         /**
          *  
-         *  -> user -> order
+         *  -> user -> orders
          * 
          *  -> order items  
          * 
          **/
 
-
-        $orders = Order::all();
+        $user = Auth::user();
+        $orders = [];
+        $user->load('orders.customer');
 
         return Inertia::render('orders/Index', ["orders" => $orders]);
     }
@@ -35,10 +37,12 @@ class OrderController extends Controller
     public function create()
     {
         // Fetch all users and customers to populate the select options
-        $users = \App\Models\User::all();
-        $customers = \App\Models\Customer::all();
+        $user = Auth::user();
+        
+        $customers = $user->load('customers');
+
+        // dd($customers);
         return Inertia::render('orders/Create', [
-            'users' => $users,
             'customers' => $customers
         ]);
     }

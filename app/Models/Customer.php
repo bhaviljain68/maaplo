@@ -74,6 +74,18 @@ class Customer extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function userCustomers()
+    {
+        return $this->hasMany(UserCustomer::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'users_customers')
+            ->withTimestamps();
+    }
+
+
     //for Soft delete customer related photos
     protected static function booted()
     {
