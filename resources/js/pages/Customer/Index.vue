@@ -34,11 +34,14 @@ function myFn(val: string) {
 <template>
     <AppLayout>
         <div class="lg:mx-auto max-w-7xl py-8 px-4">
-            <div class="flex flex-row justify-between mb-10">
+            <div class="flex flex-row justify-between mb-6">
                 <div>
                     <h1 class="text-[24px] mt-3 leading-[16px] font-bold tracking-[0] text-gray-800 font-[Convergence]">
                         Customer
                     </h1>
+                    <p class="text-sm text-gray-700 text-right mt-2">
+                        Your Customers: {{ props.customers.length }}
+                    </p>
                 </div>
                 <div class="flex gap-4 text-gray-600">
                     <div>
