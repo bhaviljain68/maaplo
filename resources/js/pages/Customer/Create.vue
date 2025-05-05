@@ -96,10 +96,16 @@ const phoneError = computed(() => {
     <Head title="Costomer" />
     <AppLayout>
         <div class="px-4 py-8 max-w-6xl mx-auto">
-            <div>
+            <div class="flex justify-between items-center mb-6">
                 <h1 class="text-[24px] leading-[16px] font-bold tracking-[0] text-gray-800 font-[Convergence]">
                     New Customer
                 </h1>
+                <div class="text-gray-600">
+                    <Link :href="route('customers.index')" class="flex items-center gap-1 hover:text-black">
+                    <Icon icon="material-symbols:arrow-back-rounded" width="24" height="24" />
+                    <span class="text-[16px] font-medium">Back</span>
+                    </Link>
+                </div>
             </div>
             <form class="flex flex-col lg:mt-5 gap-3 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
                 <h1 class="text-xl font-bold lg:mt-0 mt-6">Enter Details</h1>
