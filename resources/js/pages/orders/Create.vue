@@ -10,7 +10,6 @@ const showModal = ref(false);
 const items = reactive([]);
 function handleAddItem(newItem) {
     console.log("New item added:", newItem);
-
     items.push(newItem);
 }
 </script>

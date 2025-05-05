@@ -11,7 +11,7 @@ import ClothImage from './ClothImage.vue';
 import PatternImage from './PatternImage.vue';
 import Button from '../Button.vue';
 import { ref,defineProps,defineEmits } from 'vue';
-
+const notes = ref('');
 const props =  defineProps(['showModal']);
 const emit = defineEmits(['close', 'handleAddItem']); 
 
@@ -25,7 +25,6 @@ const form = ref({
 // Save and emit
 function saveItem() {
     console.log(form.value);
-    
     emit('handleAddItem', form.value);
     emit('close');
 }
@@ -55,7 +54,7 @@ function saveItem() {
 
                     <div class="flex flex-col">
                         <Colors />
-                        <Notes class="mt-5" />
+                        <Notes class="mt-5" v-model:notes="notes" />
                     </div>
 
                     <div class="flex items-center gap-4">
