@@ -10,13 +10,29 @@ import Date from '../Date.vue';
 import ClothImage from './ClothImage.vue';
 import PatternImage from './PatternImage.vue';
 import Button from '../Button.vue';
+import { ref,defineProps,defineEmits } from 'vue';
 
-defineProps(['showModal']);
-defineEmits(['close']);
+const props =  defineProps(['showModal']);
+const emit = defineEmits(['close', 'handleAddItem']); 
+
+// Form state
+const form = ref({
+  workType: '',
+  itemType: '',
+  deliveryDate: ''
+});
+
+// Save and emit
+function saveItem() {
+    console.log(form.value);
+    
+    emit('handleAddItem', form.value);
+    emit('close');
+}
 </script>
 
 <template>
-    <Teleport to="body">
+  
         <div v-if="showModal">
             <!-- Backdrop -->
             <div class="fixed inset-0 bg-black/50 z-40" @click.self="$emit('close')"></div>
@@ -32,8 +48,8 @@ defineEmits(['close']);
 
                 <!-- Scrollable Content -->
                 <div class=" max-h-[75vh] pr-2 space-y-5">
-                    <WorkType />
-                    <ItemType />
+                    <WorkType  v-model="form.workType"/>
+                    <ItemType  v-model="form.itemType" />
                     <Measurements />
                     <DesignDetails />
 
@@ -47,7 +63,7 @@ defineEmits(['close']);
                         <ToggleButton />
                     </div>
 
-                    <Date />
+                    <Date v-model="form.deliveryDate"/>
 
                     <div class="flex items-center gap-4">
                         <h1 class="text-[16px] font-normal font-lato">Mark as Urgent</h1>
@@ -58,8 +74,12 @@ defineEmits(['close']);
                         <ClothImage />
                         <PatternImage />
                     </div>
+                    <Button @click="saveItem" color="primary" textSize="lg" class="mb-10 w-full">
+                        Save
+                    </Button>
+
                 </div>
             </div>
         </div>
-    </Teleport>
+
 </template>

@@ -74,18 +74,22 @@ const widthClass = {
 <template>
     <div class="flex flex-col" :class="{ 'flex-row items-center space-x-2': type === 'radio' }">
         <!-- RADIO BUTTON -->
+
         <template v-if="type === 'radio'">
-            <input :type="type" :id="id" :name="name" :value="radioValue" v-model="model" :disabled="disabled" :class="[
-                'transition duration-200 focus:outline-none',
-                colorClass,
-                paddingClass,
-                roundedClass,
-                textSizeClass,
-                marginClass,
-                widthClass,
-                disabled ? 'opacity-50 cursor-not-allowed' : ''
-            ]" />
-            <label :for="id" class="text-sm">{{ label }}</label>
+            <div class="flex  gap-2">
+                <input :type="type" :id="id" :name="name" :value="radioValue" v-model="model" :disabled="disabled"
+                    :class="[
+                        'transition duration-200 focus:outline-none',
+                        colorClass,
+                        paddingClass,
+                        roundedClass,
+                        textSizeClass,
+                        marginClass,
+                        widthClass,
+                        disabled ? 'opacity-50 cursor-not-allowed' : ''
+                    ]" />
+                <label :for="id" class="text-sm">{{ label }}</label>
+            </div>
         </template>
 
         <!-- TEXTAREA -->

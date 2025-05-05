@@ -2,6 +2,7 @@
 import Input from './InputWithLabel.vue';
 import { Icon } from '@iconify/vue';
 
+const modelValue = defineModel();
 </script>
 <template>
     <div class="flex flex-col lg:flex-row justify-between">
@@ -22,7 +23,7 @@ import { Icon } from '@iconify/vue';
                 <!-- <label>Delivery Date : </label> -->
             </div>
             <div>
-                <Input type="date" id="delivery-date" label="Delivery Date :" width="lg" name="delivery-date"
+                <Input type="date" id="delivery-date"   v-model="modelValue"  label="Delivery Date :" width="lg" name="delivery-date"
                     color="grayBorder" margin="md" />
             </div>
         </div>

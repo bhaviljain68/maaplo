@@ -3,10 +3,16 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Icon } from '@iconify/vue';
 import DateIcon from '@/components/DateIcon.vue';
 import CustomerListDropdown from '@/components/Items/CustomerListDropdown.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import ItemModel from '@/components/Items/ItemModel.vue';
 const props = defineProps(["users", "customers"])
 const showModal = ref(false);
+const items = reactive([]);
+function handleAddItem(newItem) {
+    console.log("New item added:", newItem);
+
+    items.push(newItem);
+}
 </script>
 
 <template>
@@ -44,7 +50,30 @@ const showModal = ref(false);
                         </div>
 
                         <!-- Modal Content -->
-                        <ItemModel :showModal="showModal" @close="showModal = false" />
+                        <ItemModel :showModal="showModal" @close="showModal = false" @handleAddItem="handleAddItem" />
+
+                        <!-- table -->
+                        <!-- Items Table -->
+                        <div class="mt-4 overflow-x-auto">
+                            <table class="min-w-full border border-gray-300 text-sm text-left">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="p-2 border">Work Type</th>
+                                        <th class="p-2 border">Item type</th>
+                                        <th class="p-2 border">Delivery Date</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in items" :key="index">
+                                        <td class="p-2 border">{{ item.workType }}</td>
+                                        <td class="p-2 border">{{ item.itemType }}</td>
+                                        <td class="p-2 border">{{ item.deliveryDate }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
