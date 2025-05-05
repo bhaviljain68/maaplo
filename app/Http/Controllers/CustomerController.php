@@ -19,11 +19,23 @@ class CustomerController extends Controller
     // Display a listing of the customers
     public function index()
     {
-        $customers = Customer::all();
-        return Inertia::render('customer/Index', [
-            'customers' => $customers
-        ]);
+        $customers = Customer::with(['photos' => fn($q) => $q->where('label', 'Faceimage')])
+            ->get()
+            ->map(fn($c) => [
+                'id' => $c->id,
+                'name' => $c->name,
+                'email' => $c->email,
+                'phone' => $c->phone,
+                'gender' => $c->gender,
+                'dob' => $c->dob,
+                'active_orders' => $c->active_orders ?? null,
+                'payment_due' => $c->payment_due ?? null,
+                'face_image' => optional($c->photos->first())->image_url ? asset($c->photos->first()->image_url) : null,
+            ]);
+
+        return Inertia::render('customer/Index', compact('customers'));
     }
+
 
     // Show the form for creating a new customer
     public function create()
