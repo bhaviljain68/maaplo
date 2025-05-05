@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import Input from '../InputWithLabel.vue';
-
+import { ref } from 'vue';
+const notes = ref([]);
 const props = defineProps<{
   notes: Array<{ label: string; text: string }>;
 }>();
