@@ -21,7 +21,7 @@ const props = defineProps<{
         face_image: string;
         full_body_image: string;
     }
-}>();
+}>();  
 const form = useForm({
     name: props.customer.name,
     email: props.customer.email,
