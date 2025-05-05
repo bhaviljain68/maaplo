@@ -8,7 +8,7 @@ const close = () => emit('close');
 </script>
 
 <template>
-    <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
         <div class="relative max-w-4xl w-full">
             <!-- Close Button -->
             <button @click="close"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { reactive, ref, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
