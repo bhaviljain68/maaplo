@@ -30,19 +30,21 @@ function toggleDropdownSleeveType() {
                 class="text-black ml-2" />
         </div>
         <!-- Dropdown -->
+
         <div v-show="showDropdownDesignDetails" class="z-10">
+            <div class="bg-[#DEECF0] mt-3 p-4 shadow-[0_0_7.6px_0_#BDDBDB9C]  rounded-[10px] relative">
             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
                     <!--  Front Neck Design -->
                     <div>
                         <div @click="toggleDropdownFrontNeckDesign()" class="flex">
-                            <h1 class="font-normal ml-3 mt-4 text-[16px] leading-4 tracking-normal font-lato">
+                            <h1 class="font-normal ml-3 text-[16px] leading-4 tracking-normal font-lato">
                                 Front Neck Design
                             </h1>
                             <Icon v-if="showDropdownFrontNeckDesign == false" icon="icon-park-outline:down" width="20"
-                                height="20" class="text-black ml-2 mt-3" />
+                                height="20" class="text-black ml-2" />
                             <Icon v-if="showDropdownFrontNeckDesign == true" icon="icon-park-outline:up" width="20"
-                                height="20" class="text-black ml-2 mt-3" />
+                                height="20" class="text-black ml-2" />
                         </div>
                         <!-- Dropdown -->
                         <div v-show="showDropdownFrontNeckDesign" class="z-10">
@@ -88,9 +90,9 @@ function toggleDropdownSleeveType() {
                                 Back Neck Design
                             </h1>
                             <Icon v-if="showDropdownBackNeckDesign == false" icon="icon-park-outline:down" width="20"
-                                height="20" class="text-black ml-2 mt-3" />
+                                height="20" class="text-black ml-2 mt-4" />
                             <Icon v-if="showDropdownBackNeckDesign == true" icon="icon-park-outline:up" width="20"
-                                height="20" class="text-black ml-2 mt-3" />
+                                height="20" class="text-black ml-2 mt-4" />
                         </div>
                         <!-- Dropdown -->
                         <div v-show="showDropdownBackNeckDesign" class="z-10">
@@ -136,9 +138,9 @@ function toggleDropdownSleeveType() {
                                 Sleeve Type
                             </h1>
                             <Icon v-if="showDropdownSleeveType == false" icon="icon-park-outline:down" width="20"
-                                height="20" class="text-black ml-2 mt-3" />
+                                height="20" class="text-black ml-2 mt-4" />
                             <Icon v-if="showDropdownSleeveType == true" icon="icon-park-outline:up" width="20"
-                                height="20" class="text-black ml-2 mt-3" />
+                                height="20" class="text-black ml-2 mt-4" />
                         </div>
                         <!-- Dropdown -->
                         <div v-show="showDropdownSleeveType" class="z-10">
@@ -179,5 +181,7 @@ function toggleDropdownSleeveType() {
                 </li>
             </ul>
         </div>
+    </div>
+
     </div>
 </template>

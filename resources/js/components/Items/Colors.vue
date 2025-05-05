@@ -3,7 +3,7 @@ import Input from '../InputWithLabel.vue';
 
 </script>
 <template>
-    <div class="mt-5 flex flex-col">
+    <div class="flex flex-col">
         <Input id="favcolor" name="favcolor" label="Color:" type="text" color="grayBorder"
             margin="md" placeholder="Enter color" />
     </div>
