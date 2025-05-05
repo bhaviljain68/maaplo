@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps(['type', 'color', 'padding', 'rounded', 'fullWidth', 'textSize', 'disabled'])
-
+const emit = defineEmits(['click']);
 
 // Classes for color variants
 const colorClass = {
