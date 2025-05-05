@@ -8,6 +8,7 @@ const colorClass = {
     secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
     danger: 'bg-danger  text-white hover:bg-red-600',
     gray: '.bg-gray text-gray-800 hover:bg-gray-300',
+    boder: 'border border-gray-300 text-gray-800 hover:bg-gray-300',
 }[props.color] ?? 'bg-primary text-white'
 
 // Padding sizes

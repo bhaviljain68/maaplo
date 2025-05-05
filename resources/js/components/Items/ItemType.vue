@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import Input from '../InputWithLabel.vue';
+import SearchSelect from '../SearchSelect.vue';
 const showDropdownItemType = ref(false);
 const modelValue = defineModel();
 function toggleDropdownItemType() {
@@ -19,7 +20,8 @@ function toggleDropdownItemType() {
         </div>
         <!-- Dropdown -->
         <div v-show="showDropdownItemType" class="z-10">
-            <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
+            <SearchSelect v-model="modelValue" />
+            <!-- <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
                     <div class="flex flex-col ml-2  gap-3 text-black mt-2">
                         <div class="flex gap-2">
@@ -39,7 +41,7 @@ function toggleDropdownItemType() {
                         </div>
                     </div>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </div>
 </template>
