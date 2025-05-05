@@ -5,7 +5,7 @@ import { Icon } from '@iconify/vue';
 </script>
 <template>
     <div class="flex flex-col lg:flex-row justify-between">
-        <div class="lg:gap-2 gap-2 mt-3 flex flex-col lg:w-96">
+        <div class="lg:gap-2 gap-2 flex flex-col lg:w-96">
             <div>
                 <!-- <label>Trail Date : </label> -->
             </div>
@@ -17,7 +17,7 @@ import { Icon } from '@iconify/vue';
         </div>
 
         <!-- Delivery Date -->
-        <div class="lg:gap-2 gap-2 mt-3 flex flex-col lg:w-96">
+        <div class="lg:gap-2 gap-2 flex flex-col lg:w-96">
             <div>
                 <!-- <label>Delivery Date : </label> -->
             </div>
