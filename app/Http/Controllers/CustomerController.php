@@ -36,7 +36,6 @@ class CustomerController extends Controller
         return Inertia::render('customer/Index', compact('customers'));
     }
 
-
     // Show the form for creating a new customer
     public function create()
     {
