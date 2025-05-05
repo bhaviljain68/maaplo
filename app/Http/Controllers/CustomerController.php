@@ -46,17 +46,18 @@ class CustomerController extends Controller
         }
 
         $validated = $request->validate([
-            'user_id' => 'nullable|exists:users,id',
+            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'gender' => 'required|in:m,f,o',
             'phone' => 'required|regex:/^[0-9]{10}$/',
             'email' => 'nullable|email|unique:customers,email',
             'address' => 'required|string|max:255',
             'dob' => 'nullable|date',
-            'notes' => 'required|array',
+            'notes' => 'nullable|array',
             'half_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'full_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        // dd($validated);
         try {
             DB::beginTransaction();
 
@@ -68,7 +69,7 @@ class CustomerController extends Controller
 
             // First, create the customer to get the customer ID
             $customer = Customer::create([
-                // 'user_id' => $user_id,
+                'user_id' => $user_id,
                 'name' => $validated['name'],
                 'gender' => $validated['gender'],
                 'phone' => $validated['phone'],
