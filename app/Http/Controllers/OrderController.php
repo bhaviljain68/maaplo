@@ -26,9 +26,18 @@ class OrderController extends Controller
 
         $user = Auth::user();
         $orders = [];
-        $user->load('orders.customer');
 
-        return Inertia::render('orders/Index', ["orders" => $orders]);
+        if ($user) {
+            
+            $orders = $user->load('orders.customer');
+
+            return Inertia::render('orders/Index', ["orders" => $orders]);
+        
+        }
+
+        //-- if User Not Found
+        abort(404);
+
     }
 
     /**
