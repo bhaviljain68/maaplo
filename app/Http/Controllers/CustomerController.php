@@ -93,7 +93,8 @@ class CustomerController extends Controller
                 'address' => $addressJson,
                 'notes' => json_encode($validated['notes']),
             ]);
-            // Now that the customer is created, we have the customer ID
+
+            //Store Customer id and user id in the pivot table
             $customerId = $customer->id;
             UserCustomer::create([
                 'user_id' => $user_id,
