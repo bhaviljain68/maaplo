@@ -178,20 +178,22 @@ class CustomerController extends Controller
     // Update the specified customer in storage
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $customer = Customer::findOrFail($id);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|unique:customers,email,' . $id,
-            'phone' => 'required|string|max:10',
+            'phone' => 'required|max:10',
             'gender' => 'required|in:m,f,o',
             'dob' => 'nullable|date',
-            'base_measurements' => 'nullable|array',
+            'measurements' => 'nullable|array',
             'address' => 'required|string',
             'notes' => 'nullable|array',
             'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'full_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        // dd($validated);
 
         try {
             // Update the base customer fields
@@ -200,7 +202,7 @@ class CustomerController extends Controller
                 'email' => $validated['email'] ?? null,
                 'gender' => $validated['gender'],
                 'dob' => $validated['dob'],
-                'base_measurements' => json_encode($validated['base_measurements']),
+                'base_measurements' => json_encode($validated['measurements']),
                 'phone' => $validated['phone'],
                 'notes' => json_encode($validated['notes']),
                 'address' => json_encode(['value' => $validated['address']]), // keep consistent format

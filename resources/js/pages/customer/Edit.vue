@@ -7,6 +7,7 @@ import Button from '@/components/Button.vue';
 import ImageModal from '@/components/ImageModal.vue';
 import Input from '@/components/InputWithLabel.vue';
 import Notes from '@/components/Items/Notes.vue';
+import Measurements from '@/components/Items/Measurements.vue';
 const toast = new ToastMagic();
 const props = defineProps<{
     errors: Record<string, string>,
@@ -16,6 +17,7 @@ const props = defineProps<{
         email: string;
         phone: string;
         dob: string;
+        measurements: null,
         address: string;
         gender: string;
         notes: Array<{ label: string; text: string }>;
@@ -30,6 +32,7 @@ const form = useForm({
     phone: props.customer.phone,
     address: props.customer.address,
     dob: props.customer.dob,
+    measurements: props.customer.measurements,
     gender: props.customer.gender,
     payment_due: props.customer.payment_due,
     half_image: null,
@@ -86,16 +89,9 @@ const updateCustomer = () => {
             // },
         });
 };
-const notes = ref([{ label: '', text: '' }]);
+// const notes = ref([{ label: '', text: '' }]);
 const noteErrors = ref<string | null>(null);
 
-const addNote = () => {
-    form.notes.push({ label: '', text: '' });
-};
-
-const removeNote = (index: number) => {
-    form.notes.splice(index, 1);
-};
 
 const validateNotes = () => {
     const isValid = form.notes.length > 0 && form.notes.every(
@@ -199,8 +195,14 @@ const closeImageModal = () => {
                     <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
                 </div>
 
+                <!-- Measurements -->
+                <div>
+                    <!-- <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-2">Measurements</label> -->
+                    <Measurements class="mb-4" v-model:measurements="form.measurements" />
+                </div>
+
                 <!-- Notes Section -->
-                <Notes v-model:notes="notes" />
+                <Notes v-model:notes="form.notes" />
 
                 <!-- Customer Images -->
                 <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -247,5 +249,3 @@ const closeImageModal = () => {
         </div>
     </AppLayout>
 </template>
-
-
