@@ -117,7 +117,6 @@ const phoneError = computed(() => {
                     <!-- <span class="text-red-500">*</span> -->
                     <Input type="text" v-model="form.name" label="Customer Name" color="grayBorder" :required="true"
                         :error="errors.name" placeholder="Enter Customer Name" />
-
                 </div>
 
                 <!-- Contact Number -->
@@ -126,7 +125,6 @@ const phoneError = computed(() => {
                         :error="errors.phone" color="grayBorder" placeholder="Enter Phone Number" />
                     <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
                 </div>
-
 
                 <!-- Email -->
                 <div>
@@ -146,7 +144,6 @@ const phoneError = computed(() => {
                             class="text-red-500">*</span></label> -->
                     <Input type="textarea" v-model="form.address" color="grayBorder" :required="true" label="Address"
                         :error="errors.address"></Input>
-
                 </div>
 
                 <!-- Gender -->
@@ -162,15 +159,14 @@ const phoneError = computed(() => {
                         <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Other"
                             radioValue="o" />
                     </div>
-
                 </div>
                 <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
+
+                <!-- Measurements -->
                 <div>
-                    <Measurements v-model:measurements="customerMeasurements" />
-
-
+                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-2">Measurements</label>
+                    <Measurements v-model:measurements="form.measurements" />
                 </div>
-
 
                 <!-- Notes Section -->
                 <Notes v-model:notes="notes" />
@@ -179,7 +175,6 @@ const phoneError = computed(() => {
                 <div>
                     <h2 class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-5">Photos <span
                             class="text-red-500">*</span></h2>
-
                     <div class="flex flex-row justify-center item-center gap-6">
 
                         <!-- Half Image Upload -->
@@ -198,7 +193,6 @@ const phoneError = computed(() => {
                                 {{ props.errors.half_image }}
                             </div>
                         </div>
-
 
                         <!-- Full Image Upload -->
                         <div class="w-32 h-full gap-[10px]  p-2 shadow-[0px_0px_6.1px_0px_#00000040]">
@@ -221,13 +215,10 @@ const phoneError = computed(() => {
                     <!-- <div v-if="errors.full_image" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div> -->
                 </div>
 
-
                 <!-- Submit Button (Full Width Below) -->
-
                 <Button @click="submitForm" :color="'primary'" :padding="'md'" :rounded="'full'" :textSize="'sm'">
                     Save & Continue
                 </Button>
-
             </form>
         </div>
     </AppLayout>
