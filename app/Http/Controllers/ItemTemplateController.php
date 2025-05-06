@@ -14,7 +14,7 @@ class ItemTemplateController extends Controller
     public function index()
     {
         $items = ItemTemplate::all();
-        return Inertia::render('itemTemplates/Index', ['items' => $items]);
+        return Inertia::render('items/Index', ['items' => $items]);
     }
 
     /**
@@ -22,7 +22,7 @@ class ItemTemplateController extends Controller
      */
     public function create()
     {
-        return Inertia::render('itemTemplates/Create');
+        return Inertia::render('items/Create');
     }
 
     /**
