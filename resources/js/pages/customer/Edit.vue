@@ -5,6 +5,8 @@ import { useForm, Link, Head } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import Button from '@/components/Button.vue';
 import ImageModal from '@/components/ImageModal.vue';
+import Input from '@/components/InputWithLabel.vue';
+import Notes from '@/components/Items/Notes.vue';
 const toast = new ToastMagic();
 const props = defineProps<{
     errors: Record<string, string>,
@@ -21,7 +23,7 @@ const props = defineProps<{
         face_image: string;
         full_body_image: string;
     }
-}>();  
+}>();
 const form = useForm({
     name: props.customer.name,
     email: props.customer.email,
@@ -84,7 +86,7 @@ const updateCustomer = () => {
             // },
         });
 };
-
+const notes = ref([{ label: '', text: '' }]);
 const noteErrors = ref<string | null>(null);
 
 const addNote = () => {
@@ -124,6 +126,10 @@ const openImageModal = (url: string) => {
 const closeImageModal = () => {
     showImageModal.value = false;
 };
+
+// Notes
+
+
 </script>
 
 <template>
@@ -143,48 +149,36 @@ const closeImageModal = () => {
                 </div>
             </div>
             <!-- Edit Form -->
-            <form @submit.prevent="updateCustomer"
-                class="flex flex-col lg:mt-5 gap-6 rounded-lg lg:border lg:border-[#167893] p-0 lg:p-4">
-                <!-- <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Edit Details</h1> -->
+            <div class="flex flex-col lg:mt-5 gap-4 rounded-lg lg:border lg:border-[#167893] p-0 lg:p-4">
                 <!-- Customer Name -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Customer Name</label>
-                    <input v-model="form.name" type="text"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
-                        <div v-if="errors.name" class="text-red-600 text-sm mt-1">{{ errors.name }}</div>
+                    <Input type="text" v-model="form.name" label="Customer Name" color="grayBorder" :required="true"
+                        :error="errors.name" placeholder="Enter Customer Name" />
                 </div>
 
                 <!-- Contact Number -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Contact Number</label>
-                    <input v-model="form.phone" type="text"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
-                        <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
-                    <div v-else-if="errors.phone" class="text-red-600 text-sm mt-1">{{ errors.phone }}</div>
+                    <Input type="text" v-model="form.phone" label="Contact Number" :required="true"
+                        :error="errors.phone" color="grayBorder" placeholder="Enter Phone Number" />
+                    <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
                 </div>
 
                 <!-- Email -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Email (Optional)</label>
-                    <input v-model="form.email" type="email"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
-                        <div v-if="errors.email" class="text-red-600 text-sm mt-1">{{ errors.email }}</div>
+                    <Input type="email" v-model="form.email" label="Email" color="grayBorder" :error="errors.email"
+                        placeholder="example@mail.com" />
                 </div>
+
                 <!-- Date of Birth -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Date of Birth
-                        (Optional)</label>
-                    <input v-model="form.dob" type="date"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1" />
-                    <div v-if="errors.dob" class="text-red-600 text-sm mt-1">{{ errors.dob }}</div>
+                    <Input type="date" v-model="form.dob" :error="errors.dob" label="Date of Birth"
+                        color="grayBorder" />
                 </div>
 
                 <!-- Address -->
                 <div class="md:col-span-2">
-                    <label class="bblock font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-1">Address</label>
-                    <textarea v-model="form.address"
-                        class="border-b border-black bg-transparent w-full focus:outline-none focus:border-black py-1"
-                        rows="2" placeholder="Enter address here..."></textarea>
+                    <Input type="textarea" v-model="form.address" color="grayBorder" :required="true" label="Address"
+                        :error="errors.address"></Input>
                 </div>
 
                 <!-- Gender -->
@@ -195,62 +189,18 @@ const closeImageModal = () => {
                         </label>
                     </div>
                     <div class="flex items-center space-x-6 text-black">
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="m"
-                                class="form-radio accent-black" />
-                            <span>Male</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="f"
-                                class="form-radio accent-black" />
-                            <span>Female</span>
-                        </label>
-                        <label class="flex items-center space-x-2">
-                            <input type="radio" v-model="form.gender" name="gender" value="o"
-                                class="form-radio accent-black" />
-                            <span>Other</span>
-                        </label>
+                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Male"
+                            radioValue="m" />
+                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Female"
+                            radioValue="f" />
+                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Other"
+                            radioValue="o" />
                     </div>
                     <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
                 </div>
+
                 <!-- Notes Section -->
-                <div class="notes-section">
-                    <div class="flex items-center justify-between mb-2">
-                        <label class="block font-[Lato] text-[18px]">Notes <span class="text-red-500">*</span></label>
-
-                        <div class="flex items-center space-x-3">
-                            <span class="text-sm text-gray-600">Total: {{ form.notes.length }}</span>
-                            <button type="button" @click="addNote"
-                                class="flex items-center text-green-500 hover:text-green-600 transition">
-                                <Icon icon="mdi:plus-circle-outline" width="20" height="20" class="mr-1" />
-                                <span class="text-sm font-medium">Add Note</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div v-for="(note, index) in form.notes" :key="index" class="mb-4 flex gap-4 items-start">
-                        <div class="w-full">
-                            <label class="block text-sm mb-1">Label</label>
-                            <input type="text" placeholder="Write your Label..." v-model="note.label"
-                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" />
-                            <label class="block text-sm mt-2 mb-1">Note</label>
-                            <textarea v-model="note.text"
-                                class="border-b border-gray-400 bg-transparent w-full py-1 focus:outline-none" rows="2"
-                                placeholder="Write your note..."></textarea>
-                        </div>
-
-                        <!-- Remove note button -->
-                        <div class="flex items-center pt-6" v-if="form.notes.length > 1">
-                            <button type="button" @click="removeNote(index)"
-                                class="flex items-center text-red-500 hover:text-red-600 transition">
-                                <Icon icon="mdi:minus-circle-outline" width="24" height="24" class="mr-1" />
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Validation error -->
-                    <div v-if="noteErrors" class="text-red-600 text-sm mt-1">{{ noteErrors }}</div>
-                </div>
+                <Notes v-model:notes="notes" />
 
                 <!-- Customer Images -->
                 <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -286,35 +236,16 @@ const closeImageModal = () => {
 
                 <!-- Modal Component -->
                 <ImageModal :show="showImageModal" :imageUrl="currentImageUrl" @close="closeImageModal" />
-                <!-- Update Button-->
-                <div class="md:col-span-3">
-                    <button type="submit" class="rounded-full p-3 text-white w-full bg-[#167893] mt-0 md:mt-4"
-                        :disabled="form.processing">
-                        Update Customer
-                    </button>
-                </div>
-            </form>
+
+                <!-- Update Button -->
+                <Button @click="updateCustomer" :disabled="form.processing" :color="'primary'" :padding="'md'"
+                    :rounded="'full'" :textSize="'sm'">
+                    Update Customer
+                </Button>
+            </div>
+
         </div>
     </AppLayout>
 </template>
 
-<style scoped>
-.input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 0.25rem;
-    background-color: #fff;
-}
 
-.btn {
-    padding: 0.75rem 1.2rem;
-    background-color: #455a88;
-    color: white;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-</style>
