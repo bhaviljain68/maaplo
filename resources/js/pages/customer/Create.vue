@@ -24,7 +24,7 @@ const form = reactive({
     email: null,
     address: '',
     dob: null,
-    measurements: {},
+    measurements: null,
     half_image: '',
     full_image: '',
     half_image_preview: '',
@@ -63,7 +63,11 @@ const submitForm = () => {
     }, {
         onSuccess: () => {
             toast.success("Customer created successfully!");
-        }
+        },
+        onError: (errors) => {
+            toast.error("Failed to create customer. please fill the all the required fields.");
+            console.error(errors);
+        },
     });
 };
 
@@ -98,7 +102,7 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                     </Link>
                 </div>
             </div>
-            <form class="flex flex-col lg:mt-5 gap-3 rounded-lg lg:border lg: --border-primary p-0 lg:p-4">
+            <div class="flex flex-col lg:mt-5 gap-3 rounded-lg lg:border lg:border-primary p-0 lg:p-4">
                 <h1 class="text-xl font-bold lg:mt-0 mt-6">Enter Details</h1>
                 <!-- Customer Name -->
                 <div>
@@ -207,28 +211,7 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
                 <Button @click="submitForm" :color="'primary'" :padding="'md'" :rounded="'full'" :textSize="'sm'">
                     Save & Continue
                 </Button>
-            </form>
+            </div>
         </div>
     </AppLayout>
 </template>
-
-<style scoped>
-.input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 0.25rem;
-    background-color: #fff;
-}
-
-.btn {
-    padding: 0.75rem 1.2rem;
-    background-color: #455a88;
-    color: white;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-</style>
