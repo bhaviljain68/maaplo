@@ -44,14 +44,14 @@ watch(modelValue, (val) => {
 </script>
 
 <template>
-  <div class="relative w-full max-w-sm mt-5">
+  <div class="relative  mt-5">
     <div class="relative">
       <input
         type="text"
         v-model="searchQuery"
         @focus="showDropdown = true"
         placeholder="Search Item Type"
-        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        class="w-full border rounded px-3 py-2 focus:outline-none"
         :class="{ 'border-red-500': isInvalid }"
       />
 
