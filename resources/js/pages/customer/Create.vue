@@ -7,7 +7,8 @@ import Button from '@/components/Button.vue';
 import Input from '@/components/InputWithLabel.vue';
 import InputWithLabel from '@/components/InputWithLabel.vue';
 import Notes from '@/components/Items/Notes.vue';
-
+import Measurements from '@/components/Items/Measurements.vue';
+const customerMeasurements = ref({});
 const props = defineProps<{
     errors: Record<string, string>,
     user_id: number
@@ -23,6 +24,7 @@ const form = reactive({
     email: null,
     address: '',
     dob: null,
+    measurements: {},
     half_image: '',
     full_image: '',
     half_image_preview: '',
@@ -57,6 +59,7 @@ const submitForm = () => {
     router.post('/customers', {
         ...form,
         notes: notes.value,
+        base_measurements: customerMeasurements.value,
     }, {
         onSuccess: () => {
             toast.success("Customer created successfully!");
@@ -162,6 +165,11 @@ const phoneError = computed(() => {
 
                 </div>
                 <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
+                <div>
+                    <Measurements v-model:measurements="customerMeasurements" />
+
+
+                </div>
 
 
                 <!-- Notes Section -->
