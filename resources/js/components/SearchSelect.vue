@@ -22,20 +22,29 @@ const isInvalid = computed(() => {
   );
 });
 
+const showClearIcon = computed(() => {
+  return options.includes(searchQuery.value);
+});
+
 function selectOption(option) {
   modelValue.value = option;
   searchQuery.value = option;
   showDropdown.value = false;
 }
 
+function clearSelection() {
+  modelValue.value = '';
+  searchQuery.value = '';
+  showDropdown.value = false;
+}
+
 watch(modelValue, (val) => {
-  searchQuery.value = val;
+  searchQuery.value = val || '';
 });
 </script>
 
 <template>
   <div class="relative w-full max-w-sm mt-5">
-    
     <div class="relative">
       <input
         type="text"
@@ -46,6 +55,17 @@ watch(modelValue, (val) => {
         :class="{ 'border-red-500': isInvalid }"
       />
 
+      <!-- Close Icon (shown only when valid value is selected) -->
+      <Icon
+        v-if="showClearIcon"
+        icon="mdi:close-circle"
+        width="20"
+        height="20"
+        class="absolute top-2.5 right-8 text-gray-500 cursor-pointer"
+        @click="clearSelection"
+      />
+
+      <!-- Dropdown Icon -->
       <Icon
         icon="icon-park-outline:down"
         width="20"
@@ -65,11 +85,10 @@ watch(modelValue, (val) => {
           class="px-4 py-2 cursor-pointer hover:bg-gray-100"
         >
           {{ option }}
-        
         </li>
       </ul>
-      
 
+      <!-- Invalid Search Message -->
       <p v-if="isInvalid" class="text-sm text-red-600 mt-1">Invalid Search</p>
     </div>
   </div>
