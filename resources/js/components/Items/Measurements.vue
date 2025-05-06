@@ -55,7 +55,7 @@ function toggleDropdownMeasurements() {
         <div v-show="showDropdownMeasurements" class="z-10">
             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
-                    <div class="grid grid-col-1 lg:grid-cols-2 gap-x-4 gap-y-4 ml-2 mt-2 text-black font-lato text-sm">
+                    <div class="grid grid-col-1 lg:grid-cols-2 gap-x-4 gap-y-4 ml-2 mt-4 text-black font-lato text-sm">
                         <!-- Length -->
                         <div class="flex items-center gap-4 col-span-2 sm:col-span-1">
                             <SvgIcon :name="'length'" />

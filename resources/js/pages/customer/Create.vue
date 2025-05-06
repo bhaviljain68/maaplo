@@ -80,18 +80,6 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
     form[previewField] = file ? URL.createObjectURL(file) : '';
 };
 
-const phoneError = computed(() => {
-    if (!form.phone) return '';
-    if (!/^\d+$/.test(form.phone)) {
-        return 'Phone number must contain only numbers.';
-    }
-    if (form.phone.length > 10) {
-        return 'Phone number cannot exceed 10 digits.';
-    }
-    return '';
-});
-
-
 </script>
 
 <template>
@@ -121,9 +109,9 @@ const phoneError = computed(() => {
 
                 <!-- Contact Number -->
                 <div>
-                    <Input type="text" v-model="form.phone" label="Contact Number" :required="true"
+                    <Input type="tel" v-model="form.phone" label="Contact Number" :required="true"
                         :error="errors.phone" color="grayBorder" placeholder="Enter Phone Number" />
-                    <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
+                    <!-- <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div> -->
                 </div>
 
                 <!-- Email -->
@@ -152,11 +140,11 @@ const phoneError = computed(() => {
                         <label class="text-[18px]  mb-1">Gender <span class="text-red-500">*</span></label>
                     </div>
                     <div class="flex flex-row items-center space-x-6 text-black">
-                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Male"
+                        <Input type="radio" v-model="form.gender" name="gender" label="Male"
                             radioValue="m" />
-                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Female"
+                        <Input type="radio" v-model="form.gender" name="gender" label="Female"
                             radioValue="f" />
-                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Other"
+                        <Input type="radio" v-model="form.gender" name="gender" label="Other"
                             radioValue="o" />
                     </div>
                 </div>
@@ -164,8 +152,8 @@ const phoneError = computed(() => {
 
                 <!-- Measurements -->
                 <div>
-                    <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-2">Measurements</label>
-                    <Measurements v-model:measurements="form.measurements" />
+                    <!-- <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-2">Measurements</label> -->
+                    <Measurements class="mb-4" v-model:measurements="form.measurements" />
                 </div>
 
                 <!-- Notes Section -->
