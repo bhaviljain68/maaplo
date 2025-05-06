@@ -1,9 +1,42 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, watch, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import SvgIcon from '../SvgIcon.vue';
 import Input from '../InputWithLabel.vue';
+
+const props = defineProps<{
+    measurements: Record<string, string>
+}>();
+
+const emit = defineEmits<{
+    (e: 'update:measurements', value: Record<string, string>): void;
+}>();
+
+const measurements = ref({ ...props.measurements });
+
+watch(measurements, (val) => {
+    emit('update:measurements', val);
+}, { deep: true });
+
 const showDropdownMeasurements = ref(false);
+
+const measurementErrors = computed(() => {
+    const errors: Record<string, string> = {};
+    for (const key in measurements.value) {
+        const val = measurements.value[key];
+
+        // Skip empty fields
+        if (!val) continue;
+
+        // Allow numbers with optional one decimal point, like 123 or 123.45
+        if (!/^\d{1,3}(\.\d{1,2})?$/.test(val)) {
+            errors[key] = 'Only Numbers, Max 3 Digits (e.g. 123 or 123.45)';
+        }
+    }
+    return errors;
+});
+
+
 function toggleDropdownMeasurements() {
     showDropdownMeasurements.value = !showDropdownMeasurements.value;
 }
@@ -22,13 +55,14 @@ function toggleDropdownMeasurements() {
         <div v-show="showDropdownMeasurements" class="z-10">
             <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
                 <li>
-                    <div class="grid grid-col-1 lg:grid-cols-2 gap-x-4 gap-y-4 ml-2 mt-2 text-black font-lato text-sm">
+                    <div class="grid grid-col-1 lg:grid-cols-2 gap-x-4 gap-y-4 ml-2 mt-4 text-black font-lato text-sm">
                         <!-- Length -->
                         <div class="flex items-center gap-4 col-span-2 sm:col-span-1">
                             <SvgIcon :name="'length'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Length</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.length" type="text" width="md" color="grayBorder" padding="sm"
+                                rounded="sm" :error="measurementErrors.length" />
                         </div>
 
                         <!-- Chest -->
@@ -36,7 +70,8 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'chest'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Chest</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.chest" type="text" width="md" color="grayBorder" padding="sm"
+                                rounded="sm" :error="measurementErrors.chest" />
                         </div>
 
                         <!-- Arms -->
@@ -44,7 +79,8 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'Arms'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Arms</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.arms" type="text" width="md" color="grayBorder" padding="sm"
+                                rounded="sm" :error="measurementErrors.arms" />
                         </div>
 
                         <!-- Sleeve length -->
@@ -53,7 +89,8 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Sleeve
                                 length</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.sleeve_length" type="text" width="md" color="grayBorder"
+                                padding="sm" rounded="sm" :error="measurementErrors.sleeve_length" />
                         </div>
 
                         <!-- Back Neck -->
@@ -62,7 +99,8 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Back
                                 Neck</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.back_neck" type="text" width="md" color="grayBorder"
+                                padding="sm" rounded="sm" :error="measurementErrors.back_neck" />
                         </div>
 
                         <!-- Shoulder -->
@@ -70,7 +108,8 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'shoulder'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Shoulder</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.shoulder" type="text" width="md" color="grayBorder"
+                                padding="sm" rounded="sm" :error="measurementErrors.shoulder" />
                         </div>
 
                         <!-- Waist -->
@@ -78,7 +117,8 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'waist'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Waist</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.waist" type="text" width="md" color="grayBorder" padding="sm"
+                                rounded="sm" :error="measurementErrors.waist" />
                         </div>
 
                         <!-- Seat -->
@@ -86,7 +126,8 @@ function toggleDropdownMeasurements() {
                             <SvgIcon :name="'seat'" />
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Seat</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.seat" type="text" width="md" color="grayBorder" padding="sm"
+                                rounded="sm" :error="measurementErrors.seat" />
                         </div>
 
                         <!-- Sleeve Circle -->
@@ -95,7 +136,8 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Sleeve
                                 Circle</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.sleeve_circle" type="text" width="md" color="grayBorder"
+                                padding="sm" rounded="sm" :error="measurementErrors.sleeve_circle" />
                         </div>
 
                         <!-- Front Neck -->
@@ -104,7 +146,8 @@ function toggleDropdownMeasurements() {
                             <span
                                 class="w-32 font-normal text-[16px] leading-[8px] tracking-normal font-lato font-normal text-[16px] leading-[8px] tracking-normal font-lato">Front
                                 Neck</span>
-                            <Input type="text" width="md" color="grayBorder" padding="sm" rounded="sm" />
+                            <Input v-model="measurements.front_neck" type="text" width="md" color="grayBorder"
+                                padding="sm" rounded="sm" :error="measurementErrors.front_neck" />
                         </div>
                     </div>
 

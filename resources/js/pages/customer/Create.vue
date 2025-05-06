@@ -7,7 +7,8 @@ import Button from '@/components/Button.vue';
 import Input from '@/components/InputWithLabel.vue';
 import InputWithLabel from '@/components/InputWithLabel.vue';
 import Notes from '@/components/Items/Notes.vue';
-
+import Measurements from '@/components/Items/Measurements.vue';
+const customerMeasurements = ref({});
 const props = defineProps<{
     errors: Record<string, string>,
     user_id: number
@@ -23,6 +24,7 @@ const form = reactive({
     email: null,
     address: '',
     dob: null,
+    measurements: {},
     half_image: '',
     full_image: '',
     half_image_preview: '',
@@ -57,6 +59,7 @@ const submitForm = () => {
     router.post('/customers', {
         ...form,
         notes: notes.value,
+        base_measurements: customerMeasurements.value,
     }, {
         onSuccess: () => {
             toast.success("Customer created successfully!");
@@ -76,18 +79,6 @@ const handleImageUpload = (event: Event, field: 'half_image' | 'full_image') => 
     const previewField = field + '_preview' as 'half_image_preview' | 'full_image_preview';
     form[previewField] = file ? URL.createObjectURL(file) : '';
 };
-
-const phoneError = computed(() => {
-    if (!form.phone) return '';
-    if (!/^\d+$/.test(form.phone)) {
-        return 'Phone number must contain only numbers.';
-    }
-    if (form.phone.length > 10) {
-        return 'Phone number cannot exceed 10 digits.';
-    }
-    return '';
-});
-
 
 </script>
 
@@ -114,16 +105,14 @@ const phoneError = computed(() => {
                     <!-- <span class="text-red-500">*</span> -->
                     <Input type="text" v-model="form.name" label="Customer Name" color="grayBorder" :required="true"
                         :error="errors.name" placeholder="Enter Customer Name" />
-
                 </div>
 
                 <!-- Contact Number -->
                 <div>
-                    <Input type="text" v-model="form.phone" label="Contact Number" :required="true"
+                    <Input type="tel" v-model="form.phone" label="Contact Number" :required="true"
                         :error="errors.phone" color="grayBorder" placeholder="Enter Phone Number" />
-                    <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div>
+                    <!-- <div v-if="phoneError" class="text-red-600 text-sm mt-1">{{ phoneError }}</div> -->
                 </div>
-
 
                 <!-- Email -->
                 <div>
@@ -143,7 +132,6 @@ const phoneError = computed(() => {
                             class="text-red-500">*</span></label> -->
                     <Input type="textarea" v-model="form.address" color="grayBorder" :required="true" label="Address"
                         :error="errors.address"></Input>
-
                 </div>
 
                 <!-- Gender -->
@@ -152,17 +140,21 @@ const phoneError = computed(() => {
                         <label class="text-[18px]  mb-1">Gender <span class="text-red-500">*</span></label>
                     </div>
                     <div class="flex flex-row items-center space-x-6 text-black">
-                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Male"
+                        <Input type="radio" v-model="form.gender" name="gender" label="Male"
                             radioValue="m" />
-                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Female"
+                        <Input type="radio" v-model="form.gender" name="gender" label="Female"
                             radioValue="f" />
-                        <Input type="radio" v-model="form.gender" name="gender" :error="errors.gender" label="Other"
+                        <Input type="radio" v-model="form.gender" name="gender" label="Other"
                             radioValue="o" />
                     </div>
-
                 </div>
                 <div v-if="errors.gender" class="text-red-600 text-sm">{{ errors.gender }}</div>
 
+                <!-- Measurements -->
+                <div>
+                    <!-- <label class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-2">Measurements</label> -->
+                    <Measurements class="mb-4" v-model:measurements="form.measurements" />
+                </div>
 
                 <!-- Notes Section -->
                 <Notes v-model:notes="notes" />
@@ -171,7 +163,6 @@ const phoneError = computed(() => {
                 <div>
                     <h2 class="block font-[Lato] text-[18px] leading-[16px] tracking-[0] mb-5">Photos <span
                             class="text-red-500">*</span></h2>
-
                     <div class="flex flex-row justify-center item-center gap-6">
 
                         <!-- Half Image Upload -->
@@ -190,7 +181,6 @@ const phoneError = computed(() => {
                                 {{ props.errors.half_image }}
                             </div>
                         </div>
-
 
                         <!-- Full Image Upload -->
                         <div class="w-32 h-full gap-[10px]  p-2 shadow-[0px_0px_6.1px_0px_#00000040]">
@@ -213,13 +203,10 @@ const phoneError = computed(() => {
                     <!-- <div v-if="errors.full_image" class="text-red-600 text-sm mt-1">{{ errors.full_image }}</div> -->
                 </div>
 
-
                 <!-- Submit Button (Full Width Below) -->
-
                 <Button @click="submitForm" :color="'primary'" :padding="'md'" :rounded="'full'" :textSize="'sm'">
                     Save & Continue
                 </Button>
-
             </form>
         </div>
     </AppLayout>
