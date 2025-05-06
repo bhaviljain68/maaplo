@@ -26,7 +26,7 @@ function onFileChange(event, index) {
 </script>
 
 <template>
-    <div class="mb-10">
+    <div class="">
       <h1 class="font-normal text-[16px] leading-4 tracking-normal font-lato">Cloth Images</h1>
       <div class="flex gap-10">
         

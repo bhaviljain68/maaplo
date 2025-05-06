@@ -7,10 +7,10 @@ import { reactive, ref } from 'vue';
 import ItemModel from '@/components/Items/ItemModel.vue';
 const props = defineProps(["users", "customers"])
 const showModal = ref(false);
-const items = reactive([]);
+const items = ref([]);
 function handleAddItem(newItem) {
-    console.log("New item added:", newItem);
-    items.push(newItem);
+  items.value.push({ ...newItem }); 
+  showModal.value = false; 
 }
 </script>
 
