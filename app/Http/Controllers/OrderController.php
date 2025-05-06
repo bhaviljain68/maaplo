@@ -28,16 +28,14 @@ class OrderController extends Controller
         $orders = [];
 
         if ($user) {
-            
+
             $orders = $user->load('orders.customer');
 
             return Inertia::render('orders/Index', ["orders" => $orders]);
-        
         }
 
         //-- if User Not Found
         abort(404);
-
     }
 
     /**
@@ -53,11 +51,12 @@ class OrderController extends Controller
 
         // Fetch all users and customers to populate the select options
         $user = Auth::user();
-        
-        $customers = $user->load('customers');
+
+        $user->load('customers');
+        // dd($user->toArray());
         // $orderItems =         
         return Inertia::render('orders/Create', [
-            'customers' => $customers
+            'customers' => $user->customers
         ]);
     }
 

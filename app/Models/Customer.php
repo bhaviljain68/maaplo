@@ -24,6 +24,8 @@ class Customer extends Model
         'dob'
     ];
 
+    protected $with = ['photos'];
+
     // Accessor for 'address'
     protected function address(): Attribute
     {
