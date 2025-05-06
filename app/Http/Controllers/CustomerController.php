@@ -169,7 +169,10 @@ class CustomerController extends Controller
                 ['gender' => $customer->getAttributes()['gender']],
                 [
                     'face_image' => $faceImage ? $faceImage->image_url : null,
-                    'full_body_image' => $fullBodyImage ? $fullBodyImage->image_url : null
+                    'full_body_image' => $fullBodyImage ? $fullBodyImage->image_url : null,
+                    'measurements' => is_string($customer->base_measurements)
+                        ? json_decode($customer->base_measurements, true)
+                        : $customer->base_measurements,
                 ]
             ),
             'notes' => $customer->notes ?? [],

@@ -17,7 +17,7 @@ const props = defineProps<{
         email: string;
         phone: string;
         dob: string;
-        measurements: null,
+        measurements: Record<string, string> | null;
         address: string;
         gender: string;
         notes: Array<{ label: string; text: string }>;
@@ -32,7 +32,7 @@ const form = useForm({
     phone: props.customer.phone,
     address: props.customer.address,
     dob: props.customer.dob,
-    measurements: props.customer.measurements,
+    measurements: props.customer.measurements ?? null,
     gender: props.customer.gender,
     payment_due: props.customer.payment_due,
     half_image: null,
