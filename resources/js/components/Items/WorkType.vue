@@ -17,7 +17,7 @@ function toggleDropdownWorkType() {
       <h1 class="font-normal text-md font-lato">Work Type</h1>
       <Icon
         :icon="showDropdownWorkType ? 'icon-park-outline:up' : 'icon-park-outline:down'"
-        width="20" height="20" class="text-black ml-2"
+        width="20" height="20" class="text-black ml-2 mt-1"
       />
     </div>
 
