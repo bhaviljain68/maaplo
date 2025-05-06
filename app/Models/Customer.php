@@ -19,6 +19,7 @@ class Customer extends Model
         'gender',
         'email',
         'phone',
+        'base_measurements',
         'address',
         'notes',
         'dob'
