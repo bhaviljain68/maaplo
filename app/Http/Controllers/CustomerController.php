@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Helpers\ImageHelper;
+use App\Models\UserCustomer;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Laravel\Facades\Image;
@@ -64,7 +65,7 @@ class CustomerController extends Controller
             'phone' => 'required|regex:/^[0-9]{10}$/',
             'email' => 'nullable|email|unique:customers,email',
             'address' => 'required|string|max:255',
-            'base_measurements' => 'nullable|array',
+            'measurements' => 'nullable|array',
             'dob' => 'nullable|date',
             'notes' => 'nullable|array',
             'half_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -87,14 +88,17 @@ class CustomerController extends Controller
                 'gender' => $validated['gender'],
                 'phone' => $validated['phone'],
                 'email' => $validated['email'],
-                'base_measurements' => json_encode($validated['base_measurements']),
+                'base_measurements' => json_encode($validated['measurements']),
                 'dob' => $validated['dob'],
                 'address' => $addressJson,
                 'notes' => json_encode($validated['notes']),
             ]);
             // Now that the customer is created, we have the customer ID
             $customerId = $customer->id;
-
+            UserCustomer::create([
+                'user_id' => $user_id,
+                'customer_id' => $customerId,
+            ]);
             // Handle the half image if it exists
             $halfImagePath = null;
             if ($request->hasFile('half_image')) {
