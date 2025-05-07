@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use League\Flysystem\UnableToCreateDirectory;
 
 class User extends Authenticatable
 {
@@ -57,7 +58,7 @@ class User extends Authenticatable
     public function customers()
     {
         return $this->belongsToMany(Customer::class, 'users_customers')
-            ->withTimestamps();
+            ->withTimestamps()->latest('updated_at');
     }
 
     public function orders()

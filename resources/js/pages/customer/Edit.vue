@@ -37,7 +37,9 @@ const form = useForm({
     payment_due: props.customer.payment_due,
     half_image: null,
     full_image: null,
-    notes: props.customer.notes.length > 0 ? props.customer.notes : [{ label: '', text: '' }],
+    notes: Array.isArray(props.customer.notes) && props.customer.notes.length > 0
+        ? props.customer.notes
+        : [{ label: '', text: '' }],
 });
 // Image preview refs
 const faceImagePreview = ref<string | null>(null);
@@ -74,32 +76,53 @@ const handleFullBodyImageChange = (event: Event) => {
 };
 
 const updateCustomer = () => {
-    if (!validateNotes()) return;
-    form.transform((data) => ({
-        ...data,
-        _method: 'put',
-    }))
-        .post(route('customers.update', props.customer.id), {
-            onSuccess: () => {
-                toast.success("Customer updated successfully!");
-            },
-            // onError: (errors) => {
-            //     console.error('Failed to update customer:', errors);
-            //     alert('An error occurred while updating the customer. Please check the form and try again.');
-            // },
-        });
+    form.transform((data) => {
+        // Clean notes: remove empty note entries
+        const cleanedNotes = (data.notes || []).filter(
+            note =>
+                typeof note.label === 'string' &&
+                typeof note.text === 'string' &&
+                note.label.trim() !== '' &&
+                note.text.trim() !== ''
+        );
+
+        return {
+            ...data,
+            notes: cleanedNotes.length > 0 ? cleanedNotes : null,
+            _method: 'put',
+        };
+    }).post(route('customers.update', props.customer.id), {
+        onSuccess: () => {
+            toast.success("Customer updated successfully!");
+        },
+        onError: (errors) => {
+            console.error('Update failed:', errors);
+            toast.error("Update failed. Please check the fields and try again.");
+        }
+    });
 };
+
 // const notes = ref([{ label: '', text: '' }]);
 const noteErrors = ref<string | null>(null);
 
 
 const validateNotes = () => {
-    const isValid = form.notes.length > 0 && form.notes.every(
-        note => note.label.trim() !== '' && note.text.trim() !== ''
+    if (!form.notes || form.notes.length === 0) {
+        noteErrors.value = null;
+        return true;
+    }
+
+    const isValid = form.notes.every(note =>
+        typeof note.label === 'string' &&
+        typeof note.text === 'string' &&
+        note.label.trim() !== '' &&
+        note.text.trim() !== ''
     );
+
     noteErrors.value = isValid ? null : 'All notes must have a label and text.';
     return isValid;
 };
+
 const phoneError = computed(() => {
     if (!form.phone) return '';
     if (!/^\d+$/.test(form.phone)) {
