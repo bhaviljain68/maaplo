@@ -44,7 +44,7 @@ watch(modelValue, (val) => {
 </script>
 
 <template>
-  <div class="relative  mt-5">
+  <div class="relative">
     <div class="relative">
       <input
         type="text"

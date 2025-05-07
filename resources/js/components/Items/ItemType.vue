@@ -20,28 +20,7 @@ function toggleDropdownItemType() {
         </div>
         <!-- Dropdown -->
         <div v-show="showDropdownItemType" class="z-10">
-            <SearchSelect v-model="modelValue" />
-            <!-- <ul class="text-md text-black dark:text-black" aria-labelledby="dropdownTrigger">
-                <li>
-                    <div class="flex flex-col ml-2  gap-3 text-black mt-2">
-                        <div class="flex gap-2">
-                            <Input type="radio" id="Kurta" radioValue="Kurta" label="Kurta" v-model="modelValue" name="Item-type" width="sm"/>
-                            
-                        </div>
-                        <div class="flex gap-2">
-                            <Input type="radio" id="Shirt" radioValue="Shirt" label="Shirt"   v-model="modelValue" name="Item-type" value="Shirt" width="sm"/>
-                        </div>
-                        <div class="flex gap-2">
-                            <Input type="radio" id="Kurti" radioValue="Kurti" label="Kurti"  v-model="modelValue" name="Item-type" value="Kurti" width="sm"/>
-                            
-                        </div>
-                        <div class="flex gap-2">
-                            <Input type="radio" id="Pajama" radioValue="Pajama" label="Pajama"  v-model="modelValue" name="Item-type" value="Pajama" width="sm"/>
-                            
-                        </div>
-                    </div>
-                </li>
-            </ul> -->
+            <SearchSelect v-model="modelValue" class="mt-5"/>
         </div>
     </div>
 </template>
