@@ -18,24 +18,25 @@ const bodyPart = ref('');
                     Add New Template
                 </h1>
             </div>
-            <div class="flex flex-col lg:mt-5 gap-3 lg:gap-5 rounded-lg lg:border lg:border-primary p-0 lg:p-4">
+            <div class="flex flex-col lg:mt-5 gap-3 mt-10 lg:gap-4 rounded-lg lg:border lg:border-primary p-0 lg:p-4">
                 <!-- <h1>Select Base Template</h1> -->
                 <div>
-                    <SearchSelect />
+                    <label class="text-md">Select Base Template</label>
+                    <SearchSelect class="mt-2" />
                 </div>
                 <div>
                     <Input label="Template Name" modelValue="" placeholder="Enter Template Name" margin="md"
                         width="full" fonttype="normal" textSize="base" rounded="md" error="" />
                 </div>
-                <div class="mt-2 lg:mt-4 flex flex-col lg:flex-row gap-2 lg:gap-4">
+                <div class="mt-2 lg:mt-4 flex flex-row gap-2 gap-4">
                     <div>
-                        <h1 class="lg:mb-2 font-semibold text-md">Gender:</h1>
+                        <h1 class="lg:mb-2 text-md">Gender:</h1>
                     </div>
                     <div class="flex gap-4">
                         <label>
                             <input type="radio" name="gender" value="Female" v-model="gender" class="hidden" />
                             <div :class="[
-                                'px-4 py-1 rounded border text-sm font-medium cursor-pointer',
+                                'px-4 py-1 rounded border text-sm cursor-pointer',
                                 gender === 'Female'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -47,7 +48,7 @@ const bodyPart = ref('');
                         <label>
                             <input type="radio" name="gender" value="Male" v-model="gender" class="hidden" />
                             <div :class="[
-                                'px-4 py-1 rounded border text-sm font-medium cursor-pointer',
+                                'px-4 py-1 rounded border text-sm cursor-pointer',
                                 gender === 'Male'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -58,15 +59,15 @@ const bodyPart = ref('');
                     </div>
                 </div>
 
-                <div class="mt-2 lg:mt-4 flex flex-col lg:flex-row gap-2 lg:gap-4">
+                <div class="mt-2 lg:mt-4 flex flex-row gap-2 gap-4">
                     <div>
-                        <h1 class="lg:mb-2 font-semibold text-md">Body Part:</h1>
+                        <h1 class="lg:mb-2 text-md">Body Part:</h1>
                     </div>
                     <div class="flex gap-4">
                         <label>
                             <input type="radio" name="bodyPart" value="Upper" v-model="bodyPart" class="hidden" />
                             <div :class="[
-                                'px-4 py-1 rounded border text-sm font-medium cursor-pointer',
+                                'px-4 py-1 rounded border text-sm cursor-pointer',
                                 bodyPart === 'Upper'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
@@ -78,7 +79,7 @@ const bodyPart = ref('');
                         <label>
                             <input type="radio" name="bodyPart" value="Lower" v-model="bodyPart" class="hidden" />
                             <div :class="[
-                                'px-4 py-1 rounded border text-sm font-medium cursor-pointer',
+                                'px-4 py-1 rounded border text-sm cursor-pointer',
                                 bodyPart === 'Lower'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
