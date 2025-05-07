@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use App\Helpers\ImageHelper;
 use App\Models\UserCustomer;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,7 @@ class CustomerController extends Controller
     // Display a listing of the customers
     public function index()
     {
-        $customers = Customer::with(['photos' => fn($q) => $q->where('label', 'Faceimage')])
+        $customers = Auth::user()->customers()->with(['photos' => fn($q) => $q->where('label', 'Faceimage')])
             ->get()
             ->map(fn($c) => [
                 'id' => $c->id,
