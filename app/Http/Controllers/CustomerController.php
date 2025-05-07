@@ -12,7 +12,6 @@ use App\Helpers\ImageHelper;
 use App\Models\UserCustomer;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Illuminate\Support\Facades\DB;
-use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Str;
 
 class CustomerController extends Controller
@@ -49,7 +48,6 @@ class CustomerController extends Controller
     // Store a newly created customer in storage
     public function store(Request $request)
     {
-        // dd($request->all());
         $user_id = auth()->id();
         $user = User::findOrFail($user_id);
         if ($request->has('notes') && is_string($request->notes)) {
@@ -71,13 +69,11 @@ class CustomerController extends Controller
             'half_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'full_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-        // dd($validated);
         try {
             DB::beginTransaction();
 
             $username = preg_replace('/\s+/', '_', strtolower($user->name));
             $customerName = preg_replace('/\s+/', '_', strtolower($validated['name']));
-
             $address = $validated['address'];
             $addressJson = json_encode(['value' => $address]);
 
@@ -93,7 +89,8 @@ class CustomerController extends Controller
                 'address' => $addressJson,
                 'notes' => json_encode($validated['notes']),
             ]);
-            // Now that the customer is created, we have the customer ID
+
+            //Store Customer id and user id in the pivot table
             $customerId = $customer->id;
             UserCustomer::create([
                 'user_id' => $user_id,
@@ -169,7 +166,10 @@ class CustomerController extends Controller
                 ['gender' => $customer->getAttributes()['gender']],
                 [
                     'face_image' => $faceImage ? $faceImage->image_url : null,
-                    'full_body_image' => $fullBodyImage ? $fullBodyImage->image_url : null
+                    'full_body_image' => $fullBodyImage ? $fullBodyImage->image_url : null,
+                    'measurements' => is_string($customer->base_measurements)
+                        ? json_decode($customer->base_measurements, true)
+                        : $customer->base_measurements,
                 ]
             ),
             'notes' => $customer->notes ?? [],
@@ -179,14 +179,13 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|unique:customers,email,' . $id,
-            'phone' => 'required|string|max:10',
+            'phone' => 'required|max:10',
             'gender' => 'required|in:m,f,o',
             'dob' => 'nullable|date',
-            'base_measurements' => 'nullable|array',
+            'measurements' => 'nullable|array',
             'address' => 'required|string',
             'notes' => 'nullable|array',
             'half_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -200,7 +199,7 @@ class CustomerController extends Controller
                 'email' => $validated['email'] ?? null,
                 'gender' => $validated['gender'],
                 'dob' => $validated['dob'],
-                'base_measurements' => json_encode($validated['base_measurements']),
+                'base_measurements' => json_encode($validated['measurements']),
                 'phone' => $validated['phone'],
                 'notes' => json_encode($validated['notes']),
                 'address' => json_encode(['value' => $validated['address']]), // keep consistent format
@@ -223,7 +222,6 @@ class CustomerController extends Controller
 
                     if (Storage::disk('public')->exists($relativePath)) {
                         Storage::disk('public')->delete($relativePath);
-                        // dd('Image deleted', $relativePath); // You can log this or remove it in production
                     }
                 }
 
@@ -236,7 +234,6 @@ class CustomerController extends Controller
                     $customerName,
                     'faceimage'
                 );
-                // dd($halfImagePath);
 
                 CustomerPhoto::updateOrCreate(
                     ['customer_id' => $customer->id, 'label' => 'Faceimage'],
@@ -257,7 +254,6 @@ class CustomerController extends Controller
 
                     if (Storage::disk('public')->exists($relativePath)) {
                         Storage::disk('public')->delete($relativePath);
-                        // dd('Image deleted', $relativePath); // You can log this or remove it in production
                     }
                 }
 

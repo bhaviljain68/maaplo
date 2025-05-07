@@ -5,14 +5,17 @@ import SvgIcon from '../SvgIcon.vue';
 import Input from '../InputWithLabel.vue';
 
 const props = defineProps<{
-    measurements: Record<string, string>
+    measurements: Record<string, string> | null;
 }>();
 
 const emit = defineEmits<{
     (e: 'update:measurements', value: Record<string, string>): void;
 }>();
 
-const measurements = ref({ ...props.measurements });
+const measurements = ref<Record<string, string>>({});
+if (props.measurements) {
+    measurements.value = { ...props.measurements };
+}
 
 watch(measurements, (val) => {
     emit('update:measurements', val);
