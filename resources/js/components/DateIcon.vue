@@ -1,8 +1,15 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, defineProps, defineEmits } from 'vue'
 import { Icon } from '@iconify/vue';
+
+// let props = defineProps(["i:insertData="insertData" @setFormData="setFormData""]) 
+let props = defineProps(["insertData"])
+let emits = defineEmits(["setFormData"])
 const selectedDate = ref('')
 const dateInput = ref(null)
+
+let data = props.insertData
+
 
 function openCalendar() {
     if (dateInput.value?.showPicker) {
@@ -15,6 +22,9 @@ function openCalendar() {
 const formattedDate = computed(() => {
     if (!selectedDate.value) return ''
     const d = new Date(selectedDate.value)
+
+    data.delivery_date = d
+    emits('setFormData', data)
     return d.toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'short',

@@ -10,10 +10,10 @@ import Date from '../Date.vue';
 import ClothImage from './ClothImage.vue';
 import PatternImage from './PatternImage.vue';
 import Button from '../Button.vue';
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
 const notes = ref('');
-const props = defineProps(['showModal']);
-const emit = defineEmits(['close', 'handleAddItem']);
+const props = defineProps(['showModal', 'measurements', 'insertData']);
+const emit = defineEmits(['close', 'handleAddItem', 'setFormData']);
 
 // Form state
 const form = ref({
@@ -22,8 +22,14 @@ const form = ref({
     deliveryDate: ''
 });
 
+let data = props.insertData
+watch(form.value,(nVal)=>{console.log('new val:',nVal);
+})
 // Save and emit
 function saveItem() {
+    // data
+    console.log(form.value);
+    
     emit('handleAddItem', form.value);
     emit('close');
 }
@@ -50,7 +56,7 @@ function saveItem() {
                 <div class=" max-h-[75vh] pr-2 space-y-5">
                     <WorkType v-model="form.workType" />
                     <ItemType v-model="form.itemType" />
-                    <Measurements />
+                    <Measurements :measurements="measurements" />
                     <DesignDetails />
 
                     <div class="flex flex-col">
