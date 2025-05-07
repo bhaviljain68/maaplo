@@ -93,7 +93,7 @@ const bodyPart = ref('');
                 </div>
 
                 <div class="mb-5">
-                    <h1 class="mb-2 font-semibold text-md mt-2">Required Measurements :</h1>
+                    <h1 class="mb-2 text-md mt-2">Required Measurements :</h1>
                     <div class="grid grid-cols-2 gap-4">
                         <Input type="checkbox" label="Length" modelValue="" width="sm" error="" />
                         <Input type="checkbox" label="Arms" modelValue="" width="sm" error="" />
