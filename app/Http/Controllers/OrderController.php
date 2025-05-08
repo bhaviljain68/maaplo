@@ -59,10 +59,7 @@ class OrderController extends Controller
         $user->load('customers');
 
         //-- item which have a global scope or created by Authentic user
-        $itemType = ItemTemplate::where(function ($query) use ($user) {
-            $query->where('user_id', $user->id)
-                  ->orWhere('globel_scope', 'y');
-        })->get();        
+        $itemType = ItemTemplate::where('user_id', $user->id)->orWhere('user_id', null)->get();
 
         dd($itemType);
         return Inertia::render('orders/Create', [
@@ -77,7 +74,7 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $storeOrderRequest)
     {
         $validatedOrderData = $storeOrderRequest->validated();
-        
+
         $validatedOrderData['status'] = 'created';
 
         $validatedOrderItemsData = $validatedOrderData['order_items'];
@@ -94,7 +91,7 @@ class OrderController extends Controller
             $validatedOrderData['order_id'] = $Order->id;
 
             //- Add Order Items in Created Order
-           
+
             OrderItem::insert($validatedOrderItemsData);
 
             DB::commit();
