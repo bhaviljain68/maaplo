@@ -18,9 +18,9 @@ return new class extends Migration {
             $table->string('name');
             $table->enum('gender', ["m", "f", "o"]);
             $table->enum('body_part', ["upper", "lower"]);
-            $table->enum('global_scope', ["y","n"])->default("n");
+            // $table->enum('global_scope', ["y","n"])->default("n");
             $table->json('required_measurements');
-            $table->boolean("custom_template")->default(false);
+            // $table->boolean("custom_template")->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
