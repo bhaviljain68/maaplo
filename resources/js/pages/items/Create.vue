@@ -1,12 +1,52 @@
 <script setup>
 import AppLayout from '@/layouts/AppLayout.vue';
+import { router } from '@inertiajs/vue3';
+
 import { ref } from 'vue';
-import { Icon } from '@iconify/vue';
 import Input from '@/components/InputWithLabel.vue';
 import SearchSelect from '@/components/SearchSelect.vue';
 import Button from '@/components/Button.vue';
+const toast = new ToastMagic();
 const gender = ref('');
 const bodyPart = ref('');
+const templateName = ref(''); // <-- You were missing this
+const selectedMeasurements = ref([]);
+const customTemplate = ref(false);
+const loading = ref(false);
+const measurements = [
+    'Length', 'Arms', 'Back Neck', 'Waist', 'Sleeve Circle',
+    'Chest', 'Sleeve Length', 'Shoulder', 'Seat', 'Front Neck'
+];
+
+const toggleMeasurement = (label) => {
+    const index = selectedMeasurements.value.indexOf(label);
+    if (index > -1) {
+        selectedMeasurements.value.splice(index, 1);
+    } else {
+        selectedMeasurements.value.push(label);
+    }
+};
+const submitForm = () => {
+    // const router = useRouter();
+
+    router.post('/items', {
+        name: templateName.value,
+        gender: gender.value === 'Male' ? 'm' : 'f',
+        required_measurements: selectedMeasurements.value,
+        body_part: bodyPart.value,
+        custom_template: customTemplate.value,
+    }, {
+        onSuccess: () => {
+            toast.success("Template created successfully!");
+            // router.push('/items');
+        },
+        onError: (errors) => {
+            toast.error("Failed to create template. Please fill in all the required fields.");
+            console.error(errors);
+        },
+    });
+};
+
 </script>
 
 
@@ -25,8 +65,8 @@ const bodyPart = ref('');
                     <SearchSelect class="mt-2" />
                 </div>
                 <div>
-                    <Input label="Template Name" modelValue="" placeholder="Enter Template Name" margin="md"
-                        width="full" fonttype="normal" textSize="base" rounded="md" error="" />
+                    <Input v-model="templateName" label="Template Name" modelValue="" placeholder="Enter Template Name"
+                        margin="md" width="full" fonttype="normal" textSize="base" rounded="md" error="" />
                 </div>
                 <div class="mt-2 lg:mt-4 flex flex-row gap-2 gap-4">
                     <div>
@@ -95,20 +135,16 @@ const bodyPart = ref('');
                 <div class="mb-5">
                     <h1 class="mb-2 text-md mt-2">Required Measurements :</h1>
                     <div class="grid grid-cols-2 gap-4">
-                        <Input type="checkbox" label="Length" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Arms" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Back Neck" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Waist" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Sleeve Circle" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Chest" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Sleeve Length" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Shoulder" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Seat" modelValue="" width="sm" error="" />
-                        <Input type="checkbox" label="Front Neck" modelValue="" width="sm" error="" />
+                        <div v-for="measurement in measurements" :key="measurement">
+                            <Input type="checkbox" :label="measurement"
+                                :modelValue="selectedMeasurements.includes(measurement)"
+                                @update:modelValue="toggleMeasurement(measurement)" width="sm" error="" />
+                        </div>
                     </div>
+
                 </div>
 
-                <Button color="primary" textSize="lg" padding="md" rounded="full">
+                <Button @click="submitForm" color="primary" textSize="lg" padding="md" rounded="full">
                     Save
                 </Button>
 
