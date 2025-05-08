@@ -17,8 +17,14 @@ class ItemTemplateController extends Controller
     public function index()
     {
         $items = ItemTemplate::all();
-        return Inertia::render('items/Index', ['items' => $items]);
+        $authUser = Auth::user();
+
+        return Inertia::render('items/Index', [
+            'items' => $items,
+            'authUser' => $authUser, // Pass to frontend
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -32,39 +38,39 @@ class ItemTemplateController extends Controller
      * Store a newly created resource in storage.
      */
 
-     public function store(Request $request)
-     {
-         $validated = $request->validate([
-             'name' => 'required|string|max:255',
-             'gender' => 'required|in:m,f,o',
-             'body_part' => 'required|in:upper,lower',
-             'required_measurements' => 'required|array',
-         ]);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:m,f,o',
+            'body_part' => 'required|in:upper,lower',
+            'required_measurements' => 'required|array',
+        ]);
 
-         // dd($request->all(),$validated['body_part']);
-         try {
-             DB::beginTransaction();
+        // dd($request->all(),$validated['body_part']);
+        try {
+            DB::beginTransaction();
 
-             ItemTemplate::create([
-                 'user_id' => Auth::user()->id,
+            ItemTemplate::create([
+                'user_id' => Auth::user()->id,
                 //  'global_scope' => $validated['global_scope'] ?? 'n',
                 //  'custom_template' => $validated['custom_template'] ?? false,
-                 'name' => $validated['name'],
-                 'gender' => $validated['gender'],
-                 'body_part' => $validated['body_part'],
-                 'required_measurements' => json_encode($validated['required_measurements']),
-             ]);
+                'name' => $validated['name'],
+                'gender' => $validated['gender'],
+                'body_part' => $validated['body_part'],
+                'required_measurements' => json_encode($validated['required_measurements']),
+            ]);
 
-             DB::commit();
+            DB::commit();
 
-             // Redirect with flash message
-             return redirect()->route('items.index')->with('success', 'Item created successfully!');
-         } catch (\Exception $e) {
-             DB::rollBack();
-             dd($e->getMessage());
-             return redirect()->back()->withInput()->with('error', 'There was an error: ' . $e->getMessage());
-         }
-     }
+            // Redirect with flash message
+            return redirect()->route('items.index')->with('success', 'Item created successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'There was an error: ' . $e->getMessage());
+        }
+    }
 
     /**
      * Display the specified resource.
