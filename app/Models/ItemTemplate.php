@@ -17,6 +17,8 @@ class ItemTemplate extends Model
         'gender',
         'required_measurements',
         'custom_template',
+        'body_part',
+        'global_scope',
         'user_id',
     ];
 
@@ -49,8 +51,7 @@ class ItemTemplate extends Model
         // When an ItemTemplate is soft-deleted
         static::deleting(function ($itemTemplate): void {
             if (!$itemTemplate->isForceDeleting()) {
-                
             }
-        }); 
+        });
     }
 }
