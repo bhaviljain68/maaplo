@@ -49,8 +49,8 @@ class ItemTemplate extends Model
         // When an ItemTemplate is soft-deleted
         static::deleting(function ($itemTemplate): void {
             if (!$itemTemplate->isForceDeleting()) {
-                
+
             }
-        }); 
+        });
     }
 }

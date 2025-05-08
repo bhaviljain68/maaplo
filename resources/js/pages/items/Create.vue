@@ -1,54 +1,53 @@
-<script setup>
+<script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { router } from '@inertiajs/vue3';
-
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import Input from '@/components/InputWithLabel.vue';
 import SearchSelect from '@/components/SearchSelect.vue';
 import Button from '@/components/Button.vue';
+
 const toast = new ToastMagic();
-const gender = ref('');
-const bodyPart = ref('');
-const templateName = ref(''); // <-- You were missing this
-const selectedMeasurements = ref([]);
-const customTemplate = ref(false);
-const loading = ref(false);
+
+const props = defineProps<{
+    errors: Record<string, string>
+}>();
+
+const form = reactive({
+    name: '',
+    gender: '',
+    body_part: '',
+    required_measurements: [] as string[],
+    custom_template: false,
+});
+
 const measurements = [
     'Length', 'Arms', 'Back Neck', 'Waist', 'Sleeve Circle',
     'Chest', 'Sleeve Length', 'Shoulder', 'Seat', 'Front Neck'
 ];
 
-const toggleMeasurement = (label) => {
-    const index = selectedMeasurements.value.indexOf(label);
+const toggleMeasurement = (label: string) => {
+    const index = form.required_measurements.indexOf(label);
     if (index > -1) {
-        selectedMeasurements.value.splice(index, 1);
+        form.required_measurements.splice(index, 1);
     } else {
-        selectedMeasurements.value.push(label);
+        form.required_measurements.push(label);
     }
 };
-const submitForm = () => {
-    // const router = useRouter();
 
-    router.post('/items', {
-        name: templateName.value,
-        gender: gender.value === 'Male' ? 'm' : 'f',
-        required_measurements: selectedMeasurements.value,
-        body_part: bodyPart.value,
-        custom_template: customTemplate.value,
-    }, {
+const submitForm = () => {
+    console.log(form);
+    router.post(route('items.store'), form, {
         onSuccess: () => {
-            toast.success("Template created successfully!");
-            // router.push('/items');
+            toast.success("Item created successfully!");
+            router.visit(route('items.index'));
         },
-        onError: (errors) => {
-            toast.error("Failed to create template. Please fill in all the required fields.");
-            console.error(errors);
+        onError: (error) => {
+            toast.error("Failed to create Item. Please fill in all the required fields."+error);
+            console.error(error);
         },
     });
 };
-
 </script>
-
 
 <template>
     <AppLayout>
@@ -65,7 +64,7 @@ const submitForm = () => {
                     <SearchSelect class="mt-2" />
                 </div>
                 <div>
-                    <Input v-model="templateName" label="Template Name" modelValue="" placeholder="Enter Template Name"
+                    <Input  v-model="form.name"  label="Template Name" modelValue="" placeholder="Enter Template Name"
                         margin="md" width="full" fonttype="normal" textSize="base" rounded="md" error="" />
                 </div>
                 <div class="mt-2 lg:mt-4 flex flex-row gap-2 gap-4">
@@ -74,10 +73,10 @@ const submitForm = () => {
                     </div>
                     <div class="flex gap-4">
                         <label>
-                            <input type="radio" name="gender" value="Female" v-model="gender" class="hidden" />
+                            <input type="radio" name="gender"  value="f" v-model="form.gender" class="hidden" />
                             <div :class="[
                                 'px-4 py-1 rounded border text-sm cursor-pointer',
-                                gender === 'Female'
+                                form.gender === 'f'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
                             ]">
@@ -86,10 +85,10 @@ const submitForm = () => {
                         </label>
 
                         <label>
-                            <input type="radio" name="gender" value="Male" v-model="gender" class="hidden" />
+                            <input type="radio" name="gender"  value="m" v-model="form.gender" class="hidden" />
                             <div :class="[
                                 'px-4 py-1 rounded border text-sm cursor-pointer',
-                                gender === 'Male'
+                                form.gender === 'm'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
                             ]">
@@ -105,10 +104,10 @@ const submitForm = () => {
                     </div>
                     <div class="flex gap-4">
                         <label>
-                            <input type="radio" name="bodyPart" value="Upper" v-model="bodyPart" class="hidden" />
+                            <input type="radio" name="bodyPart" value="upper" v-model="form.body_part" class="hidden" />
                             <div :class="[
                                 'px-4 py-1 rounded border text-sm cursor-pointer',
-                                bodyPart === 'Upper'
+                               form.body_part === 'upper'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
                             ]">
@@ -117,18 +116,16 @@ const submitForm = () => {
                         </label>
 
                         <label>
-                            <input type="radio" name="bodyPart" value="Lower" v-model="bodyPart" class="hidden" />
+                            <input type="radio" name="bodyPart"  v-model="form.body_part" class="hidden" value="lower" />
                             <div :class="[
                                 'px-4 py-1 rounded border text-sm cursor-pointer',
-                                bodyPart === 'Lower'
+                                form.body_part === 'lower'
                                     ? 'bg-primary text-white'
                                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
                             ]">
                                 Lower
                             </div>
                         </label>
-
-
                     </div>
                 </div>
 
@@ -136,8 +133,8 @@ const submitForm = () => {
                     <h1 class="mb-2 text-md mt-2">Required Measurements :</h1>
                     <div class="grid grid-cols-2 gap-4">
                         <div v-for="measurement in measurements" :key="measurement">
-                            <Input type="checkbox" :label="measurement"
-                                :modelValue="selectedMeasurements.includes(measurement)"
+                            <Input type="checkbox"  :label="measurement"
+                                :modelValue="form.required_measurements.includes(measurement)"
                                 @update:modelValue="toggleMeasurement(measurement)" width="sm" error="" />
                         </div>
                     </div>
