@@ -15,7 +15,7 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(["auth", "verified"])->group(function () {
-   
+
     //-- Make resource Route For Orders Process
     Route::resource('orders', OrderController::class)->only(
         'index',
@@ -30,10 +30,7 @@ Route::middleware(["auth", "verified"])->group(function () {
 
     Route::resource('customers', CustomerController::class);
     // Route::resource('orders', OrderController::class)->names(["index"]);
-    Route::resource('items', ItemTemplateController::class)->only(
-        // 'index',
-        'create',
-    );
+    Route::resource('items', ItemTemplateController::class);
 
 });
 
