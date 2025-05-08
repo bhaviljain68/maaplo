@@ -10,6 +10,10 @@ const props = defineProps({
     item: {
         type: Object,
         required: true
+    },
+    authUser: {
+        type: Object,
+        required: true
     }
 });
 
@@ -45,19 +49,18 @@ const proceedDelete = () => {
                 <h1 class="text-[22px] font-semibold tracking-wide text-gray-900">{{ item.name }}</h1>
                 <h2 class="font-[Lato] font-medium text-[18px] text-black mt-3">Gender: {{ item.gender }}</h2>
                 <h2 class="font-[Lato] font-medium text-[18px] text-black mt-2">Body Part: {{ item.body_part }}</h2>
-
             </div>
-
         </div>
 
         <!-- Edit & Delete Icons -->
-        <div class="flex justify-end gap-3 mt-3">
+        <div v-if="item.user_id === authUser.id" class="flex justify-end gap-3 mt-3">
             <!-- Edit -->
             <div class="relative group">
                 <Link :href="route('items.edit', props.item.id)">
-                    <Icon icon="ri:edit-fill" width="20" height="20" class="text-[#005FAF]" />
+                <Icon icon="ri:edit-fill" width="20" height="20" class="text-[#005FAF]" />
                 </Link>
-                <div class="absolute top-full mt-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-gray-800 text-white text-xs rounded py-1 px-2 pointer-events-none z-10">
+                <div
+                    class="absolute top-full mt-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-gray-800 text-white text-xs rounded py-1 px-2 pointer-events-none z-10">
                     Edit
                 </div>
             </div>
@@ -67,14 +70,16 @@ const proceedDelete = () => {
                 <button @click="confirmDelete" class="flex items-center text-red-500 hover:text-red-600 transition">
                     <Icon icon="ic:baseline-delete" width="20" height="20" class="text-[#E73939]" />
                 </button>
-                <div class="absolute top-full mt-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-gray-800 text-white text-xs rounded py-1 px-2 pointer-events-none z-10">
+                <div
+                    class="absolute top-full mt-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition bg-gray-800 text-white text-xs rounded py-1 px-2 pointer-events-none z-10">
                     Delete
                 </div>
             </div>
         </div>
 
         <!-- Delete Confirmation Modal -->
-        <div v-if="showDeletePopup" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50">
+        <div v-if="showDeletePopup"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg mx-5 lg:w-1/3">
                 <h2 class="text-xl font-bold mb-4">Are you sure?</h2>
                 <p class="mb-4 text-md lg:text-lg text-black font-semibold">
