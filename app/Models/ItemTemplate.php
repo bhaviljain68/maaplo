@@ -18,7 +18,7 @@ class ItemTemplate extends Model
         'required_measurements',
         'custom_template',
         'body_part',
-        'global_scope',
+        // 'global_scope',
         'user_id',
     ];
 

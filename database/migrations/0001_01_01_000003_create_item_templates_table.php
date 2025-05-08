@@ -14,7 +14,7 @@ return new class extends Migration {
 
         Schema::create('item_templates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id");
+            $table->foreignId("user_id")->nullable();
             $table->string('name');
             $table->enum('gender', ["m", "f", "o"]);
             $table->enum('body_part', ["upper", "lower"]);
