@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemTemplate;
+use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ItemTemplateController extends Controller
@@ -30,7 +32,27 @@ class ItemTemplateController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->back()->with(["success"=>""]);
+        dd($request->all());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:m,f,o',
+            'body_part' => 'required|in:upper,lower',
+            'required_measurements' => 'required|array',
+        ]);
+        try {
+            DB::beginTransaction();
+            ItemTemplate::create([
+                'name' => $validated['name'],
+                'gender' => $validated['gender'],
+                'required_measurements' => json_encode($validated['required_measurements']),
+            ]);
+            DB::commit();
+            ToastMagic::success('Item created successfully!');
+            return redirect()->route('items.index')->with('success', 'Item created successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', 'There was an error: ' . $e->getMessage());
+        }
     }
 
     /**
