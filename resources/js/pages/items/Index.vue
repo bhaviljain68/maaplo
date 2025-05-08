@@ -6,6 +6,6 @@ import AppLayout from '@/layouts/AppLayout.vue';
 
 <template>
 <AppLayout>
-    <h1 class="text-9xl">i am riya , and i am mad</h1>
+    <h1 class="text-9xl">Items Index Page</h1>
 </AppLayout>
 </template>
