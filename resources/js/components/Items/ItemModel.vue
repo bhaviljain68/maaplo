@@ -10,29 +10,78 @@ import Date from '../Date.vue';
 import ClothImage from './ClothImage.vue';
 import PatternImage from './PatternImage.vue';
 import Button from '../Button.vue';
-import { ref, defineProps, defineEmits, watch } from 'vue';
-const notes = ref('');
-const props = defineProps(['showModal', 'measurements', 'insertData']);
-const emit = defineEmits(['close', 'handleAddItem', 'setFormData']);
+import { ref, defineProps, defineEmits, watch, reactive } from 'vue';
+const notes = ref([]);
+const props = defineProps(['showModal', 'measurements', 'form']);
+const emit = defineEmits(['close', 'setFormData']);
 
-// Form state
-const form = ref({
-    workType: '',
-    itemType: '',
-    deliveryDate: ''
-});
+let orderItems = reactive({
+    //  item_template_id
+    name: '',
+    measurements: {
 
-let data = props.insertData
-watch(form.value,(nVal)=>{console.log('new val:',nVal);
+    },
+    design_details: {
+
+    },
+    colors: '',
+    notes: [],
+    trial_dates: '',
+    price: null,
+    work_type: '',
+    material_code: '',
+    material: '',
+    refrence_dress: false,
+    material_cost: null,
+    stiching_cost: null,
+    item_cost: null
 })
+
+let data = props.form
 // Save and emit
 function saveItem() {
-    // data
-    console.log(form.value);
-    
-    emit('handleAddItem', form.value);
+    // if (!validateOrderItemValue()) {
+    //     alert('Please Fill The All Fields Of Order Item')
+    //     return false
+    // }
+
+    console.log(orderItems);
+
+    data.order_items.push(orderItems)
+    console.log('work type:', data.order_items);
+
+    emit('setFormData', data);
     emit('close');
 }
+
+const validateOrderItemValue = () => {
+    return
+    !orderItems.name
+        || !orderItems.measurements
+        || !orderItems.design_details
+        || !orderItems.colors
+        || !orderItems.notes
+        || !orderItems.trial_dates
+        || !orderItems.price
+        || !orderItems.work_type
+        || !orderItems.material_code
+        || !orderItems.material
+        || !orderItems.refrence_dress
+        || !orderItems.material_cost
+        || !orderItems.stiching_cost
+        || !orderItems.item_cost
+}
+
+watch(
+    orderItems,
+    (newVal, oldVal) => { data.order_items.work_type = newVal.work_type },
+    { deep: true }
+)
+
+const getWorkTypeCost = () => {
+    
+}
+
 </script>
 
 <template>
@@ -54,8 +103,8 @@ function saveItem() {
                 <h1 class="font-medium text-2xl mb-5">Add Items</h1>
                 <!-- Scrollable Content -->
                 <div class=" max-h-[75vh] pr-2 space-y-5">
-                    <WorkType v-model="form.workType" />
-                    <ItemType v-model="form.itemType" />
+                    <WorkType v-model="orderItems.work_type" />
+                    <ItemType v-model="orderItems.item_type" />
                     <Measurements :measurements="measurements" />
                     <DesignDetails />
 
@@ -69,7 +118,7 @@ function saveItem() {
                         <ToggleButton />
                     </div>
 
-                    <Date v-model="form.deliveryDate" />
+                    <Date v-model="orderItems.deliveryDate" />
 
                     <div class="flex items-center gap-4">
                         <h1 class="text-[16px] font-normal font-lato">Mark as Urgent</h1>

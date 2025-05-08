@@ -2,13 +2,12 @@
 import { computed, ref, defineProps, defineEmits } from 'vue'
 import { Icon } from '@iconify/vue';
 
-// let props = defineProps(["i:insertData="insertData" @setFormData="setFormData""]) 
-let props = defineProps(["insertData"])
+let props = defineProps(["form"])
 let emits = defineEmits(["setFormData"])
 const selectedDate = ref('')
 const dateInput = ref(null)
 
-let data = props.insertData
+let data = props.form
 
 
 function openCalendar() {
