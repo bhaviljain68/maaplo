@@ -47,8 +47,8 @@ class ItemTemplateController extends Controller
 
              ItemTemplate::create([
                  'user_id' => Auth::user()->id,
-                 'global_scope' => $validated['global_scope'] ?? 'n',
-                 'custom_template' => $validated['custom_template'] ?? false,
+                //  'global_scope' => $validated['global_scope'] ?? 'n',
+                //  'custom_template' => $validated['custom_template'] ?? false,
                  'name' => $validated['name'],
                  'gender' => $validated['gender'],
                  'body_part' => $validated['body_part'],
