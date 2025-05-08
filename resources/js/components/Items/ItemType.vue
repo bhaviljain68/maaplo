@@ -21,6 +21,9 @@ function toggleDropdownItemType() {
         <!-- Dropdown -->
         <div v-show="showDropdownItemType" class="z-10">
             <SearchSelect v-model="modelValue" class="mt-5"/>
+            <pre>
+                test {{ modelValue }}
+            </pre>
         </div>
     </div>
 </template>

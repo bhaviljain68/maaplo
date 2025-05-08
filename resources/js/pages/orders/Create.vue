@@ -9,83 +9,54 @@ import Button from '@/components/Button.vue';
 import { useForm } from '@inertiajs/vue3';
 const props = defineProps(["users", "customers"])
 const showModal = ref(false);
-const items = ref([]);
 const toast = new ToastMagic();
-let insertData = reactive({
-    user_id: false,
-    customer_id: false,
-    order_number: false,
-    status: false,
-    total_amount: false,
-    advance_paid: false,
-    delivery_date: false,
-    close_date: false,
-    notes: false,
-    item_template_id:false,
-    name:false,
-    measurements:false,
-    design_details:false,
-    colors:false,
-    material:false,
-    notes:false,
-    trial_dates:false,
-    price:false,
-    status:false,
-    material_code:false,
-    work_type:false,
-    refrence_dress:false,
-    material_cost:false,
-    stiching_cost:false,
-    item_cost:false
+
+let form = useForm({
+    user_id: null,
+    customer_id: null,
+    order_number: null,
+    status: 'create',
+    total_amount: null,
+    advance_paid: null,
+    delivery_date: '',
+    close_date: '',
+    notes: [],
+    order_items: [],
 });
 
 
-function handleAddItem(newItem) {
-    items.value.push({ ...newItem });
-    showModal.value = false;
-}
+const items = ref([]);
+
 
 let measurements = reactive({});
+
 let setMeasurements = (value) => {
     measurements = value
 }
 
-let form = useForm({
-    user_id: '',
-    customer_id: '',
-    order_number: '',
-    status: '',
-    total_amount: '',
-    advance_paid: '',
-    delivery_date: '',
-    close_date: '',
-    notes: '',
-});
+
 
 // set data which is set by child components 
 let setFormData = (data) => {
-    console.log('check form data:', data);
-    insertData.user_id = data.user_id //done
-    insertData.customer_id = data.customer_id //done
-    // insertData.order_number = data.order_number 
-    // insertData.status = data.status
-    insertData.total_amount = data.total_amount
-    insertData.advance_paid = data.advance_paid
-    insertData.delivery_date = data.delivery_date
-    insertData.close_date = data.close_date
-    insertData.notes = data.notes
+    // console.log('form data:', data);
+
+    form.user_id = data.user_id //done
+    form.customer_id = data.customer_id //done
+    // form.order_number = data.order_number 
+    // form.status = data.status
+    form.total_amount = data.total_amount
+    form.advance_paid = data.advance_paid
+    form.delivery_date = data.delivery_date
+    form.close_date = data.close_date
+    form.notes = data.notes
+    console.log('check:',data.order_items.length > 0);
+    
+    data.order_items   && items.value.push({ ...data.order_items });
+    form.order_items = items.value
+    showModal.value = false;
 }
 
-// set data Into Form which set by this `setFormData` function end emits
-form = computed(() => {
-
-    console.log(insertData);
-
-    return insertData
-})
-
-
-//check if any required field is blank or null so create order button does not be active
+// check if any required field is blank or null so create order button does not be active
 // Disable button if any required field is empty
 let disabled = computed(() => {
     return (
@@ -95,10 +66,19 @@ let disabled = computed(() => {
         !form.status ||
         !form.total_amount ||
         !form.advance_paid ||
-        !form.delivery_date
+        !form.delivery_date ||
+        !form.order_items ||
+        form.order_items.length === 0 ||
+        form.order_items.some(item =>
+            !item.name ||
+            !item.colors ||
+            item.price == null || // use `==` to catch both null and undefined
+            !item.work_type ||
+            !item.material_code ||
+            !item.material
+        )
     );
 });
-
 
 let create = () => {
     form.post(route('orders.store'), {
@@ -132,11 +112,11 @@ let create = () => {
                 <h1 class="text-xl font-bold lg:mb-6 lg:mt-0 mt-6">Enter Details</h1>
 
                 <!-- selected customer list -->
-                <CustomerListDropdown :customers="customers" @setMeasurements="setMeasurements" :insertData="insertData"
+                <CustomerListDropdown :customers="customers" @setMeasurements="setMeasurements" :form="form"
                     @setFormData="setFormData" />
 
                 <!-- Delivery Date -->
-                <DateIcon :insertData="insertData" @setFormData="setFormData" />
+                <DateIcon :form="form" @setFormData="setFormData" />
 
                 <!-- items -->
                 <div class="mt-5">
@@ -158,7 +138,7 @@ let create = () => {
 
                         <!-- Modal Content -->
                         <ItemModel :measurements="measurements" :showModal="showModal" @close="showModal = false"
-                            @handleAddItem="handleAddItem" :insertData="insertData" @setFormData="setFormData" />
+                            :form="form" @setFormData="setFormData" />
 
                         <!-- table -->
                         <!-- Items Table -->

@@ -3,14 +3,14 @@ import { ref, defineProps } from 'vue';
 import { Icon } from '@iconify/vue';
 import { Link } from '@inertiajs/vue3';
 
-let props = defineProps(["customers", "insertData"]);
+let props = defineProps(["customers", "form"]);
 let emit = defineEmits(["setMeasurements", "setFormData"]);
 const selectedCustomer = ref('Select Customer');
 const showDropdown = ref(false);
 function toggleDropdown() {
     showDropdown.value = !showDropdown.value;
 }
-let data = props.insertData
+let data = props.form
 
 //select customer and set value
 function selectOption(customer) {
