@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Models\ItemTemplate;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Exception;
@@ -57,8 +58,16 @@ class OrderController extends Controller
 
         $user->load('customers');
 
+        //-- item which have a global scope or created by Authentic user
+        $itemType = ItemTemplate::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                  ->orWhere('globel_scope', 'y');
+        })->get();        
+
+        dd($itemType);
         return Inertia::render('orders/Create', [
-            'customers' => $user->customers
+            'customers' => $user->customers,
+            'itemType' => $itemType
         ]);
     }
 
