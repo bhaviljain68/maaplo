@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->enum('gender', ["m", "f", "o"]);
+            $table->enum('body_part', ["upper", "lower"]);
             $table->json('required_measurements');
             // $table->boolean("custom_template")->default(false);
             // $table->foreignId("user_id")->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
