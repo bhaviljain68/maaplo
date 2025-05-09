@@ -3,6 +3,7 @@ import { reactive, ref, watch } from 'vue';
 import { Icon } from '@iconify/vue';
 import Input from '../InputWithLabel.vue';
 
+const emits = defineEmits(['setPrice', 'setMaterialCode', 'setMaterial', 'setMaterialCost', 'setStichingCost', 'setItemCost','setMaterialType'])
 const modelValue = defineModel(); // enables v-model binding
 
 const showDropdownWorkType = ref(false);
@@ -26,7 +27,7 @@ let cost = reactive({
 
 
 //reset cost value on change work type
-watch(()=>modelValue.value,()=>{
+watch(() => modelValue.value, (val) => {
   cost.stitching = 0
   cost.altering = 0
   cost.total = 0
@@ -42,19 +43,34 @@ watch(
       const m = parseFloat(materialCost) || 0;
       const s = parseFloat(stitchingCost) || 0;
       cost.total = m + s;
+      emits('setAlteringCost', null)
+      emits('setMaterialCost',materialCost)
+      emits('setStichingCost',stitchingCost)
+      emits('setPrice', cost.total)
     }
 
     if (modelValue.value == 'Only Stitching') {
       cost.total = stitchingCost;
+      emits('setAlteringCost', null)
+      emits('setStichingCost',stitchingCost)
+      emits('setPrice', cost.total)
     }
     if (modelValue.value == 'Only Altering') {
       cost.total = alteringCost;
+      emits('setStichingCost', null)
+      emits('setAlteringCost', alteringCost)
+      emits('setPrice', cost.total)
     }
   },
 );
 
 
-
+watch(()=>material.code,(val)=>{
+      emits('setMaterialCode',val)
+})
+watch(()=>material.type,(val)=>{
+      emits('setMaterialType',val)
+})
 
 </script>
 

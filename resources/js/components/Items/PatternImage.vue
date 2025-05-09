@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Icon } from '@iconify/vue';
 
+const emits = defineEmits(['setPatternImage1','setPatternImage2'])
 // Separate refs for each image and input
 const previewImage1 = ref(null)
 const previewImage2 = ref(null)
@@ -23,6 +24,14 @@ function onFileChange(event, index) {
         else if (index === 2) previewImage2.value = url
     }
 }
+
+watch(()=>previewImage1.value,(newVal)=>{
+  emits('setPatternImage1',newVal)
+})
+watch(()=>previewImage2.value,(newVal)=>{
+  emits('setPatternImage2',newVal)
+})
+
 </script>
 
 <template>

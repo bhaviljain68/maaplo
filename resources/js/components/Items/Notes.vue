@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import Input from '../InputWithLabel.vue';
-import { toRefs } from 'vue';
+import { toRefs, watch } from 'vue';
 import Button from '../Button.vue';
 
 const props = defineProps<{
     notes: Array<{ label: string; text: string }>;
 }>();
 
-const emit = defineEmits(['update:notes']);
+
+
+const emit = defineEmits(['update:notes','setNotes']);
 const { notes } = toRefs(props);
 
 const addNote = () => {
@@ -33,6 +35,10 @@ const updateText = (index: number, value: string) => {
     newNotes[index].text = value;
     emit('update:notes', newNotes);
 };
+
+watch(()=>notes.value,(val)=>{
+    emit('setNotes',val)
+})
 </script>
 
 <template>
