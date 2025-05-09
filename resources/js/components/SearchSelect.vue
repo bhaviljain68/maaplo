@@ -1,25 +1,31 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch,defineProps } from 'vue';
 import { Icon } from '@iconify/vue';
 
+const props = defineProps(["itemType"]);
+const emits = defineEmits(["setId"])
 const modelValue = defineModel();
 const showDropdown = ref(false);
 const searchQuery = ref('');
 
-const options = ['Kurta', 'Shirt', 'Kurti', 'Pajama'];
+const options =   props.itemType; // ['Kurta', 'Shirt', 'Kurti', 'Pajama'];
 
 // Show all options until user types 3 or more characters
 const filteredOptions = computed(() => {
   if (searchQuery.value.length < 3) return options;
   return options.filter(opt =>
-    opt.toLowerCase().includes(searchQuery.value.toLowerCase())
+    opt.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
+let check = props.itemType.map(item => item.name);
+
 const isInvalid = computed(() => {
+  
+  
   return (
     searchQuery.value.length >= 3 &&
-    !options.includes(searchQuery.value)
+    !check.includes(searchQuery.value)
   );
 });
 
@@ -28,8 +34,9 @@ const showClearIcon = computed(() => {
 });
 
 function selectOption(option) {
-  modelValue.value = option;
-  searchQuery.value = option;
+  emits('setId',option.id)
+  modelValue.value = option.name;
+  searchQuery.value = option.name;
   showDropdown.value = false;
 }
 
@@ -83,11 +90,11 @@ watch(modelValue, (val) => {
         <li
           v-if="filteredOptions.length"
           v-for="option in filteredOptions"
-          :key="option"
+          :key="option.name"
           @click="selectOption(option)"
           class="px-4 py-2 cursor-pointer hover:bg-gray-100"
         >
-          {{ option }}
+          {{ option.name }}
         </li>
         <li
           v-else

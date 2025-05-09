@@ -61,7 +61,6 @@ class OrderController extends Controller
         //-- item which have a global scope or created by Authentic user
         $itemType = ItemTemplate::where('user_id', $user->id)->orWhere('user_id', null)->get();
 
-        dd($itemType);
         return Inertia::render('orders/Create', [
             'customers' => $user->customers,
             'itemType' => $itemType

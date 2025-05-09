@@ -1,8 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref,defineProps } from 'vue';
 import { Icon } from '@iconify/vue';
 import Input from '../InputWithLabel.vue';
 import SearchSelect from '../SearchSelect.vue';
+
+const props = defineProps(["itemType"]) 
+const emits = defineEmits(["setItemTemplateId"])
+const setId = (id) => {
+    emits('setItemTemplateId',id)
+}
+
 const showDropdownItemType = ref(false);
 const modelValue = defineModel();
 function toggleDropdownItemType() {
@@ -20,10 +27,7 @@ function toggleDropdownItemType() {
         </div>
         <!-- Dropdown -->
         <div v-show="showDropdownItemType" class="z-10">
-            <SearchSelect v-model="modelValue" class="mt-5"/>
-            <pre>
-                test {{ modelValue }}
-            </pre>
+            <SearchSelect v-model="modelValue" class="mt-5" :itemType="itemType" @setId="setId"/>
         </div>
     </div>
 </template>

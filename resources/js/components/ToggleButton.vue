@@ -1,9 +1,20 @@
 <script setup>
+import { ref, watch } from 'vue';
+
+const emits = defineEmits(['setIfReferenceDress','setIfUrgent'])
+
+const setTogle = ref(false)
+
+watch(()=>setTogle.value,(val)=>{
+    emits('setIfReferenceDress',val)
+    emits('setIfUrgent',val)
+})
+
 
 </script>
 <template>
     <label class="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" class="sr-only peer">
+        <input type="checkbox" v-model="setTogle" class="sr-only peer">
         <div
             class="w-11 h-6 bg-gray-300 rounded-full peer dark:bg-gray-700 peer-checked:bg-primary transition duration-300">
         </div>

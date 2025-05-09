@@ -7,7 +7,7 @@ import { computed, reactive, ref } from 'vue';
 import ItemModel from '@/components/Items/ItemModel.vue';
 import Button from '@/components/Button.vue';
 import { useForm } from '@inertiajs/vue3';
-const props = defineProps(["users", "customers"])
+const props = defineProps(["users", "customers","itemType"])
 const showModal = ref(false);
 const toast = new ToastMagic();
 
@@ -59,25 +59,27 @@ let setFormData = (data) => {
 // check if any required field is blank or null so create order button does not be active
 // Disable button if any required field is empty
 let disabled = computed(() => {
-    return (
-        !form.user_id ||
-        !form.customer_id ||
-        !form.order_number ||
-        !form.status ||
-        !form.total_amount ||
-        !form.advance_paid ||
-        !form.delivery_date ||
-        !form.order_items ||
-        form.order_items.length === 0 ||
-        form.order_items.some(item =>
-            !item.name ||
-            !item.colors ||
-            item.price == null || // use `==` to catch both null and undefined
-            !item.work_type ||
-            !item.material_code ||
-            !item.material
-        )
-    );
+    return false
+    // return (
+    //     !form.user_id ||
+    //     !form.customer_id ||
+    //     !form.order_number ||
+    //     !form.status ||
+    //     !form.total_amount ||
+    //     !form.advance_paid ||
+    //     !form.delivery_date //||
+    //     // !form.order_items
+    //     //  ||
+    //     // form.order_items.length === 0 ||
+    //     // form.order_items.some(item =>
+    //     //     !item.name ||
+    //     //     !item.colors ||
+    //     //     item.price == null || // use `==` to catch both null and undefined
+    //     //     !item.work_type ||
+    //     //     !item.material_code ||
+    //     //     !item.material
+    //     // )
+    // );
 });
 
 let create = () => {
@@ -138,7 +140,7 @@ let create = () => {
 
                         <!-- Modal Content -->
                         <ItemModel :measurements="measurements" :showModal="showModal" @close="showModal = false"
-                            :form="form" @setFormData="setFormData" />
+                            :form="form" @setFormData="setFormData" :itemType="itemType"/>
 
                         <!-- table -->
                         <!-- Items Table -->
